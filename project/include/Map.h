@@ -8,6 +8,13 @@
 #include <vector>
 #include "Cell.h"
 
+struct Vector{
+    Vector(int x, int y);
+
+    int x;
+    int y;
+};
+
 class Map{
 public:
     Map(int width, int height);

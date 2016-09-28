@@ -6,6 +6,13 @@
 
 using namespace std;
 
+Vector::Vector(int x, int y) :
+x(x),
+y(y)
+{
+
+}
+
 Map::Map(int width, int height) :
 mWidth(width),
 mHeight(height)
