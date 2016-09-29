@@ -1,5 +1,7 @@
 #include <iostream>
 #include <include/Map.h>
+#include <include/Entity.h>
+#include <unistd.h>
 
 
 using namespace std;
@@ -7,15 +9,18 @@ using namespace std;
 int main() {
     cout << "Hello, World!" << std::endl;
 
-    Map m(20,10);
+    Map m(64,16);
 
-    m.setSolid(18,5,true);
-    m.setSolid(2,7,true);
-    m.setSolid(4,8,true);
-    m.setSolid(19,9,true);
+    Entity h(&m,Entity::Human,0,0);
+    Entity w(&m,Entity::Wall,30,0);
 
+    while(true) {
+        h.move({1, 1});
 
-    cout << m;
+        cout << m << endl;
+
+        usleep(500000);
+    }
 
     return 0;
 }

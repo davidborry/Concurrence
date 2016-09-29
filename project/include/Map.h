@@ -21,8 +21,12 @@ public:
 
     bool isSolid(int x, int y) const;
     void setSolid(int x, int y, bool solid);
+    void setSolid(int x, int y, int width, int height, bool solid);
 
     void print(std::ostream &flux) const;
+
+    int getWidth() const;
+    int getHeight() const;
 
 private:
     int mWidth;

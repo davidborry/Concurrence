@@ -10,18 +10,31 @@
 class Entity{
 
 public:
+
     enum Type{
         Human,
-        Wall
+        Wall,
+        HoleA,
+        HoleB,
+        TypeCount
     };
 
 public:
 
-    Entity(Map map, Type type, int x, int y);
+    Entity(Map* map, Type type, int x, int y);
 
     void update();
     void move(Vector direction);
-    Vector shortestDistanceTo(int x, int y);
+    Vector shortestDistanceToTarget();
+    void setTarget(Vector target);
+
+    Vector getTarget() const;
+
+private:
+    void goLeft();
+    void goRight();
+    void goUp();
+    void goDown();
 
 private:
 
@@ -29,6 +42,10 @@ private:
     Type mType;
     int mX;
     int mY;
+    int mWidth;
+    int mHeight;
+    bool mSolid;
+    Vector* mTarget;
 };
 
 #endif //PROJET_ENTITY_H
