@@ -31,7 +31,7 @@ public:
 private:
     int mWidth;
     int mHeight;
-    std::vector<std::vector<Cell>> mCells;
+    std::vector<std::vector<Cell> > mCells;
 };
 
 std::ostream &operator<<(std::ostream &flux, Map const& map);

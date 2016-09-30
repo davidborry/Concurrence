@@ -5,7 +5,7 @@
 #ifndef PROJET_ENTITY_H
 #define PROJET_ENTITY_H
 
-#include <include/Map.h>
+#include "Map.h"
 
 class Entity{
 

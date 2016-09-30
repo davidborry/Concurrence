@@ -2,7 +2,7 @@
 // Created by David on 9/28/16.
 //
 
-#include "include/Map.h"
+#include "../include/Map.h"
 
 using namespace std;
 

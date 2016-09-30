@@ -1,13 +1,13 @@
 #include <iostream>
-#include <include/Map.h>
-#include <include/Entity.h>
+#include "include/Map.h"
+#include "include/Entity.h"
+#include "include/options.h"
 #include <unistd.h>
 
 
 using namespace std;
 
-int main() {
-    cout << "Hello, World!" << std::endl;
+int main(int argc, char** argv) {
 
     Map m(64,16);
 

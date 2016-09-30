@@ -2,8 +2,8 @@
 // Created by David on 9/29/16.
 //
 
-#include <include/Entity.h>
-#include <include/DataTable.h>
+#include "../include/Entity.h"
+#include "../include/DataTable.h"
 #include <iostream>
 
 using namespace std;
