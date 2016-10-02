@@ -851,7 +851,7 @@ class VectorShuffleTest : public Test {
       found_in_vector[e] = true;
     }
 
-    // Vector size is correct, elements' range is correct, no
+    // Vector2i size is correct, elements' range is correct, no
     // duplicate elements.  Therefore no corruption has occurred.
     return false;
   }

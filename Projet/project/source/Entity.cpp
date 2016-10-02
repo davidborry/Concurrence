@@ -15,21 +15,19 @@ namespace {
 Entity::Entity(Map* map, Type type, int x, int y) :
 mMap(map),
 mType(type),
-mX(x),
-mY(y),
+mPosition(x,y),
 mWidth(Table[mType].width),
 mHeight(Table[mType].height),
 mSolid(Table[mType].solid),
 mTarget(nullptr)
 {
-    mMap->setSolid(mX,mY,mWidth,mHeight,mSolid);
-    mTarget = new Vector(0,0);
+    mMap->setSolid(mPosition.x,mPosition.y,mWidth,mHeight,mSolid);
 
     if(mTarget == nullptr)
         cout << "null" << endl;
 }
 
-void Entity::move(Vector direction) {
+void Entity::move(Vector2i direction) {
 
     if(direction.x < 0)
         goLeft();
@@ -44,68 +42,76 @@ void Entity::move(Vector direction) {
         goDown();
 }
 
+void Entity::setTarget(Vector2i target) {
+    mTarget = &target;
+}
+
+Vector2i Entity::shortestDistanceToTarget() {
+    return *mTarget-mPosition;
+}
+
 void Entity::goLeft() {
-    if(mX-1 < 0)
+    if(mPosition.x-1 < 0)
         return;
 
     for(int i = 0; i < mHeight; i++)
-        if (mMap->isSolid(mX - 1,mY+i))
+        if (mMap->isSolid(mPosition.x - 1,mPosition.y+i))
             return;
 
     for(int i = 0; i < mHeight; i++){
-        mMap->setSolid(mX-1,mY+i,true);
-        mMap->setSolid(mX-1+mWidth,mY+i,false);
+        mMap->setSolid(mPosition.x-1,mPosition.y+i,true);
+        mMap->setSolid(mPosition.x-1+mWidth,mPosition.y+i,false);
     }
 
-    mX--;
+    mPosition.x--;
 }
 
 void Entity::goRight() {
-    if(mX+mWidth >= mMap->getWidth())
+    if(mPosition.x+mWidth >= mMap->getWidth())
         return;
 
     for(int i = 0; i < mHeight; i++)
-        if (mMap->isSolid(mX + mWidth, mY + i))
+        if (mMap->isSolid(mPosition.x + mWidth, mPosition.y + i))
             return;
 
     for(int i = 0; i < mHeight; i++){
-        mMap->setSolid(mX+mWidth,mY+i,true);
-        mMap->setSolid(mX,mY+i,false);
+        mMap->setSolid(mPosition.x+mWidth,mPosition.y+i,true);
+        mMap->setSolid(mPosition.x,mPosition.y+i,false);
     }
 
-    mX++;
+    mPosition.x++;
 }
 
 void Entity::goUp() {
 
-    if(mY-1 < 0)
+    if(mPosition.y-1 < 0)
         return;
 
     for(int i = 0; i < mWidth; i++)
-        if(mMap->isSolid(mX+i,mY-1))
+        if(mMap->isSolid(mPosition.x+i,mPosition.y-1))
             return;
 
     for(int i = 0; i < mWidth; i++){
-        mMap->setSolid(mX+i,mY-1,true);
-        mMap->setSolid(mX+i,mY-1+mHeight,false);
+        mMap->setSolid(mPosition.x+i,mPosition.y-1,true);
+        mMap->setSolid(mPosition.x+i,mPosition.y-1+mHeight,false);
     }
 
-    mY--;
+    mPosition.y--;
 
 }
 
 void Entity::goDown() {
-    if(mY+mHeight >= mMap->getHeight())
+    if(mPosition.y+mHeight >= mMap->getHeight())
         return;
 
     for(int i = 0; i < mWidth; i++)
-        if(mMap->isSolid(mX+i,mY+mHeight))
+        if(mMap->isSolid(mPosition.x+i,mPosition.y+mHeight))
             return;
 
     for(int i = 0; i < mWidth; i++){
-        mMap->setSolid(mX+i,mY+mHeight,true);
-        mMap->setSolid(mX+i,mY,false);
+        mMap->setSolid(mPosition.x+i,mPosition.y+mHeight,true);
+        mMap->setSolid(mPosition.x+i,mPosition.y,false);
     }
 
-    mY++;
+    mPosition.y++;
 }

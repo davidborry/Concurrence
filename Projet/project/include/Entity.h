@@ -24,11 +24,11 @@ public:
     Entity(Map* map, Type type, int x, int y);
 
     void update();
-    void move(Vector direction);
-    Vector shortestDistanceToTarget();
-    void setTarget(Vector target);
+    void move(Vector2i direction);
+    Vector2i shortestDistanceToTarget();
+    void setTarget(Vector2i target);
 
-    Vector getTarget() const;
+    Vector2i getTarget() const;
 
 private:
     void goLeft();
@@ -40,12 +40,11 @@ private:
 
     Map* mMap;
     Type mType;
-    int mX;
-    int mY;
+    Vector2i mPosition;
     int mWidth;
     int mHeight;
     bool mSolid;
-    Vector* mTarget;
+    Vector2i* mTarget;
 };
 
 #endif //PROJET_ENTITY_H

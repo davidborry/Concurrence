@@ -2,15 +2,21 @@
 // Created by David on 9/28/16.
 //
 
+#include <cmath>
 #include "../include/Map.h"
 
 using namespace std;
 
-Vector::Vector(int x, int y) :
+Vector2i::Vector2i(int x, int y) :
 x(x),
 y(y)
+
 {
 
+}
+
+double Vector2i::length() const {
+    return sqrt(x*x + y*y);
 }
 
 Map::Map(int width, int height) :
@@ -55,5 +61,54 @@ int Map::getHeight() const {
 
 ostream &operator<<(ostream &flux, Map const& map){
     map.print(flux);
+    return flux;
+}
+
+bool operator==(Vector2i const& a, Vector2i const& b){
+    return a.x==b.x && a.y==b.y;
+}
+
+bool operator!=(Vector2i const& a, Vector2i const& b){
+    return !(a==b);
+}
+
+bool operator<(Vector2i const& a, Vector2i const& b){
+    return a.length() < b.length();
+}
+
+bool operator<=(Vector2i const& a, Vector2i const& b){
+    return a.length() <= b.length();
+}
+
+bool operator>(Vector2i const& a, Vector2i const& b){
+    return !(a<=b);
+}
+
+bool operator>=(Vector2i const& a, Vector2i const& b){
+    return !(a<b);
+}
+
+Vector2i operator+(Vector2i& a, Vector2i const& b) {
+    return Vector2i(a.x + b.x, a.y + b.y);
+}
+
+Vector2i operator-(Vector2i& a, Vector2i const& b){
+    return Vector2i(a.x-b.x,a.y-b.y);
+}
+
+Vector2i operator*(Vector2i& a, float const& i){
+    return Vector2i(a.x*i,a.y*i);
+}
+
+Vector2i operator*(float const& i, Vector2i& a){
+    return a*i;
+}
+
+Vector2i operator/(Vector2i& a, float const& i){
+    return a*(1/i);
+}
+    ostream &operator<<(ostream &flux, Vector2i const& v){
+    flux << v.x << ":" << v.y;
+
     return flux;
 }

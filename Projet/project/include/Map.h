@@ -8,11 +8,13 @@
 #include <vector>
 #include "Cell.h"
 
-struct Vector{
-    Vector(int x, int y);
+struct Vector2i{
+    Vector2i(int x, int y);
+    double length() const;
 
     int x;
     int y;
+
 };
 
 class Map{
@@ -36,9 +38,19 @@ private:
 
 std::ostream &operator<<(std::ostream &flux, Map const& map);
 
-Vector operator+(Vector const& a, Vector const& b);
-Vector operator-(Vector const& a, Vector const& b);
-bool operator==(Vector const& a, Vector const& b);
+bool operator==(Vector2i const& a, Vector2i const& b);
+bool operator!=(Vector2i const& a, Vector2i const& b);
+bool operator<(Vector2i const& a, Vector2i const& b);
+bool operator<=(Vector2i const& a, Vector2i const& b);
+bool operator>(Vector2i const& a, Vector2i const& b);
+bool operator>=(Vector2i const& a, Vector2i const& b);
+Vector2i operator+(Vector2i& a, Vector2i const& b);
+Vector2i operator-(Vector2i& a, Vector2i const& b);
+Vector2i operator*(Vector2i& a, float const& i);
+Vector2i operator*(float const& i, Vector2i& a);
+Vector2i operator/(Vector2i& a, float const& i);
+
+std::ostream &operator<<(std::ostream &flux, Vector2i const& v);
 
 
 #endif //PROJET_MAP_H
