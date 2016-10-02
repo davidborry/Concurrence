@@ -1,0 +1,2 @@
+/usr/bin/ar cr libSOURCE.a  CMakeFiles/SOURCE.dir/home/epu/Concurrence/Projet/project/main.cpp.o CMakeFiles/SOURCE.dir/home/epu/Concurrence/Projet/project/source/Cell.cpp.o
+/usr/bin/ranlib libSOURCE.a
