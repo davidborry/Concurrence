@@ -36,4 +36,9 @@ private:
 
 std::ostream &operator<<(std::ostream &flux, Map const& map);
 
+Vector operator+(Vector const& a, Vector const& b);
+Vector operator-(Vector const& a, Vector const& b);
+bool operator==(Vector const& a, Vector const& b);
+
+
 #endif //PROJET_MAP_H

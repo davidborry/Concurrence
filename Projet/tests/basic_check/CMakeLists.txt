@@ -1,12 +1,6 @@
-cmake_minimum_required(VERSION 2.6)
+include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
-set(SOURCE_FILES ../../project/main.cpp ../../project/include/Map.h ../../project/include/Cell.h ../../project/source/Cell.cpp)
-add_library(SOURCE ${SOURCE_FILES})
+add_executable(simpleTest basic_test.cpp)
 
-
-find_package(GTest REQUIRED)
-include_directories(${GTEST_INCLUDE_DIRS})
-
-add_executable(runBasicTest basic_test.cpp)
-target_link_libraries(runBasicTest ${GTEST_LIBRARIES} pthread)
-target_link_libraries(runBasicTest SOURCE)
+target_link_libraries(simpleTest gtest gtest_main)
+target_link_libraries(simpleTest project)
