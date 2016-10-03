@@ -10,8 +10,8 @@
       <config projectName="Projet" targetName="Projet" />
       <config projectName="Projet" targetName="gtest" />
       <config projectName="Projet" targetName="gtest_main" />
-      <config projectName="Projet" targetName="mapTest" />
       <config projectName="Projet" targetName="runBasicTest" />
+      <config projectName="Projet" targetName="mapTest" />
       <config projectName="Projet" targetName="exe" />
       <config projectName="Projet" targetName="simpleTest" />
     </generated>
@@ -41,22 +41,36 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Entity.cpp" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/project/source/Entity.cpp">
+      <file leaf-file-name="World.h" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/project/include/World.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="503">
-              <caret line="50" column="1" selection-start-line="50" selection-start-column="1" selection-end-line="50" selection-end-column="1" />
+            <state relative-caret-position="306">
+              <caret line="17" column="27" selection-start-line="17" selection-start-column="27" selection-end-line="17" selection-end-column="27" />
+              <folding>
+                <element signature="e#86#113#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="World.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/project/source/World.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="630">
+              <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Entity.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/project/include/Entity.h">
+      <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="377">
-              <caret line="30" column="31" selection-start-line="30" selection-start-column="31" selection-end-line="30" selection-end-column="31" />
-              <folding />
+            <state relative-caret-position="396">
+              <caret line="30" column="23" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -82,11 +96,9 @@
         <option value="$PROJECT_DIR$/project/source/Cell.cpp" />
         <option value="$PROJECT_DIR$/project/include/Cell.h" />
         <option value="$PROJECT_DIR$/project/include/map.h" />
-        <option value="$PROJECT_DIR$/project/include/World.h" />
         <option value="$PROJECT_DIR$/project/include/DataTable.h" />
         <option value="$PROJECT_DIR$/project/source/DataTable.cpp" />
         <option value="$PROJECT_DIR$/project/main.cpp" />
-        <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/project/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/tests/basic_check/CMakeLists.txt" />
@@ -95,11 +107,15 @@
         <option value="$PROJECT_DIR$/tests/map_tests/cell_test.cpp" />
         <option value="$PROJECT_DIR$/tests/basic_check/basic_test.cpp" />
         <option value="$PROJECT_DIR$/tests/vector_tests/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/project/include/Entity.h" />
+        <option value="$PROJECT_DIR$/tests/vector_tests/vector_test.cpp" />
         <option value="$PROJECT_DIR$/project/include/Map.h" />
         <option value="$PROJECT_DIR$/project/source/Map.cpp" />
-        <option value="$PROJECT_DIR$/tests/vector_tests/vector_test.cpp" />
+        <option value="$PROJECT_DIR$/tests/map_tests/entity_test.cpp" />
+        <option value="$PROJECT_DIR$/project/include/Entity.h" />
         <option value="$PROJECT_DIR$/project/source/Entity.cpp" />
+        <option value="$PROJECT_DIR$/project/source/World.cpp" />
+        <option value="$PROJECT_DIR$/project/include/World.h" />
+        <option value="$PROJECT_DIR$/main.cpp" />
       </list>
     </option>
   </component>
@@ -281,14 +297,6 @@
     </key>
   </component>
   <component name="RunManager" selected="Application.Build All">
-    <configuration default="false" name="vector_test.test_plus" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" temporary="true" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Projet" TARGET_NAME="vectorTests" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Projet" RUN_TARGET_NAME="vectorTests" TEST_CLASS="vector_test" TEST_METHOD="test_plus" TEST_MODE="SUITE_TEST">
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="false" name="vector_test.test_minus" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" temporary="true" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Projet" TARGET_NAME="vectorTests" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Projet" RUN_TARGET_NAME="vectorTests" TEST_CLASS="vector_test" TEST_METHOD="test_minus" TEST_MODE="SUITE_TEST">
-      <envs />
-      <method />
-    </configuration>
     <configuration default="false" name="vector_test.test_prod" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" temporary="true" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Projet" TARGET_NAME="vectorTests" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Projet" RUN_TARGET_NAME="vectorTests" TEST_CLASS="vector_test" TEST_METHOD="test_prod" TEST_MODE="SUITE_TEST">
       <envs />
       <method />
@@ -298,6 +306,14 @@
       <method />
     </configuration>
     <configuration default="false" name="vector_test.test_length" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" temporary="true" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Projet" TARGET_NAME="vectorTests" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Projet" RUN_TARGET_NAME="vectorTests" TEST_CLASS="vector_test" TEST_METHOD="test_length" TEST_MODE="SUITE_TEST">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="entity_test.dist_test" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" temporary="true" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Projet" TARGET_NAME="mapTest" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Projet" RUN_TARGET_NAME="mapTest" TEST_CLASS="entity_test" TEST_METHOD="dist_test" TEST_MODE="SUITE_TEST">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="entity_test.corners_test" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" temporary="true" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Projet" TARGET_NAME="mapTest" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Projet" RUN_TARGET_NAME="mapTest" TEST_CLASS="entity_test" TEST_METHOD="corners_test" TEST_MODE="SUITE_TEST">
       <envs />
       <method />
     </configuration>
@@ -538,19 +554,19 @@
       <item index="8" class="java.lang.String" itemvalue="Google Test.simpleTest" />
       <item index="9" class="java.lang.String" itemvalue="Google Test.mapTest" />
       <item index="10" class="java.lang.String" itemvalue="Google Test.vectorTests" />
-      <item index="11" class="java.lang.String" itemvalue="Google Test.vector_test.test_plus" />
-      <item index="12" class="java.lang.String" itemvalue="Google Test.vector_test.test_minus" />
-      <item index="13" class="java.lang.String" itemvalue="Google Test.vector_test.test_prod" />
-      <item index="14" class="java.lang.String" itemvalue="Google Test.vector_test.test_div" />
-      <item index="15" class="java.lang.String" itemvalue="Google Test.vector_test.test_length" />
+      <item index="11" class="java.lang.String" itemvalue="Google Test.vector_test.test_prod" />
+      <item index="12" class="java.lang.String" itemvalue="Google Test.vector_test.test_div" />
+      <item index="13" class="java.lang.String" itemvalue="Google Test.vector_test.test_length" />
+      <item index="14" class="java.lang.String" itemvalue="Google Test.entity_test.dist_test" />
+      <item index="15" class="java.lang.String" itemvalue="Google Test.entity_test.corners_test" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Google Test.vector_test.test_length" />
-        <item index="1" class="java.lang.String" itemvalue="Google Test.vector_test.test_div" />
-        <item index="2" class="java.lang.String" itemvalue="Google Test.vector_test.test_prod" />
-        <item index="3" class="java.lang.String" itemvalue="Google Test.vector_test.test_minus" />
-        <item index="4" class="java.lang.String" itemvalue="Google Test.vector_test.test_plus" />
+        <item index="0" class="java.lang.String" itemvalue="Google Test.entity_test.dist_test" />
+        <item index="1" class="java.lang.String" itemvalue="Google Test.entity_test.corners_test" />
+        <item index="2" class="java.lang.String" itemvalue="Google Test.vector_test.test_length" />
+        <item index="3" class="java.lang.String" itemvalue="Google Test.vector_test.test_div" />
+        <item index="4" class="java.lang.String" itemvalue="Google Test.vector_test.test_prod" />
       </list>
     </recent_temporary>
   </component>
@@ -577,60 +593,61 @@
       <workItem from="1475149561293" duration="915000" />
       <workItem from="1475402385617" duration="7177000" />
       <workItem from="1475412376677" duration="217000" />
-      <workItem from="1475419106937" duration="5535000" />
+      <workItem from="1475419106937" duration="9812000" />
+      <workItem from="1475494944400" duration="159000" />
+      <workItem from="1475507994469" duration="3355000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="vectorTests - 2016.10.02 at 17h 41m 18s.xml">
+    <history-entry file="entity_test_dist_test - 2016.10.02 at 18h 58m 34s.xml">
+      <configuration name="entity_test.dist_test" configurationId="CMakeGoogleTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="entity_test_dist_test - 2016.10.02 at 19h 00m 08s.xml">
+      <configuration name="entity_test.dist_test" configurationId="CMakeGoogleTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="entity_test_dist_test - 2016.10.02 at 19h 03m 19s.xml">
+      <configuration name="entity_test.dist_test" configurationId="CMakeGoogleTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="entity_test_dist_test - 2016.10.02 at 19h 03m 27s.xml">
+      <configuration name="entity_test.dist_test" configurationId="CMakeGoogleTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="entity_test_dist_test - 2016.10.02 at 19h 03m 48s.xml">
+      <configuration name="entity_test.dist_test" configurationId="CMakeGoogleTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="entity_test_dist_test - 2016.10.02 at 19h 05m 39s.xml">
+      <configuration name="entity_test.dist_test" configurationId="CMakeGoogleTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="entity_test_dist_test - 2016.10.02 at 19h 06m 40s.xml">
+      <configuration name="entity_test.dist_test" configurationId="CMakeGoogleTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="entity_test_dist_test - 2016.10.02 at 19h 07m 22s.xml">
+      <configuration name="entity_test.dist_test" configurationId="CMakeGoogleTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="entity_test_dist_test - 2016.10.02 at 19h 07m 50s.xml">
+      <configuration name="entity_test.dist_test" configurationId="CMakeGoogleTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="vectorTests - 2016.10.03 at 13h 44m 17s.xml">
       <configuration name="vectorTests" configurationId="CMakeGoogleTestRunConfigurationType" />
-    </history-entry>
-    <history-entry file="vectorTests - 2016.10.02 at 17h 41m 50s.xml">
-      <configuration name="vectorTests" configurationId="CMakeGoogleTestRunConfigurationType" />
-    </history-entry>
-    <history-entry file="vectorTests - 2016.10.02 at 17h 42m 07s.xml">
-      <configuration name="vectorTests" configurationId="CMakeGoogleTestRunConfigurationType" />
-    </history-entry>
-    <history-entry file="vectorTests - 2016.10.02 at 17h 42m 22s.xml">
-      <configuration name="vectorTests" configurationId="CMakeGoogleTestRunConfigurationType" />
-    </history-entry>
-    <history-entry file="vectorTests - 2016.10.02 at 17h 57m 03s.xml">
-      <configuration name="vectorTests" configurationId="CMakeGoogleTestRunConfigurationType" />
-    </history-entry>
-    <history-entry file="vectorTests - 2016.10.02 at 18h 00m 15s.xml">
-      <configuration name="vectorTests" configurationId="CMakeGoogleTestRunConfigurationType" />
-    </history-entry>
-    <history-entry file="vector_test_test_length - 2016.10.02 at 17h 56m 10s.xml">
-      <configuration name="vector_test.test_length" configurationId="CMakeGoogleTestRunConfigurationType" />
-    </history-entry>
-    <history-entry file="vector_test_test_length - 2016.10.02 at 17h 56m 27s.xml">
-      <configuration name="vector_test.test_length" configurationId="CMakeGoogleTestRunConfigurationType" />
-    </history-entry>
-    <history-entry file="vector_test_test_length - 2016.10.02 at 17h 59m 32s.xml">
-      <configuration name="vector_test.test_length" configurationId="CMakeGoogleTestRunConfigurationType" />
-    </history-entry>
-    <history-entry file="vector_test_test_length - 2016.10.02 at 18h 00m 10s.xml">
-      <configuration name="vector_test.test_length" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34524000" />
+    <option name="totallyTimeSpent" value="42315000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1855" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24959569" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960325" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960325" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="LuaJ" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32960325" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32982457" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24959569" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="LuaJ" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960325" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32982457" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -638,6 +655,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960325" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -662,20 +680,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/project/source/Cell.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="16" selection-start-line="27" selection-start-column="16" selection-end-line="27" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="19" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/project/include/World.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -702,7 +706,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
           <caret line="11" column="33" selection-start-line="11" selection-start-column="33" selection-end-line="11" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -738,7 +741,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -774,7 +776,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="6" column="42" selection-start-line="6" selection-start-column="42" selection-end-line="6" selection-end-column="42" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -892,24 +893,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project/include/World.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="19" selection-start-line="1" selection-start-column="19" selection-end-line="1" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/lib/googletest/make/Makefile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="521">
           <caret line="82" column="0" selection-start-line="82" selection-start-column="0" selection-end-line="82" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -934,29 +921,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/map_tests/cell_test.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding>
-            <element signature="e#40#64#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/map_tests/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/vector_tests/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="5" column="33" selection-start-line="5" selection-start-column="33" selection-end-line="5" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -964,7 +932,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="5" column="26" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -980,17 +947,35 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="209">
           <caret line="80" column="7" selection-start-line="80" selection-start-column="7" selection-end-line="80" selection-end-column="7" />
-          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/map_tests/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/map_tests/cell_test.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/source/Map.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="431">
+          <caret line="90" column="33" selection-start-line="90" selection-start-column="33" selection-end-line="90" selection-end-column="33" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/project/include/Map.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="12" column="25" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
-          <folding>
-            <element signature="e#80#97#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="341">
+          <caret line="46" column="33" selection-start-line="46" selection-start-column="33" selection-end-line="46" selection-end-column="33" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -998,35 +983,63 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="324">
           <caret line="18" column="35" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/map_tests/entity_test.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="23" column="57" selection-start-line="23" selection-start-column="57" selection-end-line="23" selection-end-column="57" />
           <folding>
             <element signature="e#40#64#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project/source/Map.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1206">
-          <caret line="79" column="35" selection-start-line="79" selection-start-column="35" selection-end-line="79" selection-end-column="35" />
-          <folding>
-            <element signature="e#39#55#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/project/include/Entity.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="377">
-          <caret line="30" column="31" selection-start-line="30" selection-start-column="31" selection-end-line="30" selection-end-column="31" />
-          <folding />
+        <state relative-caret-position="425">
+          <caret line="32" column="40" selection-start-line="32" selection-start-column="40" selection-end-line="32" selection-end-column="40" />
+          <folding>
+            <element signature="e#88#104#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/project/source/Entity.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="503">
-          <caret line="50" column="1" selection-start-line="50" selection-start-column="1" selection-end-line="50" selection-end-column="1" />
+        <state relative-caret-position="144">
+          <caret line="10" column="19" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="30" column="23" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/source/World.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/include/World.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="17" column="27" selection-start-line="17" selection-start-column="27" selection-end-line="17" selection-end-column="27" />
+          <folding>
+            <element signature="e#86#113#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -5,7 +5,9 @@
 #ifndef PROJET_ENTITY_H
 #define PROJET_ENTITY_H
 
+#include <array>
 #include "Map.h"
+#include "DataTable.h"
 
 class Entity{
 
@@ -19,22 +21,36 @@ public:
         TypeCount
     };
 
+    enum Corner{
+        TL,
+        TR,
+        BL,
+        BR,
+        CornerCount
+    };
+
+public:
+    static std::vector<EntityData> Table;
+
+
 public:
 
     Entity(Map* map, Type type, int x, int y);
 
     void update();
-    void move(Vector2i direction);
+    bool move(Vector2i direction);
     Vector2i shortestDistanceToTarget();
     void setTarget(Vector2i target);
+    void destroy();
 
     Vector2i getTarget() const;
+    std::array<Vector2i,4> corners() const;
 
 private:
-    void goLeft();
-    void goRight();
-    void goUp();
-    void goDown();
+    bool goLeft();
+    bool goRight();
+    bool goUp();
+    bool goDown();
 
 private:
 
@@ -44,6 +60,7 @@ private:
     int mWidth;
     int mHeight;
     bool mSolid;
+    bool mIsDestroyed;
     Vector2i* mTarget;
 };
 

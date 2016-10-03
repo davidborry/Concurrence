@@ -44,7 +44,7 @@ bool operator<(Vector2i const& a, Vector2i const& b);
 bool operator<=(Vector2i const& a, Vector2i const& b);
 bool operator>(Vector2i const& a, Vector2i const& b);
 bool operator>=(Vector2i const& a, Vector2i const& b);
-Vector2i operator+(Vector2i& a, Vector2i const& b);
+Vector2i operator+(Vector2i const& a, Vector2i const& b);
 Vector2i operator-(Vector2i& a, Vector2i const& b);
 Vector2i operator*(Vector2i& a, float const& i);
 Vector2i operator*(float const& i, Vector2i& a);

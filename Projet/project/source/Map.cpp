@@ -88,7 +88,7 @@ bool operator>=(Vector2i const& a, Vector2i const& b){
     return !(a<b);
 }
 
-Vector2i operator+(Vector2i& a, Vector2i const& b) {
+Vector2i operator+(Vector2i const& a, Vector2i const& b) {
     return Vector2i(a.x + b.x, a.y + b.y);
 }
 
