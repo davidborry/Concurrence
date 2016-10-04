@@ -2,6 +2,7 @@
 // Created by david on 03/10/16.
 //
 
+#include <thread>
 #include "include/World.h"
 
 World::World():
@@ -17,8 +18,12 @@ void World::update() {
 }
 
 void World::update(int zone){
-    for(int i = 0; i < mActiveHumans[zone].size(); i++)
+    for(int i = 0; i < mActiveHumans[zone].size(); i++){
+        //std::thread t(&Entity::update,mActiveHumans[zone][i]);
+        //t.join();
         mActiveHumans[zone][i]->update();
+
+    }
 }
 
 bool World::spawn(Entity::Type type, int x, int y) {

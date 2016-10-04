@@ -27,16 +27,16 @@ mIsDestroyed(false)
 }
 
 void Entity::update() {
-    if(!mIsDestroyed && mTarget != nullptr) {
-        if(shortestDistanceToTarget() != Vector2i(0,0)) {
-            if (!move(shortestDistanceToTarget()))
-                for (int i = TL; i < CornerCount; i++)
-                    if (move(*mTarget - corners()[i]))
-                        return;
-        }
 
-        else
-            destroy();
+    if(!mIsDestroyed && mTarget != nullptr) {
+        Paths distances = shortestDistanceToTarget();
+        while (!distances.empty() && !move(distances.top())) {
+            if(distances.top() == Vector2i(0,0)){
+                destroy();
+                break;
+            }
+            distances.pop();
+        }
     }
 
 }
@@ -65,14 +65,13 @@ void Entity::setTarget(Vector2i target) {
     mTarget = new Vector2i(target);
 }
 
-Vector2i Entity::shortestDistanceToTarget() {
-    Vector2i dist = *mTarget - mPosition;
+Paths Entity::shortestDistanceToTarget() {
+    Paths paths;
 
-    for(int i = 1; i < CornerCount; i++)
-        if((*mTarget - corners()[i]) < dist)
-            dist = *mTarget - corners()[i];
+    for(int i = 0; i < CornerCount; i++)
+        paths.push((*mTarget - corners()[i]));
 
-    return dist;
+    return paths;
 }
 
 Vector2i Entity::getTarget() const {

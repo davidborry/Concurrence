@@ -6,8 +6,11 @@
 #define PROJET_ENTITY_H
 
 #include <array>
+#include <queue>
 #include "Map.h"
 #include "DataTable.h"
+
+typedef std::priority_queue<Vector2i,std::vector<Vector2i>,std::greater<Vector2i>> Paths;
 
 class Entity{
 
@@ -39,7 +42,7 @@ public:
 
     void update();
     bool move(Vector2i direction);
-    Vector2i shortestDistanceToTarget();
+    Paths shortestDistanceToTarget();
     void setTarget(Vector2i target);
     void destroy();
 

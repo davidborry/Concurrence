@@ -12,16 +12,16 @@ TEST(entity_test,dist_test){
 
     Entity e(&m,Entity::Human,24,12);
     e.setTarget(Vector2i(2,8));
-    EXPECT_EQ(e.shortestDistanceToTarget(),Vector2i(-22,-4));
+    EXPECT_EQ(e.shortestDistanceToTarget().top(),Vector2i(-22,-4));
 
     e.setTarget(Vector2i(30,30));
-    EXPECT_EQ(e.shortestDistanceToTarget(),Vector2i(3,15));
+    EXPECT_EQ(e.shortestDistanceToTarget().top(),Vector2i(3,15));
 
     e.setTarget(Vector2i(0,30));
-    EXPECT_EQ(e.shortestDistanceToTarget(),Vector2i(-24,15));
+    EXPECT_EQ(e.shortestDistanceToTarget().top(),Vector2i(-24,15));
 
     e.setTarget(Vector2i(30,0));
-    EXPECT_EQ(e.shortestDistanceToTarget(),Vector2i(3,-12));
+    EXPECT_EQ(e.shortestDistanceToTarget().top(),Vector2i(3,-12));
 }
 
 TEST(entity_test,corners_test){
