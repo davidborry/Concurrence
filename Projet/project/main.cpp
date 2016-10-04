@@ -2,13 +2,14 @@
 #include "include/Map.h"
 #include "include/Entity.h"
 #include "include/options.h"
+#include "include/Save_Map.h"
 #include <unistd.h>
 
 
 using namespace std;
 
-int main(int argc, char** argv) {
-
+int main(int argc, char **argv) {
+    
     Map m(64,16);
 
     Entity h(&m,Entity::Human,0,0);
@@ -21,6 +22,8 @@ int main(int argc, char** argv) {
 
         usleep(500000);
     }
+
+
 
     return 0;
 }
