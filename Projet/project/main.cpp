@@ -9,7 +9,7 @@
 using namespace std;
 
 int main(int argc, char **argv) {
-    
+
     Map m(64,16);
 
     Entity h(&m,Entity::Human,0,0);

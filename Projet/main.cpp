@@ -20,7 +20,7 @@ int main(int argc, char** argv) {
     h.setTarget(Vector2i(0,6));
     h2.setTarget(Vector2i(0,6));
 
-    /**
+
     World world;
     world.setTarget(Vector2i(32,8));
     world.spawn(Entity::Human,0,0);
@@ -31,10 +31,10 @@ int main(int argc, char** argv) {
     while(true) {
         cout << world.getMap() << endl;
         world.update();
-        /**h.update();
-        h2.update();**/
+        h.update();
+        h2.update();
 
-        //usleep(200000);
+        usleep(200000);
     }
 
 
