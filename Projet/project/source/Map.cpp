@@ -29,6 +29,13 @@ mHeight(height)
         mCells[i].resize(mWidth);
 }
 
+Rectangle::Rectangle(Vector2i tl, Vector2i br) :
+tl(tl),
+br(br)
+{
+
+}
+
 bool Map::isSolid(int x, int y) const {
     return mCells[y][x].isSolid();
 }

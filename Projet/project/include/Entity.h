@@ -35,6 +35,12 @@ public:
 public:
     static std::vector<EntityData> Table;
 
+   /* static void* staticFunction(void* p)
+    {
+        static_cast<Entity*>(p)->update();
+        return NULL;
+    }*/
+
 
 public:
 
@@ -45,9 +51,13 @@ public:
     Paths shortestDistanceToTarget();
     void setTarget(Vector2i target);
     void destroy();
+    bool isDestroyed() const;
 
     Vector2i getTarget() const;
+    Vector2i getPosition() const;
     std::array<Vector2i,4> corners() const;
+
+    Map* getMap() const;
 
 private:
     bool goLeft();

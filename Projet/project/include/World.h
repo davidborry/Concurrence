@@ -16,8 +16,10 @@ public:
     void update();
     void update(int zone);
     bool spawn(Entity::Type type, int x, int y);
+    void removeDestroyedEntities();
 
     Map getMap() const;
+    std::vector<Entity*> getActiveHumans() const;
     void setTarget(Vector2i v);
 
 
@@ -25,7 +27,7 @@ private:
     Map mMap;
     Vector2i mTarget;
 
-    std::array<std::vector<Entity*>,4> mActiveHumans;
+    std::vector<Entity*> mActiveHumans;
 };
 
 #endif //PROJET_WORLD_H

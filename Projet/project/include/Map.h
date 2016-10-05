@@ -17,6 +17,12 @@ struct Vector2i{
 
 };
 
+struct Rectangle{
+    Rectangle(Vector2i tl, Vector2i br);
+
+    Vector2i tl, br;
+};
+
 class Map{
 public:
     Map(int width, int height);

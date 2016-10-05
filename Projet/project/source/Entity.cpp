@@ -78,6 +78,10 @@ Vector2i Entity::getTarget() const {
     return *mTarget;
 }
 
+Vector2i Entity::getPosition() const {
+    return mPosition;
+}
+
 bool Entity::goLeft() {
     if(mPosition.x-1 < 0)
         return false;
@@ -159,8 +163,15 @@ std::array<Vector2i,4> Entity::corners() const{
     return c;
 }
 
+Map* Entity::getMap() const {
+    return mMap;
+}
 void Entity::destroy() {
     mMap->setSolid(mPosition.x,mPosition.y,mWidth,mHeight,false);
     mIsDestroyed = true;
+}
+
+bool Entity::isDestroyed() const {
+    return mIsDestroyed;
 }
 

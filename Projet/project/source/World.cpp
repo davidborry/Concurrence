@@ -3,7 +3,11 @@
 //
 
 #include <thread>
+#include <algorithm>
 #include "include/World.h"
+
+
+
 
 World::World():
 mMap(64,16),
@@ -13,15 +17,17 @@ mTarget(0,0)
 }
 
 void World::update() {
-    for(int i = 0; i < 4; i++)
-        update(i);
+
+        update(0);
 }
 
 void World::update(int zone){
-    for(int i = 0; i < mActiveHumans[zone].size(); i++){
-        //std::thread t(&Entity::update,mActiveHumans[zone][i]);
-        //t.join();
-        mActiveHumans[zone][i]->update();
+    for(int i = 0; i < mActiveHumans.size(); i++){
+        /*pthread_t id;
+        pthread_create(&id,NULL,Entity::staticFunction,mActiveHumans[zone][i]);
+        pthread_join(id,NULL);*/
+
+        mActiveHumans[i]->update();
 
     }
 }
@@ -33,14 +39,25 @@ bool World::spawn(Entity::Type type, int x, int y) {
                 return false;
     Entity* e = new Entity(&mMap,type,x,y);
 
-    mActiveHumans[0].push_back(e);
+    mActiveHumans.push_back(e);
     e->setTarget(mTarget);
 
     return true;
 }
 
+void World::removeDestroyedEntities() {
+    auto listBegin = std::remove_if(mActiveHumans.begin(), mActiveHumans.end(),
+                                           std::mem_fn(&Entity::isDestroyed));
+
+    mActiveHumans.erase(listBegin,mActiveHumans.end());
+}
+
 Map World::getMap() const {
     return mMap;
+}
+
+std::vector<Entity*> World::getActiveHumans() const {
+    return mActiveHumans;
 }
 
 void World::setTarget(Vector2i v){
