@@ -24,23 +24,29 @@ static void* updateRegion(void* p)
     Rectangle r = args->r;
     World* w = args->w;
 
-    while(w->getActiveHumans().size() > 0) {
+    bool end = false;
+
+    while(!end) {
+        end = true;
         for (int i = 0; i < w->getActiveHumans().size(); i++) {
             Entity *entity = w->getActiveHumans()[i];
 
-            bool supTL = entity->getPosition().x >= r.tl.x && entity->getPosition().y >= r.tl.y;
-            bool infBR = entity->getPosition().x < r.br.x && entity->getPosition().y < r.br.y;
+            if(!entity->isDestroyed()) {
+                end = false;
+                bool supTL = entity->getPosition().x >= r.tl.x && entity->getPosition().y >= r.tl.y;
+                bool infBR = entity->getPosition().x < r.br.x && entity->getPosition().y < r.br.y;
 
-            if (supTL && infBR) {
-                entity->update();
+                if (supTL && infBR) {
+                    entity->update();
+                }
             }
+
+            usleep(100000);
         }
-
-        w->removeDestroyedEntities();
-
+        cout << args->w->getMap() << endl;
     }
 
-    cout << args->w->getMap() << endl;
+
 
     return NULL;
 }
