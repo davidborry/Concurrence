@@ -1,7 +1,6 @@
 //
-// Created by Thomas Gillot on 03/10/2016.
+// Created by David on 9/28/16.
 //
-
 
 #ifndef PROJET_WORLD_H
 #define PROJET_WORLD_H
@@ -17,6 +16,7 @@ public:
     void update();
     void update(int zone);
     bool spawn(Entity::Type type, int x, int y);
+    void spawn(Entity::Type, int n);
     void removeDestroyedEntities();
 
     Map getMap() const;

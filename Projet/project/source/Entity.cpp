@@ -21,9 +21,6 @@ mTarget(nullptr),
 mIsDestroyed(false)
 {
     mMap->setSolid(mPosition.x,mPosition.y,mWidth,mHeight,mSolid);
-
-    if(mTarget == nullptr)
-        cout << "null" << endl;
 }
 
 void Entity::update() {
@@ -56,6 +53,8 @@ bool Entity::move(Vector2i direction) {
 
     if(direction.y > 0)
          goDown();
+
+
 
     return po!=mPosition;
 
@@ -90,12 +89,15 @@ bool Entity::goLeft() {
         if (mMap->isSolid(mPosition.x - 1,mPosition.y+i))
             return false;
 
+    mPosition.x--;
+
     for(int i = 0; i < mHeight; i++){
-        mMap->setSolid(mPosition.x-1,mPosition.y+i,true);
-        mMap->setSolid(mPosition.x-1+mWidth,mPosition.y+i,false);
+       
+        mMap->setSolid(mPosition.x,mPosition.y+i,true);
+        mMap->setSolid(mPosition.x+mWidth,mPosition.y+i,false);
     }
 
-    mPosition.x--;
+
     return true;
 }
 

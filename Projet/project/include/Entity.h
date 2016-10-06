@@ -19,8 +19,8 @@ public:
     enum Type{
         Human,
         Wall,
-        HoleA,
-        HoleB,
+        Hole8,
+        Hole16,
         TypeCount
     };
 

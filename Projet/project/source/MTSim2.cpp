@@ -19,7 +19,7 @@ static void* updateRegion(void* p)
 {
     auto args = static_cast<Args*>(p);
 
-    cout << args->w->getMap() << endl;
+   // cout << args->w->getMap() << endl;
 
     Rectangle r = args->r;
     World* w = args->w;
@@ -41,9 +41,9 @@ static void* updateRegion(void* p)
                 }
             }
 
-            usleep(100000);
+
         }
-        cout << args->w->getMap() << endl;
+      //  cout << args->w->getMap() << endl;
     }
 
 
