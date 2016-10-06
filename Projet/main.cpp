@@ -2,6 +2,7 @@
 #include "include/Entity.h"
 #include <unistd.h>
 #include <include/World.h>
+#include "include/options.h"
 
 
 using namespace std;
@@ -18,7 +19,7 @@ int main(int argc, char** argv) {
 
     h.setTarget(Vector2i(0,6));
     h2.setTarget(Vector2i(0,6));*/
-
+/**
     World world;
     world.setTarget(Vector2i(32,8));
     world.spawn(Entity::Human,0,0);
@@ -32,8 +33,12 @@ int main(int argc, char** argv) {
         /*h.update();
         h2.update();*/
 
-        usleep(200000);
-    }
+        //usleep(200000);
+    ///}
 
+    Options my_options = get_options(argc,argv);
+    cout<< my_options->person_number << endl;
+    cout << my_options->threads_creation << endl;
+    cout << my_options-> execution_measure << endl;
     return 0;
 }

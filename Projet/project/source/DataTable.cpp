@@ -1,6 +1,7 @@
 //
-// Created by Thomas on 9/29/16.
+// Created by Thomas Gillot on 29/09/2016.
 //
+
 
 #include "../include/DataTable.h"
 #include "../include/Entity.h"

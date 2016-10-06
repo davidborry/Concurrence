@@ -1,6 +1,7 @@
 //
-// Created by david on 03/10/16.
+// Created by Thomas Gillot on 03/10/2016.
 //
+
 
 #include <thread>
 #include <algorithm>

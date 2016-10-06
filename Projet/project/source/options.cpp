@@ -37,6 +37,8 @@ struct options* get_options(int argc,char **argv){
         exit(-1);
     }
 
+    options -> person_number = 0;
+    options -> threads_creation = 0;
     options -> execution_measure = false;
 
 

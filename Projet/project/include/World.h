@@ -1,6 +1,7 @@
 //
-// Created by David on 9/28/16.
+// Created by Thomas Gillot on 03/10/2016.
 //
+
 
 #ifndef PROJET_WORLD_H
 #define PROJET_WORLD_H
