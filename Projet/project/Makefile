@@ -31,10 +31,10 @@ all: $(EXE)
 
 # We create the executable
 projet1-16.exe : $(OBJECTS)
-	$(COMPILER) -o $(BIN_DIR)/$@ $^ $(OPTIONS)
+	$(COMPILER) -pthread -o $(BIN_DIR)/$@ $^ $(OPTIONS)
 
 $(OBJECTS_DIR)/%.o: $(SRC_DIR)/%.cpp $(HEAD_DIR)/%.h
-	$(COMPILER) -o $@ -c $< $(OPTIONS)
+	$(COMPILER) -pthread -o $@ -c $< $(OPTIONS)
 
 # Clean all the .o and executable
 clean:
