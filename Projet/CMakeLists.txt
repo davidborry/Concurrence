@@ -4,7 +4,7 @@ project(Projet)
 add_definitions(-std=c++11)
 find_package (Threads)
 
-set(MAIN main.cpp)
+set(MAIN project/main.cpp)
 add_executable(simulation ${MAIN})
 
 include_directories(project)

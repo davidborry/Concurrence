@@ -1,10 +1,10 @@
 #include <iostream>
 #include "include/Entity.h"
 #include <unistd.h>
-#include <include/World.h>
-#include <include/Simulation.h>
-#include <include/MTSim1.h>
-#include <include/MTSim2.h>
+#include "include/World.h"
+#include "include/Simulation.h"
+#include "include/MTSim1.h"
+#include "include/MTSim2.h"
 
 
 using namespace std;
@@ -41,11 +41,7 @@ int main(int argc, char** argv) {
 
 
     MTSim2 sim;
-    //MTSim1 sim;
-    //MTSim1 sim;
 
-    sim.run();
-    sim.reset();
     sim.run();
 
     return 0;

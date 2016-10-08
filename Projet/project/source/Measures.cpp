@@ -2,7 +2,7 @@
 // Created by Thomas Gillot on 07/10/2016.
 //
 
-#include "include/Measures.h"
+#include "../include/Measures.h"
 #include <iostream>
 
 const int MEASURES_NUMBER = 3;

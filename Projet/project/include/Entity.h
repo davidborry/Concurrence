@@ -10,7 +10,7 @@
 #include "Map.h"
 #include "DataTable.h"
 
-typedef std::priority_queue<Vector2i,std::vector<Vector2i>,std::greater<Vector2i>> Paths;
+typedef std::priority_queue<Vector2i,std::vector<Vector2i>,std::greater<Vector2i> > Paths;
 
 class Entity{
 

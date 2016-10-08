@@ -4,7 +4,7 @@
 
 #include <unistd.h>
 #include <iostream>
-#include "include/MTSim2.h"
+#include "../include/MTSim2.h"
 
 using namespace std;
 
