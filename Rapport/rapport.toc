@@ -1,9 +1,11 @@
-\contentsline {section}{\numberline {1}Introduction}{2}
-\contentsline {section}{\numberline {2}Conception}{3}
-\contentsline {subsection}{\numberline {2.1}Fonctionnement g\IeC {\'e}n\IeC {\'e}ral}{3}
-\contentsline {subsection}{\numberline {2.2}Gestion des threads}{3}
-\contentsline {section}{\numberline {3}Choix de d\IeC {\'e}veloppement}{3}
-\contentsline {section}{\numberline {4}Tester l'application}{3}
-\contentsline {subsection}{\numberline {4.1}Tests unitaires}{3}
-\contentsline {subsection}{\numberline {4.2}Performances}{3}
-\contentsline {section}{\numberline {5}Conclusion}{3}
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}
+\contentsline {section}{\numberline {2}Conception}{3}{section.2}
+\contentsline {subsection}{\numberline {2.1}Fonctionnement g\IeC {\'e}n\IeC {\'e}ral}{3}{subsection.2.1}
+\contentsline {subsubsection}{\numberline {2.1.1}Base du programme}{3}{subsubsection.2.1.1}
+\contentsline {subsubsection}{\numberline {2.1.2}D\IeC {\'e}placement une personne}{3}{subsubsection.2.1.2}
+\contentsline {subsection}{\numberline {2.2}Gestion des threads}{4}{subsection.2.2}
+\contentsline {section}{\numberline {3}Choix de d\IeC {\'e}veloppement}{4}{section.3}
+\contentsline {section}{\numberline {4}Tester l'application}{4}{section.4}
+\contentsline {subsection}{\numberline {4.1}Tests unitaires}{4}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Performances}{4}{subsection.4.2}
+\contentsline {section}{\numberline {5}Conclusion}{4}{section.5}

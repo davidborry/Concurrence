@@ -48,7 +48,7 @@
 \usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
 \renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
 \renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
-
+\usepackage{hyperref}
 %%% END Article customizations
 
 %%% The "real" document content comes below...
@@ -81,8 +81,49 @@ Le rapport a pour but d'expliquer le fonctionnement de l'application et les déc
 
 \newpage
 \section{Conception}
+La simulation a un objectif clair: faire converger une quantité plus ou moins grande de personnes vers une unique destination et faire en sorte qu'ils finissent tous par l'atteindre. Toutefois, elle a trois manières différentes de remplir cet objectif. La première consiste à déplacer successivement chaque personne d'une unité jusqu'à ce qu'elles aient toute atteint leur destination. La seconde permet de gérer de la même manières ces personnes, mais en fonction de leur position l'une des quatre régions de tailles égales constituant le monde. Une thread est associé à chaque région. Pour la troisième technique, on crée une thread pour chaque personne à déplacer. 
+
 \subsection{Fonctionnement général}
+\subsubsection{Base du programme}
+Trois scénarios bien différents peuvent donc s'appliquer, chacun ayant ses particularités en performances et en algorithmique.
+Il est néanmoins important qu'elles partagent la plupart des variables et des algorithmes du programme afin qu'il soient plus simple à maintenir et à faire évoluer. Quelque soit le scénario, on a donc toujours : 
+\begin{itemize}
+	
+	\item L'ensemble des murs et des personnes à déplacer sur le terrain 
+	\item Une destination fixée à une extrémité du terrain.
+	\item Une carte du terrain constamment mise à jour où sont représentés les obstacles qu'une personne peut rencontrer (murs ou 			autres personnes).
+	\item Les algorithmes permettant de créer et de déplacer d'une unité une personne en direction d'une destination donnée.
+\end{itemize}
+
+\subsubsection{Déplacement une personne}
+Le bon fonctionnement du programme repose en grande partie sur l'algorithme de déplacement. Le programme ne se terminant que lorsqu'il n'y a plus personne à déplacer, il faut un algorithme rapide et solide prenant en compte la gestion des obstacles. Un algorithme de pathfinding pour éviter les obstacles comme \textit{Dijkstra} ou \textit{A*} serait inneficace car peu optimal avec un grand nombre de personnes à gérer et/ou une grande carte. \\
+En revanche, un algorithme de type \href{https://gamedevelopment.tutsplus.com/tutorials/understanding-steering-behaviors-seek--gamedev-849}{\textit{steering behaviour}} principalement basé sur les notions de vecteurs et de distances est bien plus approprié.
+L'entité à déplacer ne pourra pas éviter les obstacles de manière intelligente s'il y en a, c'est pourquoi il est possible qu'une destination fixée soit impossible à atteindre pour certaines entités (si la destination est derrière un mur et que la seule entrée pour y accéder se situe à l'autre bout du terrain, par exemple). Le choix de la destination est donc également essentiel pour que la simulation s'éxécute correctement.
+
+\newpage
+
+L'algorithme choisi pour la simulation fonctionne donc de cette manière : \\
+
+Pour un \textbf{terrain}, une \textbf{entité}  et une \textbf{destination} données, si l'entité n'a pas atteint la destination :
+\begin{itemize}
+	\item Stocker dans un ensemble les vecteurs de directions des bordures de l'entité par rapport à la destination.
+	\item tant que l'ensemble des vecteurs n'est pas vide:
+	\begin{itemize}
+		\item Retirer le vecteur ayant la plus petite longueur de l'ensemble
+		\item Essayer de déplacer d'une case l'entité en suivant ce vecteur
+		\item Si l'entité a bougé, arrêter.
+		\item Sinon, continuer.
+	\end{itemize}
+	
+\end{itemize}
+
 \subsection{Gestion des threads}
+Si les scénarios partagent donc la plupart des ressources du programmes, ils les utilisent tous d'une manière différente. 
+Pour l'option \textbf{-t1} où la simulation est gérée par la thread principale, le fonctionnement est assez simple : Tant que toutes les personnes n'ont pas atteint la destination, répéter pour chacune d'entre elles l'algorithme de déplacement décript précédemment. On doit donc mettre à jour le monde et l'ensemble des personnes un certain nombre de fois, ce qui peut faire penser au design d'une boucle de jeu. C'est le but : de cette manière, on peut facilement intégrer la représentation graphique à la simulation en redessinant le terrain à chaque mise à jour. \\
+Pour l'option \textbf{-t2}, le fonctionnement est assez semblable, mais on divise le terrain en 4 parties à gérer pour chaque thread créée. Les threads ont toujours une boucle devant déplacer des entités, mais seulement celles se trouvant dans la région associée. \\
+L'option \textbf{-t3} utilise toujours une boucle, mais elle ne gère qu'une entité par thread. La boucle continue tant que l'entité n'a pas atteint sa destination.
+
+\subsubsection{Les threads posix}
 
 \section{Choix de développement}
 
