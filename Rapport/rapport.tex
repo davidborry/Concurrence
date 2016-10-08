@@ -1,0 +1,95 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[11pt]{article} % use larger type; default would be 10pt
+
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+
+%%% Examples of Article customizations
+% These packages are optional, depending whether you want the features they provide.
+% See the LaTeX Companion or other references for full information.
+
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
+% \geometry{margin=2in} % for example, change the margins to 2 inches all round
+% \geometry{landscape} % set up the page for landscape
+%   read geometry.pdf for detailed page layout information
+
+\usepackage{graphicx} % support the \includegraphics command and options
+
+% \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+%%% PACKAGES
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+% These packages are all incorporated in the memoir class to one degree or another...
+
+%%% HEADERS & FOOTERS
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+\pagestyle{fancy} % options: empty , plain , fancy
+\renewcommand{\headrulewidth}{0pt} % customise the layout...
+\lhead{}\chead{}\rhead{}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+% (This matches ConTeXt defaults)
+
+%%% ToC (table of contents) APPEARANCE
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+
+%%% END Article customizations
+
+%%% The "real" document content comes below...
+
+\title{Projet programmation concurrente \\
+	Polytech'Nice Sophia - SI4 G1}
+\author{David BORRY\\
+		Thomas GILLOT}
+%\date{} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed 
+
+\begin{document}
+\maketitle
+
+Nous déclarons sur l'honneur que ce rapport et l'application qu'il décrit sont le fruit de notre propre travail, basé sur notre expérience scolaire et personnelle sur ces dernières années et que nous n'avons ni contrefait, ni falsifié, ni copié partiellement sur l'oeuvre d'autres binômes ou sur internet. Nous sommes conscients que le plagiat est considéré comme une faute grave pouvant être sévèrement sanctionnée. 
+
+\newpage
+
+\section{Introduction}
+Ce rapport a pour sujet la conception et le développement d'une simulation de déplacement d'une foule d'individus dans un environnement comprenant plusieurs obstacles, basée sur les notions vues en cours et en TD de programmation concurrente.  \\
+L'application a été écrite en C++ et utilise la bibliothèque POSIX du langage C.
+Pour la représentation graphique, c'est la bibliothèque SFML qui est utilisée.
+Les tests unitaires sont quant à eux réalisés avec Google Test. \\
+Il n'est pas nécessaire d'avoir ces bibliothèques installées au préalable et l'application peut être compilée et éxécutée sans la partie graphique. \\
+Le rapport a pour but d'expliquer le fonctionnement de l'application et les décisions prises pour la conception des principaux algorithmes,  analyser et comparer le fonctionnement des threads POSIX par rapport à Java ainsi que les performances en fonction des différentes configurations possibles
+
+
+
+\tableofcontents
+
+\newpage
+\section{Conception}
+\subsection{Fonctionnement général}
+\subsection{Gestion des threads}
+
+\section{Choix de développement}
+
+\section{Tester l'application}
+\subsection{Tests unitaires}
+\subsection{Performances}
+
+\section{Conclusion}
+
+\end{document}
