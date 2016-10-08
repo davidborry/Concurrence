@@ -15,7 +15,7 @@ BIN_DIR = bin
 OBJECTS_DIR = obj
 
 # Compilation options
-OPTIONS = -I$(HEAD_DIR) -g -Wall -std=c++11 -ansi
+OPTIONS = -I$(HEAD_DIR) -g -Wall -ansi -std=c++11
 
 
 # Executable name
