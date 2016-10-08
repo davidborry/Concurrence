@@ -123,9 +123,39 @@ Pour l'option \textbf{-t1} où la simulation est gérée par la thread principal
 Pour l'option \textbf{-t2}, le fonctionnement est assez semblable, mais on divise le terrain en 4 parties à gérer pour chaque thread créée. Les threads ont toujours une boucle devant déplacer des entités, mais seulement celles se trouvant dans la région associée. \\
 L'option \textbf{-t3} utilise toujours une boucle, mais elle ne gère qu'une entité par thread. La boucle continue tant que l'entité n'a pas atteint sa destination.
 
-\subsubsection{Les threads posix}
+\subsubsection{Les threads POSIX}
+
+\subsection{Intégrer les threads à la simulation}
+Pour les deux configurations multithread, on doit faire en sorte que chaque thread puisse s'éxécuter entièrement, sans que le programme ne se termine avant. C'est rendu possible grâce aux fonctions \textbf{pthread\_create} et \textbf{pthread\_join} de la bibliothèque POSIX. Les algorithmes de gestion des threads sont donc très semblables pour les simulations t1 et t2. Ils fonctionnent de la manière suivante : 
+
+\newpage
+
+\textbf{t1} :
+\begin{itemize}
+\item Pour chacune des quatre régions du terrain :
+	\begin{itemize}
+		\item Créer une nouvelle thread
+		\item Associer à cette thread la gestion des entités situées dans la région actuelle
+	\end{itemize}
+
+\item Attendre la terminaison de chacune des threads précédemment créées.
+
+\end{itemize} 
+ 
+\textbf{t2} :
+\begin{itemize}
+\item Pour chaque entité sur le terrain :
+	\begin{itemize}
+		\item Créer une nouvelle thread
+		\item Associer à cette thread la gestion de l'entité actuelle
+	\end{itemize}
+
+\item Attendre la terminaison de chacune des threads précédemment créées.
+
+\end{itemize}
 
 \section{Choix de développement}
+En dehors de la gestion des threads et des options entrées par l'utilisateur, le programme est principalement développé en C++ et tire parti de la programmation orientée objet, du polymorphisme et de la surcharge d'opérateurs.
 
 \section{Tester l'application}
 \subsection{Tests unitaires}
