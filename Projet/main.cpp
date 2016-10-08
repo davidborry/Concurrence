@@ -2,7 +2,9 @@
 #include "include/Entity.h"
 #include <unistd.h>
 #include <include/World.h>
-#include "include/options.h"
+#include <include/Simulation.h>
+#include <include/MTSim1.h>
+#include <include/MTSim2.h>
 
 
 using namespace std;
@@ -15,12 +17,12 @@ int main(int argc, char** argv) {
     Entity h2(&m,Entity::Human,50,12);
 
     Entity w(&m,Entity::Wall,30,0);
-    Entity wo(&m,Entity::HoleA,30,4);
+    Entity wo(&m,Entity::Hole8,30,4);
 
     h.setTarget(Vector2i(0,6));
     h2.setTarget(Vector2i(0,6));*/
-/**
-    World world;
+
+    /*World world;
     world.setTarget(Vector2i(32,8));
     world.spawn(Entity::Human,0,0);
     world.spawn(Entity::Human,60,0);
@@ -31,14 +33,20 @@ int main(int argc, char** argv) {
         cout << world.getMap() << endl;
         world.update();
         /*h.update();
-        h2.update();*/
+        h2.update();
 
-        //usleep(200000);
-    ///}
+        usleep(200000);
+    }*/
 
-    Options my_options = get_options(argc,argv);
-    cout<< my_options->person_number << endl;
-    cout << my_options->threads_creation << endl;
-    cout << my_options-> execution_measure << endl;
+
+
+    MTSim2 sim;
+    //MTSim1 sim;
+    //MTSim1 sim;
+
+    sim.run();
+    sim.reset();
+    sim.run();
+
     return 0;
 }
