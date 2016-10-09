@@ -7,24 +7,37 @@
 
 #include <iostream>
 #include <ctime>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include "Simulation.h"
 
 class Measures {
 
 public:
-    Measures();
+    Measures(Simulation* sim);
 
-    void addCPUConsumption(std::clock_t start, std::clock_t end);
-    void addResponseTime(std::time_t start, std::time_t end);
+    void run();
 
-    void calculateTotalCPUConsumption();
-    void calculateTotalResponseTime();
-    void print_result(std::string result_name, double time);
+    void averageTime(std::vector<double>& times, double& averageTime);
+    void update();
+    void updateUTime();
+    void updateSTime();
 
+    void print_result();
 
 
 private:
-    double total_CPU_consumption; //Total with all the 5 try
-    double total_Response_Time; //Total with all the 5 try
+
+    std::vector<double> mRealTimes;
+    std::vector<double> mUTimes;
+    std::vector<double> mSTimes;
+
+    Simulation* mSim;
+
+    struct rusage mRusage;
+    double mAverageRealTime;
+    double mAverageUTime;
+    double mAverageSTime;
 
 };
 #endif //PROJET_MEASURE_H

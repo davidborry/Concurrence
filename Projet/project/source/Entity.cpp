@@ -14,13 +14,14 @@ Entity::Entity(Map* map, Type type, int x, int y) :
 mMap(map),
 mType(type),
 mPosition(x,y),
+mSpawn(x,y),
 mWidth(Table[mType].width),
 mHeight(Table[mType].height),
 mSolid(Table[mType].solid),
 mTarget(nullptr),
 mIsDestroyed(false)
 {
-    mMap->setSolid(mPosition.x,mPosition.y,mWidth,mHeight,mSolid);
+    mMap->setSolid(mSpawn.x,mSpawn.y,mWidth,mHeight,mSolid);
 }
 
 void Entity::update() {
@@ -67,8 +68,17 @@ void Entity::setTarget(Vector2i target) {
 Paths Entity::shortestDistanceToTarget() {
     Paths paths;
 
-    for(int i = 0; i < CornerCount; i++)
-        paths.push((*mTarget - corners()[i]));
+    for(int i = 0; i < mWidth; i++){
+        paths.push(*mTarget - Vector2i(mPosition.x + i, mPosition.y));
+        paths.push(*mTarget - Vector2i(mPosition.x + i, mPosition.y - 1 + mHeight));
+    }
+
+    for(int i = 1; i < mHeight - 1; i++){
+        paths.push(*mTarget - Vector2i(mPosition.x,mPosition.y+i));
+        paths.push(*mTarget - Vector2i(mPosition.x - 1 + mWidth,mPosition.y+i));
+    }
+    /*for(int i = 0; i < CornerCount; i++)
+        paths.push((*mTarget - corners()[i]));*/
 
     return paths;
 }
@@ -92,7 +102,7 @@ bool Entity::goLeft() {
     mPosition.x--;
 
     for(int i = 0; i < mHeight; i++){
-       
+
         mMap->setSolid(mPosition.x,mPosition.y+i,true);
         mMap->setSolid(mPosition.x+mWidth,mPosition.y+i,false);
     }
@@ -175,5 +185,11 @@ void Entity::destroy() {
 
 bool Entity::isDestroyed() const {
     return mIsDestroyed;
+}
+
+void Entity::respawn() {
+    mPosition = mSpawn;
+    mMap->setSolid(mSpawn.x,mSpawn.y,mWidth,mHeight,mSolid);
+    mIsDestroyed = false;
 }
 

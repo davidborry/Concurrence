@@ -4,7 +4,7 @@
 
 #include <unistd.h>
 #include <iostream>
-#include "../include/MTSim2.h"
+#include "include/MTSim2.h"
 
 using namespace std;
 
@@ -51,8 +51,8 @@ static void* updateRegion(void* p)
     return NULL;
 }
 
-MTSim2::MTSim2() :
-Simulation()
+MTSim2::MTSim2(int n) :
+Simulation(n)
 {
     int width = mWorld.getMap().getWidth();
     int height = mWorld.getMap().getHeight();
@@ -66,9 +66,6 @@ Simulation()
 
 void MTSim2::run() {
 
-
-
-
     for(int i = 0; i < mZones.size(); i++) {
         pthread_t id;
         pthread_create(&id, NULL, updateRegion, new Args(&mWorld, mZones[i]));
@@ -78,4 +75,7 @@ void MTSim2::run() {
 
     for(int i = 0; i < mThreads.size(); i++)
         pthread_join(mThreads[i],NULL);
+
+    mThreads.clear();
+
 }

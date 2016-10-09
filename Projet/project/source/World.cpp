@@ -5,7 +5,7 @@
 #include <thread>
 #include <algorithm>
 #include <iostream>
-#include "../include/World.h"
+#include "include/World.h"
 
 
 
@@ -22,15 +22,20 @@ void World::update() {
         update(0);
 }
 
-void World::update(int zone){
+bool World::update(int zone){
+    bool keepRuning = false;
     for(int i = 0; i < mActiveHumans.size(); i++){
         /*pthread_t id;
         pthread_create(&id,NULL,Entity::staticFunction,mActiveHumans[zone][i]);
         pthread_join(id,NULL);*/
-
-        mActiveHumans[i]->update();
+        if(!mActiveHumans[i]->isDestroyed()) {
+            keepRuning = true;
+            mActiveHumans[i]->update();
+        }
 
     }
+
+    return keepRuning;
 }
 
 bool World::spawn(Entity::Type type, int x, int y) {
@@ -53,7 +58,6 @@ bool World::spawn(Entity::Type type, int x, int y) {
 void World::spawn(Entity::Type type, int n) {
     int i = 0;
 
-    std::cout << mMap.getWidth() << " - " << mMap.getHeight() << std::endl;
     srand (time(NULL));
     while(i<n){
 
@@ -75,6 +79,10 @@ void World::removeDestroyedEntities() {
     mActiveHumans.erase(listBegin,mActiveHumans.end());
 }
 
+void World::reset() {
+    for(int i = 0; i < mActiveHumans.size(); i++)
+        mActiveHumans[i]->respawn();
+}
 Map World::getMap() const {
     return mMap;
 }

@@ -17,7 +17,7 @@ struct Args{
 class MTSim2 : public Simulation{
 
 public:
-    MTSim2();
+    MTSim2(int n = 4);
     void run();
 
 private:

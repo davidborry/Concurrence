@@ -10,9 +10,10 @@
 class Simulation{
 
 public:
-    Simulation();
+    Simulation(int n = 4);
 
-    void run();
+    virtual void run();
+    void reset();
 
 protected:
     World mWorld;

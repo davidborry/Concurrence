@@ -4,14 +4,16 @@
 
 #include <iostream>
 #include <unistd.h>
-#include "../include/Simulation.h"
+#include <cmath>
+#include "include/Simulation.h"
 
 using namespace std;
 
-Simulation::Simulation() :
+Simulation::Simulation(int n) :
 mWorld()
 {
-    mWorld.setTarget(Vector2i(0,64));
+
+    mWorld.setTarget(Vector2i(0,62));
 
     mWorld.spawn(Entity::Wall,0,0);
     mWorld.spawn(Entity::Hole8,0,60);
@@ -19,7 +21,7 @@ mWorld()
     mWorld.spawn(Entity::Wall,128,0);
     mWorld.spawn(Entity::Hole16,128,56);
 
-    mWorld.spawn(Entity::Human,256);
+    mWorld.spawn(Entity::Human,pow(2,n));
 
 
 
@@ -27,16 +29,16 @@ mWorld()
 
 void Simulation::run() {
 
-    //cout << mWorld.getActiveHumans().size() << endl;
     //cout << mWorld.getMap() << endl;
 
-    while(mWorld.getActiveHumans().size() > 0) {
-        mWorld.update();
-        mWorld.removeDestroyedEntities();
+    while(mWorld.update(0)) {
+
        // cout << mWorld.getActiveHumans().size() << endl;
 
     }
 
+}
 
-
+void Simulation::reset() {
+    mWorld.reset();
 }

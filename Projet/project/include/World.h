@@ -5,7 +5,7 @@
 #ifndef PROJET_WORLD_H
 #define PROJET_WORLD_H
 
-#include "Entity.h"
+#include <include/Entity.h>
 #include <array>
 
 class World{
@@ -14,10 +14,11 @@ public:
     World();
 
     void update();
-    void update(int zone);
+    bool update(int zone);
     bool spawn(Entity::Type type, int x, int y);
     void spawn(Entity::Type, int n);
     void removeDestroyedEntities();
+    void reset();
 
     Map getMap() const;
     std::vector<Entity*> getActiveHumans() const;

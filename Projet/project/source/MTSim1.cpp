@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <unistd.h>
-#include "../include/MTSim1.h"
+#include "include/MTSim1.h"
 
 using namespace std;
 
@@ -24,10 +24,15 @@ static void* updateEntity(void* p)
     return NULL;
 }
 
+MTSim1::MTSim1(int n) : Simulation(n)
+{
+
+}
 
 void MTSim1::run() {
 
         for(int i = 0; i < mWorld.getActiveHumans().size(); i++){
+
             //updateEntity(mWorld.getActiveHumans()[i]);
             pthread_t id;
             pthread_create(&id,NULL,updateEntity,mWorld.getActiveHumans()[i]);
@@ -36,6 +41,10 @@ void MTSim1::run() {
 
         }
 
-    for(int i = 0; i < mThreads.size(); i++)
-        pthread_join(mThreads[i],NULL);
+    for(int i = 0; i < mThreads.size(); i++) {
+
+        pthread_join(mThreads[i], NULL);
+    }
+
+    mThreads.clear();
 }

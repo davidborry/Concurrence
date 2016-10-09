@@ -9,6 +9,7 @@
 
 class MTSim1 : public Simulation{
 public:
+    MTSim1(int n = 4);
     void run();
 
 private:

@@ -10,7 +10,7 @@
 #include "Map.h"
 #include "DataTable.h"
 
-typedef std::priority_queue<Vector2i,std::vector<Vector2i>,std::greater<Vector2i> > Paths;
+typedef std::priority_queue<Vector2i,std::vector<Vector2i>,std::greater<Vector2i>> Paths;
 
 class Entity{
 
@@ -52,6 +52,7 @@ public:
     void setTarget(Vector2i target);
     void destroy();
     bool isDestroyed() const;
+    void respawn();
 
     Vector2i getTarget() const;
     Vector2i getPosition() const;
@@ -69,6 +70,7 @@ private:
 
     Map* mMap;
     Type mType;
+    Vector2i mSpawn;
     Vector2i mPosition;
     int mWidth;
     int mHeight;
