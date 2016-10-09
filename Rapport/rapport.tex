@@ -125,7 +125,7 @@ L'option \textbf{-t3} utilise toujours une boucle, mais elle ne gère qu'une ent
 
 \subsubsection{Les threads POSIX}
 
-\subsection{Intégrer les threads à la simulation}
+\subsubsection{Intégrer les threads à la simulation}
 Pour les deux configurations multithread, on doit faire en sorte que chaque thread puisse s'éxécuter entièrement, sans que le programme ne se termine avant. C'est rendu possible grâce aux fonctions \textbf{pthread\_create} et \textbf{pthread\_join} de la bibliothèque POSIX. Les algorithmes de gestion des threads sont donc très semblables pour les simulations t1 et t2. Ils fonctionnent de la manière suivante : 
 
 \newpage
@@ -155,7 +155,23 @@ Pour les deux configurations multithread, on doit faire en sorte que chaque thre
 \end{itemize}
 
 \section{Choix de développement}
-En dehors de la gestion des threads et des options entrées par l'utilisateur, le programme est principalement développé en C++ et tire parti de la programmation orientée objet, du polymorphisme et de la surcharge d'opérateurs.
+En dehors de la gestion des threads et des options entrées par l'utilisateur, le programme est principalement développé en C++ et tire parti de la programmation orientée objet, du polymorphisme et de la surcharge d'opérateurs. \\
+La carte du monde est ainsi représentée par un tableau à deux dimensions contenant des cellules pouvant être \textbf{solides} (occupées par un obstacle) ou non. \\
+Les vecteurs utilisés pour déplacer nos entités ont leur propre structure, \textbf{Vector2i} et peuvent être additionnés, soustraits, comparés par leur longueur et multipliés par un scalaire. Les régions du terrain à gérer pour le scénario \textbf{t1} ont également une structure \textbf{Rectangle} comprennant les points Nord-Ouest et Sud-Est de la région. \\
+La classe \textbf{World} permet de gérer les déplacement d'une partie ou de la totalité des entités du terrain. Les entités à déplacer sont stockées dans une liste de pointeurs, et elles sont modélisées dans la plus grande classe de l'application.
+
+\subsection{Modéliser une entité}
+Il faut d'abord pouvoir définir ce qu'est une entité dans un monde représenté par un ensemble de cellules. 
+Une \textbf{entité} est une forme rectangulaire composée de cellules, pouvant être solide ou non. Elle est définie par une position, une longueur, une largeur et un booléen définissant sa solidité. Elle peut également se déplacer dans toutes les directions et elle peut être détruite avant de réapparaître à sa position d'origine. \\
+Une entité peut donc être une personne, un mur ou un trou. Les seules données qui changent à chaque type sont les dimensions et la solidité, c'est pourquoi il est inutile de créer une nouvelle classe fille pour chaque type. Il est préférable de stocker ces données dans un fichier (ici \textbf{DataTable}) afin de les utiliser simplement et rapidement dans le constructeur. Le reste des attributs et fonctions, en particulier celle de déplacement, ne changent pas.
+ L'algorithme de déplacement cité précédemment est implémenté dans la fonction \textbf{update}. \\
+Cette fonction n'est appelée que si l'entité à une destination à atteindre (\textbf{mTarget}). Grâce à la structure \textbf{Vector2i}, le calcul d'une direction à suivre est assez simple : On soustrait au vecteur destination un vecteur position donné. Pour l'entité à déplacer, cette position est basée sur les bordures, à savoir les cellules extérieures du rectangle. Ainsi, pour un humain occupant 4x4 cellules, 12 directions sont calculées. Ces directions sont ensuite stockées dans une structure de données \textbf{Priority Queue} où elles sont rangées dans l'ordre croissant. De cette manière, chaque retrait de la tête de file renverra la direction à la plus petite distance. \\
+
+Quant au déplacement d'une case en lui-même, son implémentation est également basique : On vérifie qu'il n'y a pas d'obstacle et s'il y en a un, on peut annuler la vélocité verticale et/ou horizontale de l'entité en fonction de sa position. \\
+On remarquera que la classe World dispose également d'une fonction \textbf{update}, dans laquelle on applique la fonction du même nom pour chacune des entités à déplacer. Comme il a été dit précédemment cela ressemble fortement à une boucle de jeu, facilitant ainsi l'intégration de la représentation graphique.
+
+\subsection{Simulation et polymorphisme}
+L'application en elle-même est lancée à travers la classe \textbf{Simulation}. On génère le monde et les entités dans le constructeur, et on lance la boucle dans la fonction \textbf{run}. Cette fois-ci, l'usage du polymorphisme est avantageux car cette fonction doit avoir un comportement bien différent pour chaque scénario. On crée donc des classes filles \textbf{MTSim1} et \textbf{MTSim2} respectivement associées aux configurations \textbf{-t1} et \textbf{-t2}. La fonction run est alors redéfinie pour pouvoir gérer la création des threads et l'attente de leur terminaison. Comme les threads POSIX ne peuvent pas gérer des fonctions membres directement, on recrée dans ces classes des fonctions \textbf{statiques} pour gérer les déplacement dans le monde. 
 
 \section{Tester l'application}
 \subsection{Tests unitaires}
