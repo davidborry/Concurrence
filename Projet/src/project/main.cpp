@@ -31,13 +31,19 @@ int main(int argc, char** argv) {
 
 
     if(m){
+
         Measures measures(sim);
+        cout << "Starting measures..." << endl << endl;
+
         measures.run();
         measures.print_result();
     }
 
-    else
+    else {
+        cout << "Starting simulation..." << endl;
         sim->run();
+        cout << "Simulation succesfully ended ! " << endl;
+    }
 
     return 0;
 }

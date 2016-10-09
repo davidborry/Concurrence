@@ -13,6 +13,7 @@ Simulation::Simulation(int n) :
 mWorld()
 {
 
+    cout << "Initializing..." << endl;
     mWorld.setTarget(Vector2i(0,62));
 
     mWorld.spawn(Entity::Wall,0,0);
@@ -36,6 +37,8 @@ void Simulation::run() {
        // cout << mWorld.getActiveHumans().size() << endl;
 
     }
+
+
 
 }
 

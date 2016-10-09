@@ -30,7 +30,7 @@ MTSim2::MTSim2(int n) : Simulation(n)
 
 void MTSim2::run() {
 
-        for(int i = 0; i < mWorld.getActiveHumans().size(); i++){
+    for(int i = 0; i < mWorld.getActiveHumans().size(); i++){
 
             //updateEntity(mWorld.getActiveHumans()[i]);
             pthread_t id;
@@ -46,4 +46,6 @@ void MTSim2::run() {
     }
 
     mThreads.clear();
+
+
 }

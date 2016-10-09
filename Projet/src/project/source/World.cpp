@@ -56,6 +56,7 @@ bool World::spawn(Entity::Type type, int x, int y) {
 }
 
 void World::spawn(Entity::Type type, int n) {
+    std::cout << "Spawning " << n << " entities..." << std::endl;
     int i = 0;
 
     srand (time(NULL));
