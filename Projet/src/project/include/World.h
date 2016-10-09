@@ -24,7 +24,6 @@ public:
     std::vector<Entity*> getActiveHumans() const;
     void setTarget(Vector2i v);
 
-
 private:
     Map mMap;
     Vector2i mTarget;

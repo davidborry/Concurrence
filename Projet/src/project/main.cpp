@@ -1,8 +1,8 @@
 #include <iostream>
 #include "include/options.h"
 #include "include/Simulation.h"
-#include "include/MTSim1.h"
 #include "include/MTSim2.h"
+#include "include/MTSim1.h"
 #include "include/Measures.h"
 
 
@@ -11,9 +11,9 @@ using namespace std;
 
 Simulation* build(int p, int t){
     if(t==1)
-        return new MTSim2(p);
-    else if(t==2)
         return new MTSim1(p);
+    else if(t==2)
+        return new MTSim2(p);
     else
         return new Simulation(p);
 }

@@ -14,10 +14,10 @@ struct Args{
     Rectangle r;
 };
 
-class MTSim2 : public Simulation{
+class MTSim1 : public Simulation{
 
 public:
-    MTSim2(int n = 4);
+    MTSim1(int n = 4);
     void run();
 
 private:

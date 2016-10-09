@@ -24,6 +24,45 @@ TEST(entity_test,dist_test){
     EXPECT_EQ(e.shortestDistanceToTarget().top(),Vector2i(3,-12));
 }
 
+/**
+ *
+ * Entity should not move or move in loop because it can't reach its target
+ */
+TEST(entity_test, impass_test){
+    Entity e(&m,Entity::Human,24,12);
+
+    m.setSolid(28,0,5,40,true);
+
+    e.setTarget(Vector2i(30,12));
+    e.update();
+
+    EXPECT_TRUE(e.getPosition() == Vector2i(24,12) || e.getPosition() == Vector2i(24,11));
+
+
+}
+
+/**
+ * Entity should cancells its vertical or horizontal velocity.
+ * It can reach its target but an obstacle is in its way
+ */
+TEST(entity_test, velocity_test){
+    Entity e(&m,Entity::Human,24,12);
+
+    m.setSolid(28,0,5,40,true);
+
+    e.setTarget(Vector2i(40,40));
+    e.update();
+
+    EXPECT_EQ(e.getPosition(),Vector2i(24,13));
+
+    m.setSolid(0,17,40,5,true);
+    e.setTarget(Vector2i(0,13));
+    e.update();
+
+    EXPECT_EQ(e.getPosition(),Vector2i(23,13));
+
+}
+
 TEST(entity_test,corners_test){
 
     Entity e(&m,Entity::Human,24,12);

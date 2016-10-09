@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <unistd.h>
-#include "../include/MTSim1.h"
+#include "../include/MTSim2.h"
 
 using namespace std;
 
@@ -18,18 +18,17 @@ static void* updateEntity(void* p)
         //usleep(100000);
         //cout << *(entity->getMap()) << endl;
 
-
     }
 
     return NULL;
 }
 
-MTSim1::MTSim1(int n) : Simulation(n)
+MTSim2::MTSim2(int n) : Simulation(n)
 {
 
 }
 
-void MTSim1::run() {
+void MTSim2::run() {
 
         for(int i = 0; i < mWorld.getActiveHumans().size(); i++){
 

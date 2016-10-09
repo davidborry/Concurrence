@@ -35,13 +35,6 @@ public:
 public:
     static std::vector<EntityData> Table;
 
-   /* static void* staticFunction(void* p)
-    {
-        static_cast<Entity*>(p)->update();
-        return NULL;
-    }*/
-
-
 public:
 
     Entity(Map* map, Type type, int x, int y);

@@ -11,7 +11,7 @@ COMPILER = g++
 # All the different directory used
 SRC_DIR = source
 HEAD_DIR = include
-BIN_DIR = bin
+BIN_DIR = ../../bin
 OBJECTS_DIR = obj
 
 # Compilation options

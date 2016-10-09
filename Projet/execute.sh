@@ -1,2 +1,2 @@
 #!/bin/sh
-./project/bin/projet1-16.exe
+./bin/projet1-16.exe -t 1 -p 4 -m

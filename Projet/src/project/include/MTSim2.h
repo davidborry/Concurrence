@@ -7,9 +7,9 @@
 
 #include "Simulation.h"
 
-class MTSim1 : public Simulation{
+class MTSim2 : public Simulation{
 public:
-    MTSim1(int n = 4);
+    MTSim2(int n = 4);
     void run();
 
 private:
