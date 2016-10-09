@@ -194,10 +194,10 @@ Le problème du point azimuth est facile à résoudre : Il ne doit pas être ent
 \includegraphics[width=12cm]{graph2}
 \end{figure}
 
-Les trois scénarios ont en commun le fait qu'ils utilisent des boucles pour déplacer les individus : tant que la destination n'a pas été atteinte, continuer à essayer de déplacer. La simulation ne s'arrêtera donc qu'une fois que tout le monde aura quitté le terrain. Ces scénarios fonctionnent si le point azimuth est bien placé vers la sortie comme dans la figure ~\ref{f2}. \\
+Les trois scénarios ont en commun le fait qu'ils utilisent des boucles pour déplacer les individus : tant que la destination n'a pas été atteinte, continuer à essayer de déplacer. La simulation ne s'arrêtera donc qu'une fois que tout le monde aura quitté le terrain. Ces scénarios fonctionnent si le point azimuth est bien placé vers la sortie comme dans la figure ~\ref{f2}. 
 Pour vérifier l'efficacité de l'algorithme de déplacement, une série de tests unitaires doit être effectués pour voir si le programme traite correctement le calcul des vecteurs, les directions et la gestion des obstacles. 
-Le programme peut toutefois boucler à l'infini si on place volontairement le point à un endroit inatteignable. \\
-Aussi, si la simulation fonctionne correctement pour la thread principale, ce n'est évidemment pas encore le cas pour les cas \textbf{t1} et \textbf{t2}. Les entités finissent quand même par atteindre leur destination car elles utilisent toujours le même algorithme de déplacement, mais des problèmes de collisions sont présents. \\
+Le programme peut toutefois boucler à l'infini si on place volontairement le point à un endroit inatteignable.
+Aussi, si la simulation fonctionne correctement pour la thread principale, ce n'est évidemment pas encore le cas pour les cas \textbf{t1} et \textbf{t2}. Les entités finissent quand même par atteindre leur destination car elles utilisent toujours le même algorithme de déplacement, mais des problèmes de collisions sont présents. 
 En effet, les ressources partagées par les threads crées dans les deux cas sont la carte du terrain et la liste des entités humaines, or elles sont constamment mises à jour. Sans modèle de synchronisation implémenté, les threads peuvent se baser sur des informations faussées ou obsolètes. Une entité peut alors se déplacer sur une case non solide, mais qui parallèlement est occupée par une autre entité déplacée par une thread. Les personnes se déplacent toujours, mais en traversant certains obstacles ou en bloquant là où il n'y en a pas.
 
 \subsection{Tests unitaires}
@@ -207,8 +207,11 @@ Pour l'instant, ils servent principalement à tester l'algorithme de déplacemen
 Les déplacements de l'une entité sont également testés dans le fichier \textbf{entity\_test.cpp}. On doit vérifier qu'elle ne traverse pas d'obstacle et qu'elle adapte sa trajectoire si elle en rencontre un. On a pour cela plusieurs tests où l'on crée une entité sur une petite carte où on y a placé manuellement plusieurs obstacles et on analyse le comportement de l'entité. Combinés avec les vecteurs, ces tests prouvent l'efficacité de l'algorithme de déplacement.
 
 \subsection{Performances}
+La simulation peut être éxécutée avec l'option \textbf{-m}, permettant d'effectuer des mesures moyennes sur le temps de réponse et de calcul du processeur. On lance ainsi la simulation 5 fois d'affilée, on effectue les mesures à chaque fois et on calcule la moyenne des trois moyennes intermédiaires à la fin. La réinitialisation de la simulation qui consiste à faire réapparaître les entités à leurs positions d'origines n'est pas incluse dans la mesure. Pour ces mesures, on met bien l'accent sur les différences entre le temps de réponse, c'est à dire le temps écoulé du point de vue d'un utilisateur, et le temps CPU consommé qui peut vite augmenter pour une application multithread. On utilise ainsi les fonctions POSIX \textbf{getrusage} et \textbf{gettimeofday} dans une classe \textbf{Measures} afin de calculer le \textbf{temps de réponse}, le \textbf{temps CPU utilisateur} et le \textbf{temps CPU système}. Les figures suivantes montrent pour les trois scénarios les différences en secondes entre les temps de réponses et CPU (utilisateur + système) pour 4, 16 et 256 personnes à déplacer. \\
+On remarquera que pour chacune de ces mesures, le temps CPU système a une valeur négligeable.
 
-\begin{figure}[h]
+
+\begin{figure}[!h]
   \centering
 \caption{Comparaison des temps réels et processeurs pour 4 personnes}
 
@@ -223,13 +226,18 @@ Les déplacements de l'une entité sont également testés dans le fichier \text
 \includegraphics[width=12cm,height=5cm]{p256}
 \end{figure}
 
+\newpage
+.
+\newpage
 
+On peut voir que l'évolution des mesures est la même, sauf pour le cas avec 4 personnes, ce qui est normal : \\
+En effet, les configurations \textbf{t1} et \textbf{t2} créent ici 4 threads chacune. Le temps CPU du scénario t1 est plus élevé que celui de t2 car il ne doit pas seulement gérer les déplacement d'une entité. Il doit d'abord parcourir la liste des 4 entités présentes et gérer celle située dans la région associée au thread, ce qui augmente la complexité de l'algorithme et donc le temps de calcul. 
+Le fait que le temps CPU soit plus long que le temps réel à chaque configuration est logique : La fonction \textbf{getrusage} permet de calculer la somme des temps utilisateurs de chacun des threads actif. Plus il y a de threads, plus le temps CPU sera long. Les mesures effectuées montrent bien que la répartition des tâches sur plusieurs threads peut être avantagueuse en gain de performances. Le temps de réponse du programme est réduit pour les deux scénarios multithreads avec 4 personnes. \\
+Pour 16 et 256 personnes, c'est la configuration \textbf{t1} qui est la plus optimale. Le temps de réponse est le plus petit et le temps CPU est largement supérieur, ce qui prouve que l'application bénéficie de l'usage des threads. La configuration \textbf{t2} en revanche montre ses limites à partir de 16 personnes. Le processus de création de threads est en effet coûteux et augmentera le temps de réponse si on les utilise en grande quantité. Ainsi pour 16 personnes le temps de réponse est quasimment le même que pour \textbf{t0} et pour 256 personnes, il est beaucoup plus long, ce qui rend ce scénario inneficace passé un certain nombre de personnes à déplacer.
 
-
-
-
-
-
+\section{Conclusion}
+Cette première étape a permis de mettre en place une simulation pleinement fonctionnelle avec la thread principale et de poser les bases pour développer les scénarios multithreads. Sans synchronisation et gestion du partage des ressources, les options \textbf{t1} et \textbf{t2} ne peuvent fonctionner correctement, même si elles déplacent les entités jusqu'à leur destination car la gestion des collisions et perturbée. 
+Les mesures effectuées ont bien montré l'intérêt d'un programme multithread pour ce genre de problème, qui donne un véritable gain de performances sous certaines conditions. La prochaine étape consistera donc à synchroniser efficacement les tâches et à intégrer la représentation graphique pour les scénarios multithreads.
 
 
 \end{document}
