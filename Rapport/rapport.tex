@@ -29,6 +29,7 @@
 \usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
 \usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
 \usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+\usepackage{graphicx}
 % These packages are all incorporated in the memoir class to one degree or another...
 
 %%% HEADERS & FOOTERS
@@ -174,6 +175,31 @@ On remarquera que la classe World dispose également d'une fonction \textbf{upda
 L'application en elle-même est lancée à travers la classe \textbf{Simulation}. On génère le monde et les entités dans le constructeur, et on lance la boucle dans la fonction \textbf{run}. Cette fois-ci, l'usage du polymorphisme est avantageux car cette fonction doit avoir un comportement bien différent pour chaque scénario. On crée donc des classes filles \textbf{MTSim1} et \textbf{MTSim2} respectivement associées aux configurations \textbf{-t1} et \textbf{-t2}. La fonction run est alors redéfinie pour pouvoir gérer la création des threads et l'attente de leur terminaison. Comme les threads POSIX ne peuvent pas gérer des fonctions membres directement, on recrée dans ces classes des fonctions \textbf{statiques} pour gérer les déplacement dans le monde. 
 
 \section{Tester l'application}
+Le fonctionnement de l'application repose essentiellement sur trois données : La position du point azimuth, qui doit être accessible à tout le monde, l'algorithme de déplacement et la gestion des threads. Cette dernière est uniquement nécessaire pour les configurations \textbf{t1} et \textbf{t2}.
+
+\subsection{Correction}
+
+Le problème du point azimuth est facile à résoudre : Il ne doit pas être entouré d'obstacles et doit être situé vers la sortie du terrain. Dans cette simulation, le monde est occupé par deux murs séparés d'une certaine distance avec un trou de largeur suffisante pour qu'on puisse le traverser. Le point azimuth est fixé dans le trou du premier mur, celui de la sortie. Il est donc placé vers le milieu du mur et chaque entité finira par l'atteindre quelque soit sa position, à condition que l'algorithme de déplacement fonctionne correctement.
+
+
+\begin{figure}[h]
+\caption{\label{f1} \textbf{Simulation lancée avec les options -t0 et -p9}}
+  \centering
+\includegraphics[width=12cm]{graph}
+\end{figure}
+
+\begin{figure}[h]
+\caption{\label{f2} \textbf{La même simulation 40 itérations après}}
+  \centering
+\includegraphics[width=12cm]{graph2}
+\end{figure}
+
+Les trois scénarios ont en commun le fait qu'ils utilisent des boucles pour déplacer les individus : tant que la destination n'a pas été atteinte, continuer à essayer de déplacer. La simulation ne s'arrêtera donc qu'une fois que tout le monde aura quitté le terrain. Ces scénarios fonctionnent si le point azimuth est bien placé vers la sortie comme dans la figure ~\ref{f2}. \\
+Pour vérifier l'efficacité de l'algorithme de déplacement, une série de tests unitaires doit être effectués pour voir si le programme traite correctement le calcul des vecteurs, les directions et la gestion des obstacles. 
+Le programme peut toutefois boucler à l'infini si on place volontairement le point à un endroit inatteignable. \\
+Aussi, si la simulation fonctionne correctement pour la thread principale, ce n'est évidemment pas encore le cas pour les cas \textbf{t1} et \textbf{t2}. Les entités finissent quand même par atteindre leur destination car elles utilisent toujours le même algorithme de déplacement, mais des problèmes de collisions sont présents. \\
+En effet, les ressources partagées par les threads crées dans les deux cas sont la carte du terrain et la liste des entités humaines, or elles sont constamment mises à jour. Sans modèle de synchronisation implémenté, les threads peuvent se baser sur des informations faussées ou obsolètes. Une entité peut alors se déplacer sur une case non solide, mais qui parallèlement est occupée par une autre entité déplacée par une thread. Les personnes se déplacent toujours, mais en traversant certains obstacles ou en bloquant là où il n'y en a pas.
+
 \subsection{Tests unitaires}
 \subsection{Performances}
 
