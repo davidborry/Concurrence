@@ -126,10 +126,16 @@ L'option \textbf{-t3} utilise toujours une boucle, mais elle ne gère qu'une ent
 
 \subsubsection{Les threads POSIX}
 
+L'année dernière en cours d'\textbf{IHM} et de \textbf{Réseaux}, nous avons déjà eu un aperçu de la gestion des threads en \textbf{Java}. L'utilisation des threads java est plutôt orientée objet car nous les avons principalement utilisées en créant des classes héritées de \textbf{Thread}, où l'on redéfinissait la méthode \textbf{run}. Cela facilite grandement le passage de paramètres car on peut directement les mettre dans le constructeur personnalisé d'une classe fille de Thread.
+Les threads java sont d'abord créés avec le constructeur et on les éxécute avec la méthode \textbf{start}. On attend la fin d'une tâche avec la méthode \textbf{join}. Les méthodes \textbf{suspend} et \textbf{resume} permettent de mettre en pause et de relancer une thread. En java, on ne peut pas détruire directement à une thread. La fin de l'éxécution est en général suffisante, mais on peut s'aider de la méthode \textbf{interrupt} pour arrêter la thread en avance. \\
+
+Les thread POSIX ont le même objectif, mais fonctionne différemment. \\
+Tout d'abord contrairement à Java, la création et l'éxécution d'une thread ne sont pas séparées et sont directement gérées par la fonction \textbf{pthread\_create}, qui prend en paramètre l'adresse d'un type \textbf{p\_thread}, une  fonction statique et un paramètre qui sera passé à cette fonction.  On ne crée donc pas de classe héritée ici et le passage de paramètre est plus délicat car la fonction statique ne peut accepter qu'un seul argument. On doit donc créer par-dessus une structure contenant les différents arguments qu'on veut mettre et on la passe en paramètre à cette fonction. On doit également utiliser la fonction \textbf{pthread\_join} pour attendre la fin d'éxécution d'une thread. Sans cela, le programme risquerait de s'arrêter avant. Il n'y a pas non plus de véritable fonction de mise en pause et de reprise comme en Java, on doit pour cela utiliser des \textbf{Mutex} et des \textbf{Signaux}.
+
 \subsubsection{Intégrer les threads à la simulation}
 Pour les deux configurations multithread, on doit faire en sorte que chaque thread puisse s'éxécuter entièrement, sans que le programme ne se termine avant. C'est rendu possible grâce aux fonctions \textbf{pthread\_create} et \textbf{pthread\_join} de la bibliothèque POSIX. Les algorithmes de gestion des threads sont donc très semblables pour les simulations t1 et t2. Ils fonctionnent de la manière suivante : 
 
-\newpage
+
 
 \textbf{t1} :
 \begin{itemize}
@@ -170,6 +176,7 @@ Cette fonction n'est appelée que si l'entité à une destination à atteindre (
 
 Quant au déplacement d'une case en lui-même, son implémentation est également basique : On vérifie qu'il n'y a pas d'obstacle et s'il y en a un, on peut annuler la vélocité verticale et/ou horizontale de l'entité en fonction de sa position. \\
 On remarquera que la classe World dispose également d'une fonction \textbf{update}, dans laquelle on applique la fonction du même nom pour chacune des entités à déplacer. Comme il a été dit précédemment cela ressemble fortement à une boucle de jeu, facilitant ainsi l'intégration de la représentation graphique.
+
 
 \subsection{Simulation et polymorphisme}
 L'application en elle-même est lancée à travers la classe \textbf{Simulation}. On génère le monde et les entités dans le constructeur, et on lance la boucle dans la fonction \textbf{run}. Cette fois-ci, l'usage du polymorphisme est avantageux car cette fonction doit avoir un comportement bien différent pour chaque scénario. On crée donc des classes filles \textbf{MTSim1} et \textbf{MTSim2} respectivement associées aux configurations \textbf{-t1} et \textbf{-t2}. La fonction run est alors redéfinie pour pouvoir gérer la création des threads et l'attente de leur terminaison. Comme les threads POSIX ne peuvent pas gérer des fonctions membres directement, on recrée dans ces classes des fonctions \textbf{statiques} pour gérer les déplacement dans le monde. 
@@ -215,19 +222,18 @@ On remarquera que pour chacune de ces mesures, le temps CPU système a une valeu
   \centering
 \caption{Comparaison des temps réels et processeurs pour 4 personnes}
 
-\includegraphics[width=12cm, height=5cm]{p4}
+\includegraphics[width=10cm, height=3.8cm]{p4}
 
  \caption{Comparaison des temps réels et processeurs pour 16 personnes}
 
-\includegraphics[width=12cm,height=5cm]{p16}
+\includegraphics[width=10cm,height=4cm]{p16}
 
  \caption{Comparaison des temps réels et processeurs pour 256 personnes}
 
-\includegraphics[width=12cm,height=5cm]{p256}
+\includegraphics[width=10cm,height=4cm]{p256}
 \end{figure}
 
-\newpage
-.
+
 \newpage
 
 On peut voir que l'évolution des mesures est la même, sauf pour le cas avec 4 personnes, ce qui est normal : \\
