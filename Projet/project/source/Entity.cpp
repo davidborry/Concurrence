@@ -3,7 +3,6 @@
 //
 
 #include "../include/Entity.h"
-#include "../include/DataTable.h"
 #include <iostream>
 
 using namespace std;

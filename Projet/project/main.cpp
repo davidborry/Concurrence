@@ -1,8 +1,5 @@
 #include <iostream>
-#include "include/Entity.h"
-#include <unistd.h>
-#include <include/options.h>
-#include "include/World.h"
+#include "include/options.h"
 #include "include/Simulation.h"
 #include "include/MTSim1.h"
 #include "include/MTSim2.h"
@@ -34,11 +31,9 @@ int main(int argc, char** argv) {
 
 
     if(m){
-
         Measures measures(sim);
         measures.run();
         measures.print_result();
-
     }
 
     else

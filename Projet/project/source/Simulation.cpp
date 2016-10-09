@@ -5,7 +5,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <cmath>
-#include "include/Simulation.h"
+#include "../include/Simulation.h"
 
 using namespace std;
 

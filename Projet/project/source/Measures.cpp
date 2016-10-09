@@ -59,9 +59,9 @@ void Measures::update() {
  */
 
 void Measures::print_result() {
-    std::cout << "Real time : " << mAverageRealTime << "s" << std::endl;
-    std::cout << "User time : " << mAverageUTime << "s" << std::endl;
-    std::cout << "System time : " << mAverageSTime << "s" << std::endl;
+    std::cout << "Average real time : " << mAverageRealTime << "s" << std::endl;
+    std::cout << "Average user time : " << mAverageUTime << "s" << std::endl;
+    std::cout << "Average system time : " << mAverageSTime << "s" << std::endl;
 }
 
 void Measures::updateUTime() {
