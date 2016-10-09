@@ -201,6 +201,11 @@ Aussi, si la simulation fonctionne correctement pour la thread principale, ce n'
 En effet, les ressources partagées par les threads crées dans les deux cas sont la carte du terrain et la liste des entités humaines, or elles sont constamment mises à jour. Sans modèle de synchronisation implémenté, les threads peuvent se baser sur des informations faussées ou obsolètes. Une entité peut alors se déplacer sur une case non solide, mais qui parallèlement est occupée par une autre entité déplacée par une thread. Les personnes se déplacent toujours, mais en traversant certains obstacles ou en bloquant là où il n'y en a pas.
 
 \subsection{Tests unitaires}
+Les tests sont placés dans un répertoire du même nom et le projet peut être compilé sans les inclures. Aussi, \textbf{il n'est pas nécessaire d'avoir installé Google Test} pour les compiler, la bibliothèque étant directement incluse dans le projet. Il faut toutefois avoir \textbf{CMake} installé pour pouvoir compiler le CMakeLists à la racine du projet. Il y aura alors une installation complète de la simulation avec les tests inclus. \\
+
+Pour l'instant, ils servent principalement à tester l'algorithme de déplacement qui se base sur de nombreuses parties du programme, la première et plus importante étant les vecteurs. La structure \textbf{Vector2i} et tous les opérateurs qui y sont associés sont testés dans le fichier \textbf{vector\_test.cpp}. On s'assure ainsi que le programme sait calculer correctement une direction entre deux points et une distance minimale, ce qui constitue la base de l'algorithme de déplacement. \\
+Les déplacements de l'une entité sont également testés dans le fichier \textbf{entity\_test.cpp}. On doit vérifier qu'elle ne traverse pas d'obstacle et qu'elle adapte sa trajectoire si elle en rencontre un. On a pour cela plusieurs tests où l'on crée une entité sur une petite carte où on y a placé manuellement plusieurs obstacles et on analyse le comportement de l'entité. Combinés avec les vecteurs, ces tests prouvent l'efficacité de l'algorithme de déplacement.
+
 \subsection{Performances}
 
 \section{Conclusion}
