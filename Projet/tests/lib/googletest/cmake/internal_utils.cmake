@@ -74,7 +74,7 @@ macro(config_compiler_and_linker)
       # (Conditional expression is constant). In our code, we disable that
       # warning on a case-by-case basis. However, on Visual Studio 2005,
       # the warning fires on std::list. Therefore on that compiler and earlier,
-      # we disable the warning project-wide.
+      # we disable the warning main-wide.
       set(cxx_base_flags "${cxx_base_flags} -wd4127")
     endif()
     if (NOT (MSVC_VERSION LESS 1700))  # 1700 is Visual Studio 2012.

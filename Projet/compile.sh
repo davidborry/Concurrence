@@ -1,3 +1,3 @@
 #!/bin/sh
-cd ./src/project/
+cd ./src/main/
 make clean && make

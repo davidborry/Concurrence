@@ -4,13 +4,13 @@ project(Projet)
 add_definitions(-std=c++11)
 find_package (Threads)
 
-set(MAIN src/project/main.cpp)
+set(MAIN src/main/main.cpp)
 add_executable(simulation ${MAIN})
 
-include_directories(src/project)
+include_directories(src/main)
 
-add_subdirectory(src/project)
-add_subdirectory(src/tests)
+add_subdirectory(src/main)
+add_subdirectory(tests)
 
 target_link_libraries(simulation project)
 target_link_libraries (simulation ${CMAKE_THREAD_LIBS_INIT})

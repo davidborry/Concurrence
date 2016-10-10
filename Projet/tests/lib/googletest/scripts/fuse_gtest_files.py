@@ -95,7 +95,7 @@ def VerifyFileExists(directory, relative_path):
   if not os.path.isfile(os.path.join(directory, relative_path)):
     print('ERROR: Cannot find %s in directory %s.' % (relative_path,
                                                       directory))
-    print('Please either specify a valid project root directory '
+    print('Please either specify a valid main root directory '
           'or omit it on the command line.')
     sys.exit(1)
 

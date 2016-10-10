@@ -38,9 +38,9 @@ endif()
 #
 # Project-wide settings
 
-# Name of the project.
+# Name of the main.
 #
-# CMake files in this project can refer to the root source directory
+# CMake files in this main can refer to the root source directory
 # as ${gtest_SOURCE_DIR} and to the root binary directory as
 # ${gtest_BINARY_DIR}.
 # Language "C" is required for find_package(Threads).

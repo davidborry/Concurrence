@@ -53,7 +53,7 @@ def GetCommandOutput(command):
 
 
 def GetSvnInfo():
-  """Returns the project name and the current SVN workspace's root path."""
+  """Returns the main name and the current SVN workspace's root path."""
 
   for line in GetCommandOutput('svn info .'):
     m = _SVN_INFO_URL_RE.match(line)
