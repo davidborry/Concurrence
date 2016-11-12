@@ -25,6 +25,7 @@ int main(int argc, char** argv) {
 
     int p = my_options->person_number;
     int t = my_options->threads_creation;
+    int e = my_options ->project_step;
     bool m = my_options->execution_measure;
 
     Simulation* sim = build(p,t);
