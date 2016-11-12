@@ -16,13 +16,13 @@ mWorld()
     cout << "Initializing..." << endl;
     mWorld.setTarget(Vector2i(0,62));
 
-    mWorld.spawn(Entity::Wall,0,0);
-    mWorld.spawn(Entity::Hole8,0,60);
+    mWorld.spawn(Entity::Wall,0,0, World::E0);
+    mWorld.spawn(Entity::Hole8,0,60, World::E0);
 
-    mWorld.spawn(Entity::Wall,128,0);
-    mWorld.spawn(Entity::Hole16,128,56);
+    mWorld.spawn(Entity::Wall,128,0, World::E0);
+    mWorld.spawn(Entity::Hole16,128,56,World::E0);
 
-    mWorld.spawn(Entity::Human,pow(2,n));
+    mWorld.spawn(Entity::Human,pow(2,n),World::E2);
 
 
 

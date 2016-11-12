@@ -31,6 +31,9 @@ public:
     void setSolid(int x, int y, bool solid);
     void setSolid(int x, int y, int width, int height, bool solid);
 
+    void acquire(int x, int y);
+    void release(int x, int y);
+
     void print(std::ostream &flux) const;
 
     int getWidth() const;

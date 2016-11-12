@@ -11,12 +11,19 @@
 class World{
 
 public:
+    enum Sync{
+        E0,
+        E1,
+        E2
+    };
+
+public:
     World();
 
     void update();
     bool update(int zone);
-    bool spawn(Entity::Type type, int x, int y);
-    void spawn(Entity::Type, int n);
+    bool spawn(Entity::Type type, int x, int y, Sync sync);
+    void spawn(Entity::Type, int n, Sync sync);
     void removeDestroyedEntities();
     void reset();
 

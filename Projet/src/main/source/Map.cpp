@@ -50,6 +50,14 @@ void Map::setSolid(int x, int y, int width, int height, bool solid) {
             mCells[y+i][x+j].setSolid(solid);
 }
 
+void Map::acquire(int x, int y) {
+    mCells[y][x].acquire();
+}
+
+void Map::release(int x, int y){
+    mCells[y][x].release();
+}
+
 void Map::print(ostream &flux) const {
     for(int i = 0; i < mHeight; i++){
         for(int j = 0; j < mWidth; j++)

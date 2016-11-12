@@ -6,16 +6,23 @@
 #define PROJET_CELL_H
 
 #include <ostream>
+#include <semaphore.h>
 
 class Cell{
 
 public:
+    Cell();
+
     bool isSolid() const;
     void setSolid(bool solid);
 
     void print(std::ostream &flux) const;
 
+    void acquire();
+    void release();
+
 private:
+    sem_t mutex;
     bool mSolid = false;
 };
 

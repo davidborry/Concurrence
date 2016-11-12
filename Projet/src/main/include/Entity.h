@@ -54,12 +54,12 @@ public:
     Map* getMap() const;
 
 private:
-    bool goLeft();
-    bool goRight();
-    bool goUp();
-    bool goDown();
+    virtual bool goLeft();
+    virtual bool goRight();
+    virtual bool goUp();
+    virtual bool goDown();
 
-private:
+protected:
 
     Map* mMap;
     Type mType;

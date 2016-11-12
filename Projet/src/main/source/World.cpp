@@ -5,6 +5,7 @@
 #include <thread>
 #include <algorithm>
 #include <iostream>
+#include "../include/FullSyncEntity.h"
 #include "../include/World.h"
 
 
@@ -38,14 +39,19 @@ bool World::update(int zone){
     return keepRuning;
 }
 
-bool World::spawn(Entity::Type type, int x, int y) {
+bool World::spawn(Entity::Type type, int x, int y, Sync sync) {
 
 
+    Entity* e = nullptr;
     for(int i = 0; i < Entity::Table[type].width ;i++)
         for(int j = 0; j < Entity::Table[type].height; j++)
             if(mMap.isSolid(x+i,y+j) && Entity::Table[type].solid)
                 return false;
-    Entity* e = new Entity(&mMap,type,x,y);
+    if(sync==E2)
+        e = new FullSyncEntity(&mMap,type,x,y);
+
+    else
+        e = new Entity(&mMap,type,x,y);
 
     if(type == Entity::Human) {
         mActiveHumans.push_back(e);
@@ -55,7 +61,7 @@ bool World::spawn(Entity::Type type, int x, int y) {
     return true;
 }
 
-void World::spawn(Entity::Type type, int n) {
+void World::spawn(Entity::Type type, int n, Sync sync) {
     std::cout << "Spawning " << n << " entities..." << std::endl;
     int i = 0;
 
@@ -68,7 +74,7 @@ void World::spawn(Entity::Type type, int n) {
         int y = rand()%(mMap.getHeight()-2*Entity::Table[type].height) + Entity::Table[type].height;
 
 
-        if(spawn(type,x,y))
+        if(spawn(type,x,y,sync))
             i++;
     }
 }
