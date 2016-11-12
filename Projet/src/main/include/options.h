@@ -12,6 +12,7 @@ typedef struct options *Options;
 struct options {
     int person_number;
     int threads_creation;
+    int project_step;
     bool execution_measure;
 };
 

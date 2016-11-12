@@ -9,6 +9,7 @@
 
 bool validate_person(int user_number);
 bool validate_threads(int user_number);
+bool validate_step_project(int user_number);
 void print_help();
 
 #endif //PROJECT_VALIDATE_OPTIONS_H
