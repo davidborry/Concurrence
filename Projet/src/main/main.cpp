@@ -3,7 +3,7 @@
 #include "include/Simulation.h"
 #include "include/MTSim2.h"
 #include "include/MTSim1.h"
-#include "include/Measures.h"
+#include "include/Entity.h"
 
 
 
@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
 
     Simulation* sim = build(p,t);
 
-
+    /**
     if(m){
 
         Measures measures(sim);
@@ -45,6 +45,6 @@ int main(int argc, char** argv) {
         sim->run();
         cout << "Simulation succesfully ended ! " << endl;
     }
-
+**/
     return 0;
 }

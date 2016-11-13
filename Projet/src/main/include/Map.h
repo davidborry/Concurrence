@@ -5,6 +5,7 @@
 #ifndef PROJET_MAP_H
 #define PROJET_MAP_H
 
+#include <iostream>
 #include <vector>
 #include "Cell.h"
 
@@ -17,11 +18,6 @@ struct Vector2i{
 
 };
 
-struct Rectangle{
-    Rectangle(Vector2i tl, Vector2i br);
-
-    Vector2i tl, br;
-};
 
 class Map{
 public:

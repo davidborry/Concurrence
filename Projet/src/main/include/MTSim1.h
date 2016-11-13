@@ -7,22 +7,37 @@
 
 #include "Simulation.h"
 
+struct Zones{
+    Zones(Vector2i tl, Vector2i br, std::vector<Entity*> present_entities);
+    Vector2i tl, br;
+    std::vector<Entity*> present_entities;
+
+    bool entity_position_inside(Vector2i entity_position);
+    void afficher();
+
+};
+
 struct Args{
-    Args(World* w, Rectangle r);
+    Args(World* w, Zones r);
 
     World* w;
-    Rectangle r;
+    Zones r;
 };
+
+
+
 
 class MTSim1 : public Simulation{
 
 public:
     MTSim1(int n = 4);
+
     void run();
 
 private:
-    std::vector<Rectangle> mZones;
+    std::vector<Zones> mZones;
     std::vector<pthread_t> mThreads;
+    void initZones();
 };
 
 #endif //PROJET_MTSIM2_H
