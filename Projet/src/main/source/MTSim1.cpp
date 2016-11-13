@@ -4,6 +4,7 @@
 
 
 #include <vector>
+#include <queue>
 #include <unistd.h>
 #include <iostream>
 #include "../include/MTSim1.h"
@@ -15,7 +16,7 @@ Args::Args(World *w, Zones r) :
 
 }
 
-Zones::Zones(Vector2i tl, Vector2i br, vector<Entity*> present_entities) :
+Zones::Zones(Vector2i tl, Vector2i br, queue<Entity*> present_entities) :
         tl(tl),
         br(br),
         present_entities(present_entities)
@@ -31,9 +32,9 @@ void Zones::afficher()  {
     cout << "Zone position: " << tl << "," << br << endl;
     cout << "Present entities"<<endl;
     while(!present_entities.empty()){
-        Entity *current_entity = present_entities[0];
+        Entity *current_entity = present_entities.front();
+        present_entities.pop();
         if(current_entity != nullptr) {
-            present_entities.erase(present_entities.begin());
             cout << current_entity->getPosition() << endl;
         }
     }
@@ -85,10 +86,10 @@ void MTSim1::initZones() {
     int width = mWorld.getMap().getWidth();
     int height = mWorld.getMap().getHeight();
 
-    vector<Entity*> vector_zone_1;
-    vector<Entity*> vector_zone_2;
-    vector<Entity*> vector_zone_3;
-    vector<Entity*> vector_zone_4;
+    queue<Entity*> vector_zone_1;
+    queue<Entity*> vector_zone_2;
+    queue<Entity*> vector_zone_3;
+    queue<Entity*> vector_zone_4;
 
     mZones.push_back(Zones(Vector2i(0, 0), Vector2i(width / 2, height / 2), vector_zone_1));
     mZones.push_back(Zones(Vector2i(width / 2, 0), Vector2i(width, height / 2),vector_zone_2));
@@ -101,13 +102,13 @@ void MTSim1::initZones() {
         if(current_entity != nullptr){
             Vector2i entity_position = current_entity->getPosition();
             if(mZones[0].entity_position_inside(entity_position))
-                mZones[0].present_entities.push_back(current_entity);
+                mZones[0].present_entities.push(current_entity);
             else if(mZones[1].entity_position_inside(entity_position))
-                mZones[1].present_entities.push_back(current_entity);
+                mZones[1].present_entities.push(current_entity);
             else if(mZones[2].entity_position_inside(entity_position))
-                mZones[2].present_entities.push_back(current_entity);
+                mZones[2].present_entities.push(current_entity);
             else if(mZones[3].entity_position_inside(entity_position))
-                mZones[3].present_entities.push_back(current_entity);
+                mZones[3].present_entities.push(current_entity);
         }
     }
 

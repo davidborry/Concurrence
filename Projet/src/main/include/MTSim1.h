@@ -8,9 +8,9 @@
 #include "Simulation.h"
 
 struct Zones{
-    Zones(Vector2i tl, Vector2i br, std::vector<Entity*> present_entities);
+    Zones(Vector2i tl, Vector2i br, std::queue<Entity*> present_entities);
     Vector2i tl, br;
-    std::vector<Entity*> present_entities;
+    std::queue<Entity*> present_entities;
 
     bool entity_position_inside(Vector2i entity_position);
     void afficher();
