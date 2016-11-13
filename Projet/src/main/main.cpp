@@ -10,13 +10,13 @@
 
 using namespace std;
 
-Simulation* build(int p, int t){
+Simulation* build(int p, int t,int e){
     if(t==1)
-        return new MTSim1(p);
+        return new MTSim1(p,e);
     else if(t==2)
         return new MTSim2(p);
     else
-        return new Simulation(p);
+        return new Simulation(p,e);
 }
 
 
@@ -29,25 +29,31 @@ int main(int argc, char** argv) {
     int e = my_options ->project_step;
     bool m = my_options->execution_measure;
 
-    Simulation* sim = build(p,t);
+    Simulation* sim = build(p,t,e);
 
 
     if(m){
 
         Measures measures(sim);
-        cout << "Starting measures..." << endl << endl;
+        cout << "Starting simulation with :" << endl;
+        cout << "   -p: " << p << endl;
+        cout << "   -e: " << e << endl;
+        cout << "   -t: " << t << endl;
+        cout << "   -m: " << true << endl;
 
         measures.run();
         measures.print_result();
     }
 
     else {
-        cout << "Starting simulation..." << endl;
+        cout << "Starting simulation with :" << endl;
+        cout << "   -p: " << p << endl;
+        cout << "   -e: " << e << endl;
+        cout << "   -t: " << t << endl;
+        cout << "   -m: " << false << endl;
 
-        if(e == 2)
-            sim->runE2();
-        else
-            sim->run();
+
+        sim->run();
 
         cout << "Simulation succesfully ended ! " << endl;
     }

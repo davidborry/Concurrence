@@ -25,6 +25,7 @@ public:
 
     int verify_New_Zone(Vector2i currentEntityPosition, std::vector<Zones> mZones);
 
+    void addNewSyncEntity(Entity* newEntity);
     void down();
     void up();
 

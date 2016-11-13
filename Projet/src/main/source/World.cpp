@@ -47,11 +47,21 @@ bool World::spawn(Entity::Type type, int x, int y, Sync sync) {
         for(int j = 0; j < Entity::Table[type].height; j++)
             if(mMap.isSolid(x+i,y+j) && Entity::Table[type].solid)
                 return false;
-    if(sync==E2 || sync == E1)
-        e = new FullSyncEntity(&mMap,type,x,y);
 
-    else
-        e = new Entity(&mMap,type,x,y);
+    switch(sync){
+        case E1:
+            e = new Entity(&mMap,type,x,y);
+            break;
+        case E2:
+            e = new FullSyncEntity(&mMap,type,x,y);
+            break;
+        case E3:
+            e = new FullSyncEntity(&mMap,type,x,y);
+            break;
+        default:
+            e = new Entity(&mMap,type,x,y);
+            break;
+    }
 
     if(type == Entity::Human) {
         mActiveHumans.push_back(e);
@@ -67,8 +77,6 @@ void World::spawn(Entity::Type type, int n, Sync sync) {
 
     srand (time(NULL));
     while(i<n){
-
-
 
         int x = rand()%(mMap.getWidth()-2*Entity::Table[type].width) + Entity::Table[type].width;
         int y = rand()%(mMap.getHeight()-2*Entity::Table[type].height) + Entity::Table[type].height;
@@ -88,7 +96,9 @@ void World::up() {
 }
 
 void World::decrementLivingPeople() {
+    this->down();
     this->livingPeopleNumber -= 1;
+    this->up();
 }
 
 void World::removeDestroyedEntities() {

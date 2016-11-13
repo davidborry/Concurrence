@@ -27,6 +27,8 @@ void Zones::up() {
     sem_post(&mutex);
 }
 
+
+
 bool Zones::entity_position_inside(Vector2i entity_position) {
     if((entity_position.x >= tl.x && entity_position.y >= tl.y) && (entity_position.x <= br.x && entity_position.y <= br.y))
         return true;
@@ -39,6 +41,12 @@ int Zones::verify_New_Zone(Vector2i currentEntityPosition, vector<Zones> mZones)
             return i;
     }
     return 0; // Never accessed
+}
+
+void Zones::addNewSyncEntity(Entity *newEntity) {
+    this->down();
+    this->present_entities.push(newEntity);
+    this->up();
 }
 
 void Zones::afficher()  {

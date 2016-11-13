@@ -13,9 +13,9 @@ class World{
 
 public:
     enum Sync{
-        E0,
         E1,
-        E2
+        E2,
+        E3
     };
 
 public:

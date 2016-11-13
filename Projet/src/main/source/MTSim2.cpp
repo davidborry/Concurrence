@@ -16,13 +16,12 @@ static void* updateEntity(void* p)
 
         entity->update();
 
-
     }
 
     return NULL;
 }
 
-MTSim2::MTSim2(int n) : Simulation(n)
+MTSim2::MTSim2(int n, int e) : Simulation(n,e)
 {
 
 }
@@ -31,7 +30,6 @@ void MTSim2::run() {
 
     for(int i = 0; i < mWorld.getActiveHumans().size(); i++){
 
-            //updateEntity(mWorld.getActiveHumans()[i]);
             pthread_t id;
             pthread_create(&id,NULL,updateEntity,mWorld.getActiveHumans()[i]);
 

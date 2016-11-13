@@ -38,19 +38,7 @@ void Measures::update() {
     struct timeval t1, t2;
     gettimeofday(&t1,NULL);
 
-    switch(this->e){
-        case 1:
-            mSim->run();
-            break;
-        case 2:
-            mSim->runE2();
-            break;
-        case 3:
-            mSim->runE2();
-            break;
-        default:
-            break;
-    }
+    mSim->run();
 
     gettimeofday(&t2,NULL);
 

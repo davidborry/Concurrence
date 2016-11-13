@@ -18,7 +18,6 @@ Args::Args(World *w, vector<Zones> mZones, int i) :
 }
 
 
-
 static void *updateRegion(void *p) {
     auto args = static_cast<Args *>(p);
 
@@ -51,72 +50,66 @@ static void *updateRegion(void *p) {
 
 }
 
-static void* updateRegionE2(void* p){
+static void *updateRegionE2(void *p) {
     auto args = static_cast<Args *>(p);
 
     vector<Zones> mZones = args->mZones;
     Zones current_zone = mZones[args->i];
-    World* worldSync = args->w;
+    World *worldSync = args->w;
 
-    worldSync->down();
+
+    //worldSync->down();
     int livingPeople = worldSync->getLivingPeopleNumber();
-    worldSync->up();
+    //worldSync->up();
+
 
     while (livingPeople != 0) {
+
         current_zone.down();
+        //worldSync->down();
+
         bool isEmpty = current_zone.present_entities.empty();
-        current_zone.up();
 
 
-        if(!isEmpty) {
-            current_zone.down();
+        if (!isEmpty) {
             Entity *current_entity = current_zone.present_entities.front();
-            current_zone.up();
 
             if (current_entity != nullptr) {
                 if (!current_entity->isDestroyed()) {
                     current_entity->update();
+
                     if (!current_zone.entity_position_inside(current_entity->getPosition())) {
                         int newZoneId = current_zone.verify_New_Zone(current_entity->getPosition(), mZones);
                         Zones newZone = mZones[newZoneId];
 
-                        current_zone.down();
                         current_zone.present_entities.pop();
-                        current_zone.up();
 
-                        newZone.down();
-                        newZone.present_entities.push(current_entity);
-                        newZone.up();
+                        newZone.addNewSyncEntity(current_entity);
 
                     } else {
 
-                        current_zone.down();
                         current_zone.present_entities.pop();
                         current_zone.present_entities.push(current_entity);
-                        current_zone.up();
                     }
-                }
-                else{
-
-                    worldSync->down();
-
+                } else {
                     worldSync->decrementLivingPeople();
-                    worldSync->up();
                 }
 
             }
         }
 
-        worldSync->down();
         livingPeople = worldSync->getLivingPeopleNumber();
-        worldSync->up();
+
+        current_zone.up();
+        //worldSync->up();
 
     }
+
     return NULL;
 }
 
-MTSim1::MTSim1(int n) :
-        Simulation(n) {
+MTSim1::MTSim1(int n, int e) :
+        Simulation(n,e) {
 
     initZones();
 
@@ -127,15 +120,15 @@ void MTSim1::initZones() {
     int width = mWorld.getMap().getWidth();
     int height = mWorld.getMap().getHeight();
 
-    queue<Entity *> vector_zone_1;
-    queue<Entity *> vector_zone_2;
-    queue<Entity *> vector_zone_3;
-    queue<Entity *> vector_zone_4;
+    queue<Entity *> queue_zone_1;
+    queue<Entity *> queue_zone_2;
+    queue<Entity *> queue_zone_3;
+    queue<Entity *> queue_zone_4;
 
-    mZones.push_back(Zones(Vector2i(0, 0), Vector2i(width / 2, height / 2), vector_zone_1));
-    mZones.push_back(Zones(Vector2i(width / 2, 0), Vector2i(width, height / 2), vector_zone_2));
-    mZones.push_back(Zones(Vector2i(0, height / 2), Vector2i(width / 2, height), vector_zone_3));
-    mZones.push_back(Zones(Vector2i(width / 2, height / 2), Vector2i(width, height), vector_zone_4));
+    mZones.push_back(Zones(Vector2i(0, 0), Vector2i(width / 2, height / 2), queue_zone_1));
+    mZones.push_back(Zones(Vector2i(width / 2, 0), Vector2i(width, height / 2), queue_zone_2));
+    mZones.push_back(Zones(Vector2i(0, height / 2), Vector2i(width / 2, height), queue_zone_3));
+    mZones.push_back(Zones(Vector2i(width / 2, height / 2), Vector2i(width, height), queue_zone_4));
 
 
     for (int i = 0; i < mWorld.getActiveHumans().size(); i++) {
@@ -157,27 +150,26 @@ void MTSim1::initZones() {
 void MTSim1::run() {
     for (int i = 0; i < mZones.size(); i++) {
         pthread_t id;
-        pthread_create(&id, NULL, updateRegion, new Args(&mWorld, mZones, i));
+        switch (this->e) {
+            case 1:
+                pthread_create(&id, NULL, updateRegion, new Args(&mWorld, mZones, i));
+                break;
+            case 2:
+                pthread_create(&id, NULL, updateRegionE2, new Args(&mWorld, mZones, i));
+                break;
+            case 3:
+                pthread_create(&id, NULL, updateRegionE2, new Args(&mWorld, mZones, i));
+                break;
+            default:
+                pthread_create(&id, NULL, updateRegion, new Args(&mWorld, mZones, i));
+                break;
 
+        }
         mThreads.push_back(id);
     }
-
     for (int i = 0; i < mThreads.size(); i++)
         pthread_join(mThreads[i], NULL);
 
     mThreads.clear();
-}
 
-void MTSim1::runE2() {
-    for (int i = 0; i < mZones.size(); i++) {
-        pthread_t id;
-        pthread_create(&id, NULL, updateRegionE2, new Args(&mWorld, mZones, i));
-
-        mThreads.push_back(id);
-    }
-
-    for (int i = 0; i < mThreads.size(); i++)
-        pthread_join(mThreads[i], NULL);
-
-    mThreads.clear();
 }

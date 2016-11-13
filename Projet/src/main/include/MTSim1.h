@@ -25,10 +25,9 @@ struct Args{
 class MTSim1 : public Simulation{
 
 public:
-    MTSim1(int n = 4);
+    MTSim1(int n = 4, int e = 1);
 
     void run();
-    void runE2();
 
 private:
     std::vector<Zones> mZones;
