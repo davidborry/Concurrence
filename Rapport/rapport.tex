@@ -80,14 +80,16 @@ Le rapport a pour but d'expliquer le fonctionnement de l'application et les déc
 
 \tableofcontents
 
+\rhead{\textbf{David BORRY - Thomas GILLOT}}
+
 \newpage
 \section{Conception}
-La simulation a un objectif clair: faire converger une quantité plus ou moins grande de personnes vers une unique destination et faire en sorte qu'ils finissent tous par l'atteindre. Toutefois, elle a trois manières différentes de remplir cet objectif. La première consiste à déplacer successivement chaque personne d'une unité jusqu'à ce qu'elles aient toute atteint leur destination. La seconde permet de gérer de la même manières ces personnes, mais en fonction de leur position l'une des quatre régions de tailles égales constituant le monde. Une thread est associé à chaque région. Pour la troisième technique, on crée une thread pour chaque personne à déplacer. 
+La simulation a un objectif clair: faire converger une quantité plus ou moins grande de personnes vers une unique destination et faire en sorte qu'ils finissent tous par l'atteindre. Toutefois, elle a trois manières différentes de remplir cet objectif. La première consiste à déplacer successivement chaque personne d'une unité jusqu'à ce qu'elles aient toutes atteint leur destination. La seconde permet de gérer de la même manière ces personnes, mais en fonction de leur position dans l'une des quatre régions de tailles égales constituant le monde. Une thread est associée à chaque région. Pour la troisième technique, on crée une thread pour chaque personne à déplacer. 
 
 \subsection{Fonctionnement général}
 \subsubsection{Base du programme}
 Trois scénarios bien différents peuvent donc s'appliquer, chacun ayant ses particularités en performances et en algorithmique.
-Il est néanmoins important qu'elles partagent la plupart des variables et des algorithmes du programme afin qu'il soient plus simple à maintenir et à faire évoluer. Quelque soit le scénario, on a donc toujours : 
+Il est néanmoins important qu'elles partagent la plupart des variables et des algorithmes du programme afin qu'ils soient plus simple à maintenir et à faire évoluer. Quelque soit le scénario, on a donc toujours : 
 \begin{itemize}
 	
 	\item L'ensemble des murs et des personnes à déplacer sur le terrain 
@@ -96,7 +98,7 @@ Il est néanmoins important qu'elles partagent la plupart des variables et des a
 	\item Les algorithmes permettant de créer et de déplacer d'une unité une personne en direction d'une destination donnée.
 \end{itemize}
 
-\subsubsection{Déplacement une personne}
+\subsubsection{Déplacement d'une personne}
 Le bon fonctionnement du programme repose en grande partie sur l'algorithme de déplacement. Le programme ne se terminant que lorsqu'il n'y a plus personne à déplacer, il faut un algorithme rapide et solide prenant en compte la gestion des obstacles. Un algorithme de pathfinding pour éviter les obstacles comme \textit{Dijkstra} ou \textit{A*} serait inneficace car peu optimal avec un grand nombre de personnes à gérer et/ou une grande carte. \\
 En revanche, un algorithme de type \href{https://gamedevelopment.tutsplus.com/tutorials/understanding-steering-behaviors-seek--gamedev-849}{\textit{steering behaviour}} principalement basé sur les notions de vecteurs et de distances est bien plus approprié.
 L'entité à déplacer ne pourra pas éviter les obstacles de manière intelligente s'il y en a, c'est pourquoi il est possible qu'une destination fixée soit impossible à atteindre pour certaines entités (si la destination est derrière un mur et que la seule entrée pour y accéder se situe à l'autre bout du terrain, par exemple). Le choix de la destination est donc également essentiel pour que la simulation s'éxécute correctement.
@@ -105,13 +107,19 @@ L'entité à déplacer ne pourra pas éviter les obstacles de manière intellige
 
 L'algorithme choisi pour la simulation fonctionne donc de cette manière : \\
 
-Pour un \textbf{terrain}, une \textbf{entité}  et une \textbf{destination} données, si l'entité n'a pas atteint la destination :
+Pour un \textbf{terrain}, une \textbf{entité}  et une \textbf{destination} donnés, si l'entité n'a pas atteint la destination :
+
 \begin{itemize}
-	\item Stocker dans un ensemble les vecteurs de directions des bordures de l'entité par rapport à la destination.
-	\item tant que l'ensemble des vecteurs n'est pas vide:
+	\item soit une \textbf{queue} q.
+	\item Pour chaque case \textbf{c} de \textbf{bordure}(entite)
+\begin{itemize}
+		\item ajouter \textbf{chemin}(c,destination) à q
+	\end{itemize}
+
+	\item tant que q  n'est pas vide:
 	\begin{itemize}
-		\item Retirer le vecteur ayant la plus petite longueur de l'ensemble
-		\item Essayer de déplacer d'une case l'entité en suivant ce vecteur
+		\item retirer \textbf{c} le plus petit chemin
+		\item \textbf{deplacer}(entite,c)
 		\item Si l'entité a bougé, arrêter.
 		\item Sinon, continuer.
 	\end{itemize}
@@ -120,17 +128,17 @@ Pour un \textbf{terrain}, une \textbf{entité}  et une \textbf{destination} donn
 
 \subsection{Gestion des threads}
 Si les scénarios partagent donc la plupart des ressources du programmes, ils les utilisent tous d'une manière différente. 
-Pour l'option \textbf{-t1} où la simulation est gérée par la thread principale, le fonctionnement est assez simple : Tant que toutes les personnes n'ont pas atteint la destination, répéter pour chacune d'entre elles l'algorithme de déplacement décript précédemment. On doit donc mettre à jour le monde et l'ensemble des personnes un certain nombre de fois, ce qui peut faire penser au design d'une boucle de jeu. C'est le but : de cette manière, on peut facilement intégrer la représentation graphique à la simulation en redessinant le terrain à chaque mise à jour. \\
+Pour l'option \textbf{-t1} où la simulation est gérée par la thread principale, le fonctionnement est assez simple : tant que toutes les personnes n'ont pas atteint la destination, répéter pour chacune d'entre elles l'algorithme de déplacement décrit précédemment. On doit donc mettre à jour le monde et l'ensemble des personnes un certain nombre de fois, ce qui peut faire penser au design d'une boucle de jeu. C'est le but: de cette manière, on peut facilement intégrer la représentation graphique à la simulation en redessinant le terrain à chaque mise à jour. \\
 Pour l'option \textbf{-t2}, le fonctionnement est assez semblable, mais on divise le terrain en 4 parties à gérer pour chaque thread créée. Les threads ont toujours une boucle devant déplacer des entités, mais seulement celles se trouvant dans la région associée. \\
 L'option \textbf{-t3} utilise toujours une boucle, mais elle ne gère qu'une entité par thread. La boucle continue tant que l'entité n'a pas atteint sa destination.
 
 \subsubsection{Les threads POSIX}
 
 L'année dernière en cours d'\textbf{IHM} et de \textbf{Réseaux}, nous avons déjà eu un aperçu de la gestion des threads en \textbf{Java}. L'utilisation des threads java est plutôt orientée objet car nous les avons principalement utilisées en créant des classes héritées de \textbf{Thread}, où l'on redéfinissait la méthode \textbf{run}. Cela facilite grandement le passage de paramètres car on peut directement les mettre dans le constructeur personnalisé d'une classe fille de Thread.
-Les threads java sont d'abord créés avec le constructeur et on les éxécute avec la méthode \textbf{start}. On attend la fin d'une tâche avec la méthode \textbf{join}. Les méthodes \textbf{suspend} et \textbf{resume} permettent de mettre en pause et de relancer une thread. En java, on ne peut pas détruire directement à une thread. La fin de l'éxécution est en général suffisante, mais on peut s'aider de la méthode \textbf{interrupt} pour arrêter la thread en avance. \\
+Les threads java sont d'abord créés avec le constructeur et on les éxécute avec la méthode \textbf{start}. On attend la fin d'une tâche avec la méthode \textbf{join}. Les méthodes \textbf{suspend} et \textbf{resume} permettent de mettre en pause et de relancer une thread. En java, on ne peut pas détruire directement une thread. La fin de l'éxécution est en général suffisante, mais on peut s'aider de la méthode \textbf{interrupt} pour arrêter la thread en avance. \\
 
-Les thread POSIX ont le même objectif, mais fonctionne différemment. \\
-Tout d'abord contrairement à Java, la création et l'éxécution d'une thread ne sont pas séparées et sont directement gérées par la fonction \textbf{pthread\_create}, qui prend en paramètre l'adresse d'un type \textbf{p\_thread}, une  fonction statique et un paramètre qui sera passé à cette fonction.  On ne crée donc pas de classe héritée ici et le passage de paramètre est plus délicat car la fonction statique ne peut accepter qu'un seul argument. On doit donc créer par-dessus une structure contenant les différents arguments qu'on veut mettre et on la passe en paramètre à cette fonction. On doit également utiliser la fonction \textbf{pthread\_join} pour attendre la fin d'éxécution d'une thread. Sans cela, le programme risquerait de s'arrêter avant. Il n'y a pas non plus de véritable fonction de mise en pause et de reprise comme en Java, on doit pour cela utiliser des \textbf{Mutex} et des \textbf{Signaux}.
+Les thread POSIX ont le même objectif, mais fonctionnent différemment. \\
+Tout d'abord contrairement à Java, la création et l'éxécution d'une thread ne sont pas séparées et sont directement gérées par la fonction \textbf{pthread\_create}, qui prend en paramètre l'adresse d'un type \textbf{p\_thread}, une  fonction statique et un paramètre qui sera passé à cette fonction.  On ne crée donc pas de classe héritée ici et le passage de paramètres est plus délicat car la fonction statique ne peut accepter qu'un seul argument. On doit donc créer par-dessus une structure contenant les différents arguments que l'on veut mettre et on la passe en paramètre à cette fonction. On doit également utiliser la fonction \textbf{pthread\_join} pour attendre la fin d'éxécution d'une thread. Sans cela, le programme risquerait de s'arrêter avant. Il n'y a pas non plus de véritable fonction de mise en pause et de reprise comme en Java, on doit pour cela utiliser des \textbf{Mutex} et des \textbf{Signaux}.
 
 \subsubsection{Intégrer les threads à la simulation}
 Pour les deux configurations multithread, on doit faire en sorte que chaque thread puisse s'éxécuter entièrement, sans que le programme ne se termine avant. C'est rendu possible grâce aux fonctions \textbf{pthread\_create} et \textbf{pthread\_join} de la bibliothèque POSIX. Les algorithmes de gestion des threads sont donc très semblables pour les simulations t1 et t2. Ils fonctionnent de la manière suivante : 
@@ -139,54 +147,70 @@ Pour les deux configurations multithread, on doit faire en sorte que chaque thre
 
 \textbf{t1} :
 \begin{itemize}
-\item Pour chacune des quatre régions du terrain :
+\item creer une liste \textbf{l}
+\item Pour chaque region \textbf{r} du terrain :
 	\begin{itemize}
-		\item Créer une nouvelle thread
-		\item Associer à cette thread la gestion des entités situées dans la région actuelle
+		\item Créer une  thread \textbf{t}
+		\item gerer\_region{r,t}
+		\item ajouter r a l
 	\end{itemize}
 
-\item Attendre la terminaison de chacune des threads précédemment créées.
+\item Pour chaque thread t de l
+\begin{itemize}
+		\item attendre(t)
+	\end{itemize}
 
 \end{itemize} 
  
 \textbf{t2} :
 \begin{itemize}
-\item Pour chaque entité sur le terrain :
+\item creer une liste \textbf{l}
+\item Pour chaque entité e :
 	\begin{itemize}
-		\item Créer une nouvelle thread
-		\item Associer à cette thread la gestion de l'entité actuelle
+		\item Créer une  thread \textbf{t}
+		\item gerer\_personne{e,t}
+		\item  ajouter r a l
 	\end{itemize}
 
-\item Attendre la terminaison de chacune des threads précédemment créées.
+\item Pour chaque thread t de l
+\begin{itemize}
+		\item attendre(t)
+	\end{itemize}
 
 \end{itemize}
+
+\subsubsection{Synchronisation}
+Plusieurs choix de synchronisations peuvent être implémentés. Le plus simple serait d'associer un \textbf{mutex}, sémaphore avec un compteur de 1, à la carte entière, mais cette solution serait inneficace et reviendrait à répéter le scénario itératif de \textbf{t0}.
+Une solution plus optimale serait d'associer un mutex à chaque case, et en fonction du scénario, seulement certaines cases devront être synchronisées. \\
+
+Pour \textbf{t2} par exemple, la synchronisation se fait au niveau du déplacement d'une entité. Quelle que soit la direction, une entité se déplaçant va essayer d'occuper 4 cases (celles vers lesquelles on se dirige) et d'en libérer 4 (celles laissées après déplacement). La synchronisation doit donc se faire au niveau des 4 cases qu'on essaie d'occuper. Avant de vérifier si elles sont libres ou non, on attend que le mutex de chacune des cases soit libre pour éviter une collision avec une entité occupant déjà la case. Ainsi pour chaque entité déplacée, ce sont 4 mutex qui sont utilisés.
 
 \section{Choix de développement}
 En dehors de la gestion des threads et des options entrées par l'utilisateur, le programme est principalement développé en C++ et tire parti de la programmation orientée objet, du polymorphisme et de la surcharge d'opérateurs. \\
 La carte du monde est ainsi représentée par un tableau à deux dimensions contenant des cellules pouvant être \textbf{solides} (occupées par un obstacle) ou non. \\
 Les vecteurs utilisés pour déplacer nos entités ont leur propre structure, \textbf{Vector2i} et peuvent être additionnés, soustraits, comparés par leur longueur et multipliés par un scalaire. Les régions du terrain à gérer pour le scénario \textbf{t1} ont également une structure \textbf{Rectangle} comprennant les points Nord-Ouest et Sud-Est de la région. \\
-La classe \textbf{World} permet de gérer les déplacement d'une partie ou de la totalité des entités du terrain. Les entités à déplacer sont stockées dans une liste de pointeurs, et elles sont modélisées dans la plus grande classe de l'application.
+La classe \textbf{World} permet de gérer les déplacements d'une partie ou de la totalité des entités du terrain. Les entités à déplacer sont stockées dans une liste de pointeurs, et sont modélisées dans la plus grande classe de l'application.
 
 \subsection{Modéliser une entité}
 Il faut d'abord pouvoir définir ce qu'est une entité dans un monde représenté par un ensemble de cellules. 
 Une \textbf{entité} est une forme rectangulaire composée de cellules, pouvant être solide ou non. Elle est définie par une position, une longueur, une largeur et un booléen définissant sa solidité. Elle peut également se déplacer dans toutes les directions et elle peut être détruite avant de réapparaître à sa position d'origine. \\
 Une entité peut donc être une personne, un mur ou un trou. Les seules données qui changent à chaque type sont les dimensions et la solidité, c'est pourquoi il est inutile de créer une nouvelle classe fille pour chaque type. Il est préférable de stocker ces données dans un fichier (ici \textbf{DataTable}) afin de les utiliser simplement et rapidement dans le constructeur. Le reste des attributs et fonctions, en particulier celle de déplacement, ne changent pas.
  L'algorithme de déplacement cité précédemment est implémenté dans la fonction \textbf{update}. \\
-Cette fonction n'est appelée que si l'entité à une destination à atteindre (\textbf{mTarget}). Grâce à la structure \textbf{Vector2i}, le calcul d'une direction à suivre est assez simple : On soustrait au vecteur destination un vecteur position donné. Pour l'entité à déplacer, cette position est basée sur les bordures, à savoir les cellules extérieures du rectangle. Ainsi, pour un humain occupant 4x4 cellules, 12 directions sont calculées. Ces directions sont ensuite stockées dans une structure de données \textbf{Priority Queue} où elles sont rangées dans l'ordre croissant. De cette manière, chaque retrait de la tête de file renverra la direction à la plus petite distance. \\
+Cette fonction n'est appelée que si l'entité a une destination a atteindre (\textbf{mTarget}). Grâce à la structure \textbf{Vector2i}, le calcul d'une direction à suivre est assez simple: on soustrait au vecteur destination un vecteur position donné. Pour l'entité à déplacer, cette position est basée sur les bordures, à savoir les cellules extérieures du rectangle. Ainsi, pour un humain occupant 4x4 cellules, 12 directions sont calculées. Ces directions sont ensuite stockées dans une structure de données \textbf{Priority Queue} où elles sont rangées dans l'ordre croissant. De cette manière, chaque retrait de la tête de file renverra la direction à la plus petite distance. \\
 
-Quant au déplacement d'une case en lui-même, son implémentation est également basique : On vérifie qu'il n'y a pas d'obstacle et s'il y en a un, on peut annuler la vélocité verticale et/ou horizontale de l'entité en fonction de sa position. \\
+Quant au déplacement d'une case en lui-même, son implémentation est également basique: on vérifie qu'il n'y a pas d'obstacle et s'il y en a un, on peut annuler la vélocité verticale et/ou horizontale de l'entité en fonction de sa position. \\
 On remarquera que la classe World dispose également d'une fonction \textbf{update}, dans laquelle on applique la fonction du même nom pour chacune des entités à déplacer. Comme il a été dit précédemment cela ressemble fortement à une boucle de jeu, facilitant ainsi l'intégration de la représentation graphique.
 
 
 \subsection{Simulation et polymorphisme}
-L'application en elle-même est lancée à travers la classe \textbf{Simulation}. On génère le monde et les entités dans le constructeur, et on lance la boucle dans la fonction \textbf{run}. Cette fois-ci, l'usage du polymorphisme est avantageux car cette fonction doit avoir un comportement bien différent pour chaque scénario. On crée donc des classes filles \textbf{MTSim1} et \textbf{MTSim2} respectivement associées aux configurations \textbf{-t1} et \textbf{-t2}. La fonction run est alors redéfinie pour pouvoir gérer la création des threads et l'attente de leur terminaison. Comme les threads POSIX ne peuvent pas gérer des fonctions membres directement, on recrée dans ces classes des fonctions \textbf{statiques} pour gérer les déplacement dans le monde. 
+L'application en elle-même est lancée à travers la classe \textbf{Simulation}. On génère le monde et les entités dans le constructeur, et on lance la boucle dans la fonction \textbf{run}. Cette fois-ci, l'usage du polymorphisme est avantageux car cette fonction doit avoir un comportement bien différent pour chaque scénario. On crée donc des classes filles \textbf{MTSim1} et \textbf{MTSim2} respectivement associées aux configurations \textbf{-t1} et \textbf{-t2}. La fonction run est alors redéfinie pour pouvoir gérer la création des threads et l'attente de leur terminaison. Comme les threads POSIX ne peuvent pas gérer des fonctions membres directement, on recrée dans ces classes des fonctions \textbf{statiques} pour gérer les déplacements dans le monde. 
 
 \section{Tester l'application}
-Le fonctionnement de l'application repose essentiellement sur trois données : La position du point azimuth, qui doit être accessible à tout le monde, l'algorithme de déplacement et la gestion des threads. Cette dernière est uniquement nécessaire pour les configurations \textbf{t1} et \textbf{t2}.
+Le fonctionnement de l'application repose essentiellement sur trois données: La position du point azimuth, qui doit être accessible à tout le monde, l'algorithme de déplacement et la gestion des threads. Cette dernière est uniquement nécessaire pour les configurations \textbf{t1} et \textbf{t2}.
 
 \subsection{Correction}
 
-Le problème du point azimuth est facile à résoudre : Il ne doit pas être entouré d'obstacles et doit être situé vers la sortie du terrain. Dans cette simulation, le monde est occupé par deux murs séparés d'une certaine distance avec un trou de largeur suffisante pour qu'on puisse le traverser. Le point azimuth est fixé dans le trou du premier mur, celui de la sortie. Il est donc placé vers le milieu du mur et chaque entité finira par l'atteindre quelque soit sa position, à condition que l'algorithme de déplacement fonctionne correctement.
+Le problème du point azimuth est facile à résoudre: il ne doit pas être entouré d'obstacles et doit être situé vers la sortie du terrain. Dans cette simulation, le monde est occupé par deux murs séparés d'une certaine distance avec un trou de largeur suffisante pour qu'on puisse le traverser. Le point azimuth est fixé dans le trou du premier mur, celui de la sortie. Il est donc placé vers le milieu du mur et chaque entité finira par l'atteindre quelque soit sa position, à condition que l'algorithme de déplacement fonctionne correctement.
 
 
 \begin{figure}[h]
@@ -201,8 +225,8 @@ Le problème du point azimuth est facile à résoudre : Il ne doit pas être ent
 \includegraphics[width=12cm]{graph2}
 \end{figure}
 
-Les trois scénarios ont en commun le fait qu'ils utilisent des boucles pour déplacer les individus : tant que la destination n'a pas été atteinte, continuer à essayer de déplacer. La simulation ne s'arrêtera donc qu'une fois que tout le monde aura quitté le terrain. Ces scénarios fonctionnent si le point azimuth est bien placé vers la sortie comme dans la figure ~\ref{f2}. 
-Pour vérifier l'efficacité de l'algorithme de déplacement, une série de tests unitaires doit être effectués pour voir si le programme traite correctement le calcul des vecteurs, les directions et la gestion des obstacles. 
+Les trois scénarios ont en commun le fait qu'ils utilisent des boucles pour déplacer les individus : tant que la destination n'a pas été atteinte, continuer à essayer de déplacer. La simulation ne s'arrêtera donc qu'une fois que tout le monde aura quitté le terrain. Ces scénarios fonctionnent si le point azimuth est bien placé vers la sortie, comme le montre la figure ~\ref{f2}. 
+Pour vérifier l'efficacité de l'algorithme de déplacement, une série de tests unitaires doit être effectuée pour voir si le programme traite correctement le calcul des vecteurs, les directions et la gestion des obstacles. 
 Le programme peut toutefois boucler à l'infini si on place volontairement le point à un endroit inatteignable.
 Aussi, si la simulation fonctionne correctement pour la thread principale, ce n'est évidemment pas encore le cas pour les cas \textbf{t1} et \textbf{t2}. Les entités finissent quand même par atteindre leur destination car elles utilisent toujours le même algorithme de déplacement, mais des problèmes de collisions sont présents. 
 En effet, les ressources partagées par les threads crées dans les deux cas sont la carte du terrain et la liste des entités humaines, or elles sont constamment mises à jour. Sans modèle de synchronisation implémenté, les threads peuvent se baser sur des informations faussées ou obsolètes. Une entité peut alors se déplacer sur une case non solide, mais qui parallèlement est occupée par une autre entité déplacée par une thread. Les personnes se déplacent toujours, mais en traversant certains obstacles ou en bloquant là où il n'y en a pas.
@@ -210,11 +234,11 @@ En effet, les ressources partagées par les threads crées dans les deux cas son
 \subsection{Tests unitaires}
 Les tests sont placés dans un répertoire du même nom et le projet peut être compilé sans les inclures. Aussi, \textbf{il n'est pas nécessaire d'avoir installé Google Test} pour les compiler, la bibliothèque étant directement incluse dans le projet. Il faut toutefois avoir \textbf{CMake} installé pour pouvoir compiler le CMakeLists à la racine du projet. Il y aura alors une installation complète de la simulation avec les tests inclus. \\
 
-Pour l'instant, ils servent principalement à tester l'algorithme de déplacement qui se base sur de nombreuses parties du programme, la première et plus importante étant les vecteurs. La structure \textbf{Vector2i} et tous les opérateurs qui y sont associés sont testés dans le fichier \textbf{vector\_test.cpp}. On s'assure ainsi que le programme sait calculer correctement une direction entre deux points et une distance minimale, ce qui constitue la base de l'algorithme de déplacement. \\
-Les déplacements de l'une entité sont également testés dans le fichier \textbf{entity\_test.cpp}. On doit vérifier qu'elle ne traverse pas d'obstacle et qu'elle adapte sa trajectoire si elle en rencontre un. On a pour cela plusieurs tests où l'on crée une entité sur une petite carte où on y a placé manuellement plusieurs obstacles et on analyse le comportement de l'entité. Combinés avec les vecteurs, ces tests prouvent l'efficacité de l'algorithme de déplacement.
+Pour l'instant, ils servent principalement à tester l'algorithme de déplacement qui se base sur de nombreuses parties du programme, la première et plus importante étant les vecteurs. La structure \textbf{Vector2i} et tous les opérateurs qui y sont associés sont testés dans le fichier \textbf{vector\_test.cpp}. On s'assure ainsi que le programme sait calculer correctement une direction entre deux points et une distance minimale, ce qui constitue la base de l'algorithme de déplacement. 
+Les déplacements des entités sont également testés dans le fichier \textbf{entity\_test.cpp}. On doit vérifier qu'elle ne traverse pas d'obstacle et qu'elle adapte sa trajectoire si elle en rencontre un. On a pour cela plusieurs tests où l'on crée une entité sur une petite carte où on y a placé manuellement plusieurs obstacles et on analyse le comportement de l'entité. Combinés avec les vecteurs, ces tests prouvent l'efficacité de l'algorithme de déplacement. Pour que ces tests fonctionnent efficacement, les entités sont toujours placées au même endroit.
 
 \subsection{Performances}
-La simulation peut être éxécutée avec l'option \textbf{-m}, permettant d'effectuer des mesures moyennes sur le temps de réponse et de calcul du processeur. On lance ainsi la simulation 5 fois d'affilée, on effectue les mesures à chaque fois et on calcule la moyenne des trois moyennes intermédiaires à la fin. La réinitialisation de la simulation qui consiste à faire réapparaître les entités à leurs positions d'origines n'est pas incluse dans la mesure. Pour ces mesures, on met bien l'accent sur les différences entre le temps de réponse, c'est à dire le temps écoulé du point de vue d'un utilisateur, et le temps CPU consommé qui peut vite augmenter pour une application multithread. On utilise ainsi les fonctions POSIX \textbf{getrusage} et \textbf{gettimeofday} dans une classe \textbf{Measures} afin de calculer le \textbf{temps de réponse}, le \textbf{temps CPU utilisateur} et le \textbf{temps CPU système}. Les figures suivantes montrent pour les trois scénarios les différences en secondes entre les temps de réponses et CPU (utilisateur + système) pour 4, 16 et 256 personnes à déplacer. \\
+La simulation peut être éxécutée avec l'option \textbf{-m}, permettant d'effectuer des mesures moyennes sur le temps de réponse et de calcul du processeur. On lance ainsi la simulation 5 fois d'affilée, on effectue les mesures à chaque fois et on calcule la moyenne des trois moyennes intermédiaires à la fin. La réinitialisation de la simulation qui consiste à faire réapparaître les entités à leurs positions d'origines n'est pas incluse dans la mesure. Pour ces mesures, on met bien l'accent sur les différences entre le temps de réponse, c'est à dire le temps écoulé du point de vue d'un utilisateur, et le temps CPU consommé qui peut vite augmenter pour une application multithread. On utilise ainsi les fonctions POSIX \textbf{getrusage} et \textbf{gettimeofday} dans une classe \textbf{Measures} afin de calculer le \textbf{temps de réponse}, le \textbf{temps CPU utilisateur} et le \textbf{temps CPU système}. Les figures suivantes montrent pour les trois scénarios les différences en secondes entre les temps de réponses et CPU (utilisateur + système) pour 4, 16 et 256 personnes à déplacer.
 On remarquera que pour chacune de ces mesures, le temps CPU système a une valeur négligeable.
 
 
@@ -236,13 +260,22 @@ On remarquera que pour chacune de ces mesures, le temps CPU système a une valeu
 
 \newpage
 
-On peut voir que l'évolution des mesures est la même, sauf pour le cas avec 4 personnes, ce qui est normal : \\
-En effet, les configurations \textbf{t1} et \textbf{t2} créent ici 4 threads chacune. Le temps CPU du scénario t1 est plus élevé que celui de t2 car il ne doit pas seulement gérer les déplacement d'une entité. Il doit d'abord parcourir la liste des 4 entités présentes et gérer celle située dans la région associée au thread, ce qui augmente la complexité de l'algorithme et donc le temps de calcul. 
-Le fait que le temps CPU soit plus long que le temps réel à chaque configuration est logique : La fonction \textbf{getrusage} permet de calculer la somme des temps utilisateurs de chacun des threads actif. Plus il y a de threads, plus le temps CPU sera long. Les mesures effectuées montrent bien que la répartition des tâches sur plusieurs threads peut être avantagueuse en gain de performances. Le temps de réponse du programme est réduit pour les deux scénarios multithreads avec 4 personnes. \\
+On peut voir que l'évolution des mesures est la même, sauf pour le cas avec 4 personnes, ce qui est normal. \\
+En effet, les configurations \textbf{t1} et \textbf{t2} créent ici 4 threads chacune. Le temps CPU du scénario t1 est plus élevé que celui de t2 car il ne doit pas seulement gérer les déplacements d'une entité. Il doit d'abord parcourir la liste des 4 entités présentes et gérer celle située dans la région associée au thread, ce qui augmente la complexité de l'algorithme et donc le temps de calcul. 
+Le fait que le temps CPU soit plus long que le temps réel à chaque configuration est logique: la fonction \textbf{getrusage} permet de calculer la somme des temps utilisateurs de chacune des threads actives. Plus il y a de threads, plus le temps CPU sera long. Les mesures effectuées montrent bien que la répartition des tâches sur plusieurs threads peut être avantagueuse en gain de performances. Le temps de réponse du programme est réduit pour les deux scénarios multithreads avec 4 personnes. \\
 Pour 16 et 256 personnes, c'est la configuration \textbf{t1} qui est la plus optimale. Le temps de réponse est le plus petit et le temps CPU est largement supérieur, ce qui prouve que l'application bénéficie de l'usage des threads. La configuration \textbf{t2} en revanche montre ses limites à partir de 16 personnes. Le processus de création de threads est en effet coûteux et augmentera le temps de réponse si on les utilise en grande quantité. Ainsi pour 16 personnes le temps de réponse est quasimment le même que pour \textbf{t0} et pour 256 personnes, il est beaucoup plus long, ce qui rend ce scénario inneficace passé un certain nombre de personnes à déplacer.
 
+\begin{figure}[h]
+\caption{\label{f2} \textbf{Execution de T2 en étape E2 pour 4, 16 et 256 personnes}}
+  \centering
+\includegraphics[width=12cm]{e2}
+\end{figure}
+
+\newpage
+
+
 \section{Conclusion}
-Cette première étape a permis de mettre en place une simulation pleinement fonctionnelle avec la thread principale et de poser les bases pour développer les scénarios multithreads. Sans synchronisation et gestion du partage des ressources, les options \textbf{t1} et \textbf{t2} ne peuvent fonctionner correctement, même si elles déplacent les entités jusqu'à leur destination car la gestion des collisions et perturbée. 
+Cette première étape a permis de mettre en place une simulation pleinement fonctionnelle avec la thread principale et de poser les bases pour développer les scénarios multithreads. Sans synchronisation et gestion du partage des ressources, les options \textbf{t1} et \textbf{t2} ne peuvent fonctionner correctement, même si elles déplacent les entités jusqu'à leur destination, car la gestion des collisions et perturbée. 
 Les mesures effectuées ont bien montré l'intérêt d'un programme multithread pour ce genre de problème, qui donne un véritable gain de performances sous certaines conditions. La prochaine étape consistera donc à synchroniser efficacement les tâches et à intégrer la représentation graphique pour les scénarios multithreads.
 
 
