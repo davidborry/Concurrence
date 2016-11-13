@@ -5,23 +5,18 @@
 #ifndef PROJET_MTSIM2_H
 #define PROJET_MTSIM2_H
 
+#include <iostream>
+#include <vector>
 #include "Simulation.h"
+#include "Zones.h"
 
-struct Zones{
-    Zones(Vector2i tl, Vector2i br, std::queue<Entity*> present_entities);
-    Vector2i tl, br;
-    std::queue<Entity*> present_entities;
-
-    bool entity_position_inside(Vector2i entity_position);
-    void afficher();
-
-};
 
 struct Args{
-    Args(World* w, Zones r);
-
+    Args(World* w, std::vector<Zones> mZones, int i );
     World* w;
-    Zones r;
+
+    std::vector<Zones> mZones;
+    int i;
 };
 
 
@@ -33,6 +28,7 @@ public:
     MTSim1(int n = 4);
 
     void run();
+    void runE2();
 
 private:
     std::vector<Zones> mZones;

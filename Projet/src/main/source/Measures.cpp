@@ -8,10 +8,10 @@
 
 const int MEASURES_NUMBER = 3;
 
-Measures :: Measures(Simulation* sim):
+Measures :: Measures(Simulation* sim , int e):
 mSim(sim)
 {
-
+    this->e = e;
 }
 
 void Measures::run() {
@@ -38,11 +38,22 @@ void Measures::update() {
     struct timeval t1, t2;
     gettimeofday(&t1,NULL);
 
-    mSim->run();
+    switch(this->e){
+        case 1:
+            mSim->run();
+            break;
+        case 2:
+            mSim->runE2();
+            break;
+        case 3:
+            mSim->runE2();
+            break;
+        default:
+            break;
+    }
 
     gettimeofday(&t2,NULL);
 
-    //mAverageRealTime += (t2.tv_sec-t1.tv_sec) + (t2.tv_usec - t1.tv_usec)/1000000.0;
     mRealTimes.push_back((t2.tv_sec-t1.tv_sec) + (t2.tv_usec - t1.tv_usec)/1000000.0);
 
     getrusage(RUSAGE_SELF,&mRusage);

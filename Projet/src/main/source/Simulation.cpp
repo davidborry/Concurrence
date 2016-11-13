@@ -9,11 +9,14 @@
 
 using namespace std;
 
-Simulation::Simulation(int n) :
-mWorld()
+Simulation::Simulation(int n, int e) : mWorld(pow(2,n))
 {
 
+    this->e = e;
     cout << "Initializing..." << endl;
+
+
+
     mWorld.setTarget(Vector2i(0,62));
 
     mWorld.spawn(Entity::Wall,0,0, World::E0);
@@ -34,13 +37,18 @@ void Simulation::run() {
 
     while(mWorld.update(0)) {
 
-       // cout << mWorld.getActiveHumans().size() << endl;
-
     }
 
 
 
 }
+
+void Simulation::runE2(){
+   while(mWorld.update(0)){
+
+   }
+}
+
 
 void Simulation::reset() {
     mWorld.reset();

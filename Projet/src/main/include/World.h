@@ -7,6 +7,7 @@
 
 #include "Entity.h"
 #include <array>
+#import <semaphore.h>
 
 class World{
 
@@ -18,7 +19,7 @@ public:
     };
 
 public:
-    World();
+    World(int p = 1);
 
     void update();
     bool update(int zone);
@@ -27,6 +28,12 @@ public:
     void removeDestroyedEntities();
     void reset();
 
+    int getLivingPeopleNumber() const;
+
+    void down();
+    void up();
+    void decrementLivingPeople();
+
     Map getMap() const;
     std::vector<Entity*> getActiveHumans() const;
     void setTarget(Vector2i v);
@@ -34,6 +41,9 @@ public:
 private:
     Map mMap;
     Vector2i mTarget;
+    sem_t mutex;
+
+    int livingPeopleNumber;
 
     std::vector<Entity*> mActiveHumans;
 };

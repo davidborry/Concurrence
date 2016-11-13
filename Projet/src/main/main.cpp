@@ -1,4 +1,5 @@
 #include <iostream>
+#include <include/Measures.h>
 #include "include/options.h"
 #include "include/Simulation.h"
 #include "include/MTSim2.h"
@@ -30,7 +31,7 @@ int main(int argc, char** argv) {
 
     Simulation* sim = build(p,t);
 
-    /**
+
     if(m){
 
         Measures measures(sim);
@@ -42,9 +43,14 @@ int main(int argc, char** argv) {
 
     else {
         cout << "Starting simulation..." << endl;
-        sim->run();
+
+        if(e == 2)
+            sim->runE2();
+        else
+            sim->run();
+
         cout << "Simulation succesfully ended ! " << endl;
     }
-**/
+
     return 0;
 }

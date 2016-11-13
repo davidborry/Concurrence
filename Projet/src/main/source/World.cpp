@@ -11,10 +11,12 @@
 
 
 
-World::World():
+World::World(int p):
 mMap(512,128),
 mTarget(0,0)
 {
+    sem_init(&mutex,0,1);
+    this->livingPeopleNumber = p;
 
 }
 
@@ -26,9 +28,7 @@ void World::update() {
 bool World::update(int zone){
     bool keepRuning = false;
     for(int i = 0; i < mActiveHumans.size(); i++){
-        /*pthread_t id;
-        pthread_create(&id,NULL,Entity::staticFunction,mActiveHumans[zone][i]);
-        pthread_join(id,NULL);*/
+
         if(!mActiveHumans[i]->isDestroyed()) {
             keepRuning = true;
             mActiveHumans[i]->update();
@@ -47,7 +47,7 @@ bool World::spawn(Entity::Type type, int x, int y, Sync sync) {
         for(int j = 0; j < Entity::Table[type].height; j++)
             if(mMap.isSolid(x+i,y+j) && Entity::Table[type].solid)
                 return false;
-    if(sync==E2)
+    if(sync==E2 || sync == E1)
         e = new FullSyncEntity(&mMap,type,x,y);
 
     else
@@ -79,6 +79,18 @@ void World::spawn(Entity::Type type, int n, Sync sync) {
     }
 }
 
+void World::down() {
+    sem_wait(&mutex);
+}
+
+void World::up() {
+    sem_post(&mutex);
+}
+
+void World::decrementLivingPeople() {
+    this->livingPeopleNumber -= 1;
+}
+
 void World::removeDestroyedEntities() {
     auto listBegin = std::remove_if(mActiveHumans.begin(), mActiveHumans.end(),
                                            std::mem_fn(&Entity::isDestroyed));
@@ -101,3 +113,9 @@ std::vector<Entity*> World::getActiveHumans() const {
 void World::setTarget(Vector2i v){
     mTarget = v;
 }
+
+int World::getLivingPeopleNumber() const {
+    return livingPeopleNumber;
+}
+
+

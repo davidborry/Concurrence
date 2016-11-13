@@ -14,7 +14,7 @@
 class Measures {
 
 public:
-    Measures(Simulation* sim);
+    Measures(Simulation* sim, int e = 2);
 
     void run();
 
@@ -27,6 +27,7 @@ public:
 
 
 private:
+    int e;
 
     std::vector<double> mRealTimes;
     std::vector<double> mUTimes;

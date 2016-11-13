@@ -10,12 +10,14 @@
 class Simulation{
 
 public:
-    Simulation(int n = 4);
+    Simulation(int n = 4, int e = 1);
 
     virtual void run();
+    virtual void runE2();
     void reset();
 
 protected:
+    int e;
     World mWorld;
 };
 

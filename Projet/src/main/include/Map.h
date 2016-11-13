@@ -10,7 +10,7 @@
 #include "Cell.h"
 
 struct Vector2i{
-    Vector2i(int x, int y);
+    Vector2i(int x =0 , int y = 0);
     double length() const;
 
     int x;

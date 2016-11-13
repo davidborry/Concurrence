@@ -15,8 +15,7 @@ static void* updateEntity(void* p)
     while(!entity->isDestroyed()){
 
         entity->update();
-        //usleep(100000);
-        //cout << *(entity->getMap()) << endl;
+
 
     }
 
