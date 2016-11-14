@@ -58,15 +58,15 @@ static void *updateRegionE2(void *p) {
     World *worldSync = args->w;
 
 
-    worldSync->down();
+    //worldSync->down();
     int livingPeople = worldSync->getLivingPeopleNumber();
-    worldSync->up();
+    //worldSync->up();
 
 
     while (livingPeople != 0) {
 
         current_zone.down();
-        worldSync->down();
+        //worldSync->down();
 
         bool isEmpty = current_zone.present_entities.empty();
 
@@ -101,7 +101,7 @@ static void *updateRegionE2(void *p) {
         livingPeople = worldSync->getLivingPeopleNumber();
 
         current_zone.up();
-        worldSync->up();
+        //worldSync->up();
 
     }
 
