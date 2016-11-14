@@ -9,6 +9,10 @@
 
 typedef struct options *Options;
 
+/**
+ * Represent the options of the sumulation
+ */
+
 struct options {
     int person_number;
     int threads_creation;
@@ -21,6 +25,8 @@ struct options* get_options(int argc,char **argv);
 
 
 void destruct_options(Options options);
+
+//Only for tests
 
 void print_options(Options options);
 

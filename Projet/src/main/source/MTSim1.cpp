@@ -1,6 +1,10 @@
-//
-// Created by david on 05/10/16.
-//
+/**
+ *
+ * Classe représentant la simulation avec l'option -t1 : la carte est séparée en 4 régions. une thread est associée pour chaque zone
+ * @author Thomas GILLOT & David Borry
+ * @version E1 & E2
+ *
+ */
 
 
 #include <vector>
@@ -16,6 +20,7 @@ Args::Args(World *w, vector<Zones> mZones, int i) :
         mZones(mZones),
         i(i) {
 }
+
 
 
 static void *updateRegion(void *p) {
@@ -49,6 +54,7 @@ static void *updateRegion(void *p) {
     return NULL;
 
 }
+
 
 static void *updateRegionE2(void *p) {
     auto args = static_cast<Args *>(p);
@@ -107,6 +113,12 @@ static void *updateRegionE2(void *p) {
 
     return NULL;
 }
+/**
+ * Constructeur de la simulation : initialise chaque file de la zone
+ * @param n
+ * @param e
+ * @return
+ */
 
 MTSim1::MTSim1(int n, int e) :
         Simulation(n,e) {
@@ -115,6 +127,9 @@ MTSim1::MTSim1(int n, int e) :
 
 }
 
+/**
+ * Méthode permettant d'initialiser chaque zone de la carte et remplit chaqe
+ */
 void MTSim1::initZones() {
 
     int width = mWorld.getMap().getWidth();

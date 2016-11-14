@@ -12,6 +12,12 @@
 #include "Entity.h"
 
 
+/**
+ * Class reprensenting each zone of a full map. To each zone is associated a queue of Entity representing the enties who are
+ * in the current zone.
+ * There is a mutex to synchronize queues when a current entity change his zone.
+ */
+
 class Zones {
 
 public:
