@@ -14,7 +14,7 @@ Simulation* build(int p, int t,int e){
     if(t==1)
         return new MTSim1(p,e);
     else if(t==2)
-        return new MTSim2(p);
+        return new MTSim2(p,e);
     else
         return new Simulation(p,e);
 }

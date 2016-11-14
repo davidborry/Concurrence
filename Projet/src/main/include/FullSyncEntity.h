@@ -7,6 +7,10 @@
 
 #include "Entity.h"
 
+/**
+ * Fully synchronized entity, wich moves on the map by using
+ * the cells mutexes
+ */
 class FullSyncEntity : public Entity{
 
 public:

@@ -9,6 +9,11 @@
 #include <vector>
 #include "Cell.h"
 
+/**
+ * 2 integer vector.
+ * Can be compared and combined with other vectors.
+ * Used to process position and distances between two points
+ */
 struct Vector2i{
     Vector2i(int x =0 , int y = 0);
     double length() const;
@@ -18,6 +23,10 @@ struct Vector2i{
 
 };
 
+
+/**
+ * Map class. Represents a rectangle of  width*height cells
+ */
 
 class Map{
 public:

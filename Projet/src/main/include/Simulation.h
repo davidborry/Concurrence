@@ -7,6 +7,11 @@
 
 #include "World.h"
 
+/**
+ * Basic iterative simulation (t0)
+ * Works like a game loop and updates every entity
+ * at each iteration
+ */
 class Simulation{
 
 public:

@@ -8,6 +8,11 @@
 #include <ostream>
 #include <semaphore.h>
 
+/**
+ * Simple map cell. Can be solid (occupied) or not.
+ * Can also be synchronized with a mutex
+ */
+
 class Cell{
 
 public:

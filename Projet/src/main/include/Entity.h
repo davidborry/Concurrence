@@ -10,6 +10,11 @@
 #include "Map.h"
 #include "DataTable.h"
 
+/**
+ * Entity class. Can be a wall or a person, and it's represented
+ * by a rectangle of cells on the map
+ */
+
 typedef std::priority_queue<Vector2i,std::vector<Vector2i>,std::greater<Vector2i>> Paths;
 
 class Entity{
@@ -39,10 +44,16 @@ public:
 
     Entity(Map* map, Type type, int x, int y);
 
+    //move algorithm
     void update();
     bool move(Vector2i direction);
+
+    //Stores the shortest distances from the borders to the target
+    //in a priority queue
     Paths shortestDistanceToTarget();
     void setTarget(Vector2i target);
+
+    //Destroy when target is reached
     void destroy();
     bool isDestroyed() const;
     void respawn();
@@ -53,6 +64,8 @@ public:
 
     Map* getMap() const;
 
+    //1 step move functions. Can be redefined in synchronized
+    //subclasses
 private:
     virtual bool goLeft();
     virtual bool goRight();

@@ -9,6 +9,9 @@
 #include <array>
 #import <semaphore.h>
 
+/**
+ * World class. Can spawn entities and set a target for them
+ */
 class World{
 
 public:

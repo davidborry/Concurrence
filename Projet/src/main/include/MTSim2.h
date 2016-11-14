@@ -7,6 +7,11 @@
 
 #include "Simulation.h"
 
+/**
+ * Multi thread simulation 2 (t2)
+ * Every human entity has its associated thread and
+ * must be fully synchronized in order to avoid collisions
+ */
 class MTSim2 : public Simulation{
 public:
     MTSim2(int n = 4, int e = 1);
