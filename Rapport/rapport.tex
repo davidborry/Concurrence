@@ -199,12 +199,10 @@ Comme nous disions précédemment, cette solution n'est vraiment pas la plus opt
 Nous nous efforcerons d'améliorer au mieux cette solution (afin d'éviter, en premier, les cas d'interblocages et/ou de famines) et nous la présenterons lors de la prochaine version de ce projet et donc de ce rapport.
 
 
-	\item{Synchronisation de t2}
-Une solution plus optimale serait d'associer un mutex à chaque case, et en fonction du scénario, seulement certaines cases devront être synchronisées. \\
+	\item{Synchronisation de t2} 
 
-
-
-Pour \textbf{t2} par exemple, la synchronisation se fait au niveau du déplacement d'une entité. Quelle que soit la direction, une entité se déplaçant va essayer d'occuper 4 cases (celles vers lesquelles on se dirige) et d'en libérer 4 (celles laissées après déplacement). La synchronisation doit donc se faire au niveau des 4 cases qu'on essaie d'occuper. Avant de vérifier si elles sont libres ou non, on attend que le mutex de chacune des cases soit libre pour éviter une collision avec une entité occupant déjà la case. Ainsi pour chaque entité déplacée, ce sont 4 mutex qui sont utilisés.
+Pour t2, une solution plus optimale serait d'associer un mutex à chaque case, et en fonction du scénario, seulement certaines cases devront être synchronisées. 
+La synchronisation se fait au niveau du déplacement d'une entité. Quelle que soit la direction, une entité se déplaçant va essayer d'occuper 4 cases (celles vers lesquelles on se dirige) et d'en libérer 4 (celles laissées après déplacement). La synchronisation doit donc se faire au niveau des 4 cases qu'on essaie d'occuper. Avant de vérifier si elles sont libres ou non, on attend que le mutex de chacune des cases soit libre pour éviter une collision avec une entité occupant déjà la case. Ainsi pour chaque entité déplacée, ce sont 4 mutex qui sont utilisés.
 
 \end {itemize}
 
@@ -310,7 +308,7 @@ Nous pouvons voir, après exécution de T1 en étape E2, que l'inverse de étape
 
 
 \section{Conclusion}
-Cette première étape a permis de mettre en place une simulation pleinement fonctionnelle avec la thread principale et de poser les bases pour développer les scénarios multithreads. Sans synchronisation et gestion du partage des ressources, les options \textbf{t1} et \textbf{t2} ne peuvent fonctionner correctement, même si elles déplacent les entités jusqu'à leur destination, car la gestion des collisions et perturbée. 
+La première étape a permis de mettre en place une simulation pleinement fonctionnelle avec la thread principale et de poser les bases pour développer les scénarios multithreads. Avec la seconde, nous avons mis en place des cas simples de synchronisations des scénarios multithreads t1 et t2.
 Les mesures effectuées ont bien montré l'intérêt d'un programme multithread pour ce genre de problème, qui donne un véritable gain de performances sous certaines conditions. La prochaine étape consistera donc à synchroniser efficacement les tâches et à intégrer la représentation graphique pour les scénarios multithreads.
 
 

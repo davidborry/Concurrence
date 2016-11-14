@@ -7,11 +7,11 @@
 \contentsline {subsubsection}{\numberline {2.2.1}Les threads POSIX}{4}{subsubsection.2.2.1}
 \contentsline {subsubsection}{\numberline {2.2.2}Int\IeC {\'e}grer les threads \IeC {\`a} la simulation}{5}{subsubsection.2.2.2}
 \contentsline {subsubsection}{\numberline {2.2.3}Synchronisation}{6}{subsubsection.2.2.3}
-\contentsline {section}{\numberline {3}Choix de d\IeC {\'e}veloppement}{6}{section.3}
-\contentsline {subsection}{\numberline {3.1}Mod\IeC {\'e}liser une entit\IeC {\'e}}{6}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}Simulation et polymorphisme}{7}{subsection.3.2}
-\contentsline {section}{\numberline {4}Tester l'application}{7}{section.4}
+\contentsline {section}{\numberline {3}Choix de d\IeC {\'e}veloppement}{7}{section.3}
+\contentsline {subsection}{\numberline {3.1}Mod\IeC {\'e}liser une entit\IeC {\'e}}{7}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Simulation et polymorphisme}{8}{subsection.3.2}
+\contentsline {section}{\numberline {4}Tester l'application}{8}{section.4}
 \contentsline {subsection}{\numberline {4.1}Correction}{8}{subsection.4.1}
 \contentsline {subsection}{\numberline {4.2}Tests unitaires}{9}{subsection.4.2}
-\contentsline {subsection}{\numberline {4.3}Performances}{9}{subsection.4.3}
-\contentsline {section}{\numberline {5}Conclusion}{12}{section.5}
+\contentsline {subsection}{\numberline {4.3}Performances}{10}{subsection.4.3}
+\contentsline {section}{\numberline {5}Conclusion}{13}{section.5}
