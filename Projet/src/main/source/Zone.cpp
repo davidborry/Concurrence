@@ -5,6 +5,7 @@
 #include <zconf.h>
 #include <algorithm>
 #include <functional>
+#include <iostream>
 #include "../include/Zone.h"
 
 Zone::Zone(int l, int r, int w, int h) :
@@ -13,61 +14,65 @@ r(r),
 w(w),
 h(h),
 prev(nullptr),
-next(nullptr)
+next(nullptr),
+end(false)
 {
     sem_init(&mutex,0,1);
-
 }
 
 void Zone::add(Entity *entity) {
-    acquire();
     mActiveHumans.push_back(entity);
-    release();
 }
 
 void Zone::update() {
-    bool end = false;
 
-    while(!end){
+    while(true){
+
         end = true;
 
-        acquire();
+       // acquire();
         for(int i = 0; i < mActiveHumans.size(); i++){
+
             if(!mActiveHumans[i]->isDestroyed()){
                 end = false;
                 mActiveHumans[i]->update();
             }
         }
 
+        //release();
+
+
         clearList();
 
-        release();
 
-        usleep(10000);
+
     }
 }
 
 
 void Zone::clearList() {
+    acquire();
     auto listBegin = std::remove_if(mActiveHumans.begin(), mActiveHumans.end(),
                                     [this] (Entity* e)
                                     {
-                                        if(e->getPosition().x < l) {
-                                            if(prev != nullptr)
+                                       // std::cout << e->getPosition().x << " : " << l << std::endl;
+                                        if(e->isDestroyed() || e->getPosition().x < l) {
+
+                                            if(prev != nullptr) {
+                                                prev->acquire();
                                                 prev->add(e);
+                                                prev->release();
+                                            }
                                             return true;
                                         }
 
-                                        if(e->getPosition().x >= r){
-                                            if(next != nullptr)
-                                                next->add(e);
-                                            return true;
-                                        }
+
 
                                         return false;
                                     });
 
     mActiveHumans.erase(listBegin,mActiveHumans.end());
+    release();
 }
 void Zone::setNext(Zone *n) {
     next = n;

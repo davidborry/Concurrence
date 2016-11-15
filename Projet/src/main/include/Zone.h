@@ -19,14 +19,15 @@ public:
     void setNext(Zone* n);
     void setPrev(Zone* p);
 
+    void clearList();
+
     void acquire();
     void release();
-
-    void clearList();
 
 private:
     sem_t mutex;
     int l,r,w,h;
+    bool end;
     Zone *prev, *next;
     std::vector<Entity*> mActiveHumans;
 };
