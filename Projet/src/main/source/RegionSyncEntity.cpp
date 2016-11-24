@@ -6,7 +6,7 @@
 #include "../include/RegionSyncEntity.h"
 
 RegionSyncEntity::RegionSyncEntity(Map *map, Type type, int x, int y) :
-Entity(map,type,x,y)
+        Entity(map,type,x,y)
 {
 
 }
@@ -18,13 +18,20 @@ bool RegionSyncEntity::goLeft() {
 
     for(int i = 0; i < mHeight; i++) {
 
-        if(mPosition.x -1 < l)
+        if(mPosition.x -1 < l+mWidth-1)
             mMap->acquire(mPosition.x -1, mPosition.y +i);
+
+        if(mPosition.x + mWidth -1 > r)
+            mMap->acquire(mPosition.x +mWidth-1, mPosition.y +i);
 
         if (mMap->isSolid(mPosition.x - 1, mPosition.y + i)){
             for(int j = 0; j <= i; j++) {
-                if(mPosition.x -1 < l)
+
+                if(mPosition.x -1 < l+mWidth-1)
                     mMap->release(mPosition.x - 1, mPosition.y + j);
+
+                if(mPosition.x + mWidth -1 > r)
+                    mMap->release(mPosition.x +mWidth-1, mPosition.y +j);
             }
             return false;
         }
@@ -34,9 +41,12 @@ bool RegionSyncEntity::goLeft() {
 
     for(int i = 0; i < mHeight; i++){
         mMap->setSolid(mPosition.x,mPosition.y+i,true);
-        if(mPosition.x < l)
+        if(mPosition.x < l+mWidth-1)
             mMap->release(mPosition.x, mPosition.y +i);
+
         mMap->setSolid(mPosition.x+mWidth,mPosition.y+i,false);
+        if(mPosition.x + mWidth > r)
+            mMap->release(mPosition.x +mWidth, mPosition.y +i);
 
     }
 
@@ -51,6 +61,7 @@ bool RegionSyncEntity::goRight() {
 
         if(mPosition.x + mWidth > r)
             mMap->acquire(mPosition.x + mWidth, mPosition.y +i);
+
 
         if (mMap->isSolid(mPosition.x + mWidth, mPosition.y + i)) {
 
@@ -82,12 +93,12 @@ bool RegionSyncEntity::goUp() {
 
     for(int i = 0; i < mWidth; i++) {
 
-        if(mPosition.x+i < l || mPosition.x +i > r)
+        if(mPosition.x+i < l + mWidth -1 || mPosition.x + i > r)
             mMap->acquire(mPosition.x + i, mPosition.y -1);
 
         if (mMap->isSolid(mPosition.x + i, mPosition.y - 1)) {
             for(int j = 0; j <= i; j++) {
-                if(mPosition.x+j < l || mPosition.x +j > r)
+                if(mPosition.x+j < l + mWidth -1 || mPosition.x + i > r)
                     mMap->release(mPosition.x + j, mPosition.y - 1);
             }
             return false;
@@ -96,10 +107,12 @@ bool RegionSyncEntity::goUp() {
 
     for(int i = 0; i < mWidth; i++){
         mMap->setSolid(mPosition.x+i,mPosition.y-1,true);
+        if(mPosition.x+i < l +mWidth -1 || mPosition.x + i > r)
+            mMap->release(mPosition.x + i, mPosition.y -1);
+
         mMap->setSolid(mPosition.x+i,mPosition.y-1+mHeight,false);
 
-        if(mPosition.x+i < l || mPosition.x +i > r)
-            mMap->release(mPosition.x + i, mPosition.y -1);
+
 
     }
 
@@ -117,12 +130,12 @@ bool RegionSyncEntity::goDown() {
 
     for(int i = 0; i < mWidth; i++) {
 
-        if(mPosition.x+i < l || mPosition.x +i > r)
-             mMap->acquire(mPosition.x + i, mPosition.y + mHeight);
+        if(mPosition.x+i < l + mWidth -1 || mPosition.x + i > r)
+            mMap->acquire(mPosition.x + i, mPosition.y + mHeight);
 
         if (mMap->isSolid(mPosition.x + i, mPosition.y + mHeight)) {
             for(int j = 0; j <= i; j++) {
-                if(mPosition.x+j < l || mPosition.x +j > r)
+                if(mPosition.x+j < l + mWidth -1 || mPosition.x +j > r)
                     mMap->release(mPosition.x + j, mPosition.y + mHeight);
             }
 
@@ -133,7 +146,7 @@ bool RegionSyncEntity::goDown() {
     for(int i = 0; i < mWidth; i++){
         mMap->setSolid(mPosition.x+i,mPosition.y+mHeight,true);
 
-        if(mPosition.x+i < l || mPosition.x +i > r)
+        if(mPosition.x+i < l + mWidth -1 || mPosition.x +i > r)
             mMap->release(mPosition.x + i, mPosition.y + mHeight);
 
         mMap->setSolid(mPosition.x+i,mPosition.y,false);
@@ -142,4 +155,5 @@ bool RegionSyncEntity::goDown() {
     mPosition.y++;
     return true;
 }
+
 

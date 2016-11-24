@@ -35,6 +35,9 @@ Simulation()
 
     int humans = pow(2,n);
 
+    if(s==World::FullSync)
+        s = World::RegionSync;
+
     mWorld.spawn(Entity::Human,humans,s);
 
     int width = mWorld.getMap().getWidth();
