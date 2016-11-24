@@ -11,7 +11,7 @@
 class Zone{
 
 public:
-    Zone(int l, int r, int w, int h);
+    Zone(int l, int r, int w, int h, int totalEntities);
 
     void add(Entity* entity);
     void update();
@@ -19,15 +19,16 @@ public:
     void setNext(Zone* n);
     void setPrev(Zone* p);
 
-    void clearList();
-
     void acquire();
     void release();
 
+    void clearList();
+
 private:
+    int mTotalEntities;
+    bool end;
     sem_t mutex;
     int l,r,w,h;
-    bool end;
     Zone *prev, *next;
     std::vector<Entity*> mActiveHumans;
 };

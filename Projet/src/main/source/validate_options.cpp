@@ -7,7 +7,6 @@
 
 using namespace std;
 
-
 bool validate_person(int user_number) {
     if(user_number<0 || user_number > 9){
         cout << "Invalide argument for -p"<<endl;

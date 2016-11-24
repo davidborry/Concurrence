@@ -6,9 +6,7 @@
 #ifndef PROJECT_VALIDATE_OPTIONS_H
 #define PROJECT_VALIDATE_OPTIONS_H
 
-/**
- * Validate all the options when we launch the simulation and refuse when the options are not correct
- */
+
 bool validate_person(int user_number);
 bool validate_threads(int user_number);
 bool validate_step_project(int user_number);

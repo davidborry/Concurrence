@@ -7,18 +7,15 @@
 
 #include "Entity.h"
 #include <array>
-#import <semaphore.h>
+#include <semaphore.h>
 
-/**
- * World class. Can spawn entities and set a target for them
- */
 class World{
 
 public:
     enum Sync{
-        E1,
-        E2,
-        E3
+        NoSync,
+        RegionSync,
+        FullSync
     };
 
 public:
@@ -31,12 +28,7 @@ public:
     void removeDestroyedEntities();
     void reset();
 
-    int getLivingPeopleNumber() const;
-
-    void down();
-    void up();
-    void decrementLivingPeople();
-
+    Map* getMapAddress();
     Map getMap() const;
     std::vector<Entity*> getActiveHumans() const;
     void setTarget(Vector2i v);
@@ -44,7 +36,6 @@ public:
 private:
     Map mMap;
     Vector2i mTarget;
-    sem_t mutex;
 
     int livingPeopleNumber;
 

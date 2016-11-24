@@ -8,29 +8,33 @@
 #include <iostream>
 #include "../include/Zone.h"
 
-Zone::Zone(int l, int r, int w, int h) :
+Zone::Zone(int l, int r, int w, int h, int totalEntities) :
 l(l),
 r(r),
 w(w),
 h(h),
 prev(nullptr),
 next(nullptr),
-end(false)
+end(false),
+mTotalEntities(totalEntities)
 {
     sem_init(&mutex,0,1);
+
 }
 
 void Zone::add(Entity *entity) {
+    entity->setL(l);
+    entity->setR(r);
+
     mActiveHumans.push_back(entity);
 }
 
 void Zone::update() {
 
-    while(true){
+    while(Entity::cnt < mTotalEntities){
 
         end = true;
 
-       // acquire();
         for(int i = 0; i < mActiveHumans.size(); i++){
 
             if(!mActiveHumans[i]->isDestroyed()){
@@ -39,12 +43,7 @@ void Zone::update() {
             }
         }
 
-        //release();
-
-
         clearList();
-
-
 
     }
 }
@@ -55,9 +54,7 @@ void Zone::clearList() {
     auto listBegin = std::remove_if(mActiveHumans.begin(), mActiveHumans.end(),
                                     [this] (Entity* e)
                                     {
-                                       // std::cout << e->getPosition().x << " : " << l << std::endl;
                                         if(e->isDestroyed() || e->getPosition().x < l) {
-
                                             if(prev != nullptr) {
                                                 prev->acquire();
                                                 prev->add(e);
@@ -65,8 +62,6 @@ void Zone::clearList() {
                                             }
                                             return true;
                                         }
-
-
 
                                         return false;
                                     });

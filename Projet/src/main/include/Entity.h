@@ -11,8 +11,11 @@
 #include "DataTable.h"
 
 /**
- * Entity class. Can be a wall or a person, and it's represented
- * by a rectangle of cells on the map
+ * Entity class.
+ * Can be a human or a wall.
+ * If given a target, an entity can process the shortest distance to reach
+ * it and use it to move. The entity is destroyed when it reaches its target,
+ * but it can respawn.
  */
 
 typedef std::priority_queue<Vector2i,std::vector<Vector2i>,std::greater<Vector2i>> Paths;
@@ -20,6 +23,8 @@ typedef std::priority_queue<Vector2i,std::vector<Vector2i>,std::greater<Vector2i
 class Entity{
 
 public:
+
+    static int cnt;
 
     enum Type{
         Human,
@@ -44,16 +49,10 @@ public:
 
     Entity(Map* map, Type type, int x, int y);
 
-    //move algorithm
     void update();
     bool move(Vector2i direction);
-
-    //Stores the shortest distances from the borders to the target
-    //in a priority queue
     Paths shortestDistanceToTarget();
     void setTarget(Vector2i target);
-
-    //Destroy when target is reached
     void destroy();
     bool isDestroyed() const;
     void respawn();
@@ -64,8 +63,11 @@ public:
 
     Map* getMap() const;
 
-    //1 step move functions. Can be redefined in synchronized
-    //subclasses
+    int getL() const;
+    int getR() const;
+    void setL(int l2);
+    void setR(int r2);
+
 private:
     virtual bool goLeft();
     virtual bool goRight();
@@ -83,6 +85,8 @@ protected:
     bool mSolid;
     bool mIsDestroyed;
     Vector2i* mTarget;
+
+    int l,r;
 };
 
 #endif //PROJET_ENTITY_H

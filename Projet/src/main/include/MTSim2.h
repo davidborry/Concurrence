@@ -2,19 +2,18 @@
 // Created by david on 05/10/16.
 //
 
+/**
+ * T2 scenario. Each human entity has an associated thread
+ */
+
 #ifndef PROJET_MTSIM1_H
 #define PROJET_MTSIM1_H
 
-#include "Simulation.h"
+#include "STSim.h"
 
-/**
- * Multi thread simulation 2 (t2)
- * Every human entity has its associated thread and
- * must be fully synchronized in order to avoid collisions
- */
 class MTSim2 : public Simulation{
 public:
-    MTSim2(int n = 4, int e = 1);
+    MTSim2(int n = 4, World::Sync sync = World::NoSync);
     void run();
 
 private:

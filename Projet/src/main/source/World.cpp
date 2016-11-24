@@ -5,6 +5,7 @@
 #include <thread>
 #include <algorithm>
 #include <iostream>
+#include <include/RegionSyncEntity.h>
 #include "../include/FullSyncEntity.h"
 #include "../include/World.h"
 
@@ -15,8 +16,6 @@ World::World(int p):
 mMap(512,128),
 mTarget(0,0)
 {
-    sem_init(&mutex,0,1);
-    this->livingPeopleNumber = p;
 
 }
 
@@ -48,20 +47,14 @@ bool World::spawn(Entity::Type type, int x, int y, Sync sync) {
             if(mMap.isSolid(x+i,y+j) && Entity::Table[type].solid)
                 return false;
 
-    switch(sync){
-        case E1:
-            e = new Entity(&mMap,type,x,y);
-            break;
-        case E2:
-            e = new FullSyncEntity(&mMap,type,x,y);
-            break;
-        case E3:
-            e = new FullSyncEntity(&mMap,type,x,y);
-            break;
-        default:
-            e = new Entity(&mMap,type,x,y);
-            break;
-    }
+    if(sync==FullSync)
+        e = new FullSyncEntity(&mMap,type,x,y);
+
+    else if(sync == RegionSync)
+        e = new RegionSyncEntity(&mMap,type,x,y);
+
+    else
+        e = new Entity(&mMap,type,x,y);
 
     if(type == Entity::Human) {
         mActiveHumans.push_back(e);
@@ -87,19 +80,6 @@ void World::spawn(Entity::Type type, int n, Sync sync) {
     }
 }
 
-void World::down() {
-    sem_wait(&mutex);
-}
-
-void World::up() {
-    sem_post(&mutex);
-}
-
-void World::decrementLivingPeople() {
-    this->down();
-    this->livingPeopleNumber -= 1;
-    this->up();
-}
 
 void World::removeDestroyedEntities() {
     auto listBegin = std::remove_if(mActiveHumans.begin(), mActiveHumans.end(),
@@ -112,6 +92,10 @@ void World::reset() {
     for(int i = 0; i < mActiveHumans.size(); i++)
         mActiveHumans[i]->respawn();
 }
+
+Map* World::getMapAddress() {
+    return &mMap;
+}
 Map World::getMap() const {
     return mMap;
 }
@@ -123,9 +107,4 @@ std::vector<Entity*> World::getActiveHumans() const {
 void World::setTarget(Vector2i v){
     mTarget = v;
 }
-
-int World::getLivingPeopleNumber() const {
-    return livingPeopleNumber;
-}
-
 

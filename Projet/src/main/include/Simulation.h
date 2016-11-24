@@ -1,5 +1,5 @@
 //
-// Created by david on 05/10/16.
+// Created by david on 14/11/16.
 //
 
 #ifndef PROJET_SIMULATION_H
@@ -7,21 +7,15 @@
 
 #include "World.h"
 
-/**
- * Basic iterative simulation (t0)
- * Works like a game loop and updates every entity
- * at each iteration
- */
 class Simulation{
+public:
+    Simulation();
 
 public:
-    Simulation(int n = 4, int e = 1);
-
-    virtual void run();
+    virtual void run() = 0;
     void reset();
 
 protected:
-    int e;
     World mWorld;
 };
 

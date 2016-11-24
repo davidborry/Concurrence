@@ -8,9 +8,11 @@
 #include "Entity.h"
 
 /**
- * Fully synchronized entity, wich moves on the map by using
- * the cells mutexes
+ * Used in scenario T2 and E2.
+ * This synchronized entity will block a cell it
+ * tries to occupy while moving.
  */
+
 class FullSyncEntity : public Entity{
 
 public:

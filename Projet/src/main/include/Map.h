@@ -5,17 +5,13 @@
 #ifndef PROJET_MAP_H
 #define PROJET_MAP_H
 
-#include <iostream>
 #include <vector>
 #include "Cell.h"
 
-/**
- * 2 integer vector.
- * Can be compared and combined with other vectors.
- * Used to process position and distances between two points
- */
+// 2 integer vector. Used for position and distances calculs.
+//Can be compared and combined with others vectors
 struct Vector2i{
-    Vector2i(int x =0 , int y = 0);
+    Vector2i(int x, int y);
     double length() const;
 
     int x;
@@ -23,11 +19,15 @@ struct Vector2i{
 
 };
 
+struct Rectangle{
+    Rectangle(Vector2i tl, Vector2i br);
+
+    Vector2i tl, br;
+};
 
 /**
- * Map class. Represents a rectangle of  width*height cells
+ * A simple map containing width*height cells.
  */
-
 class Map{
 public:
     Map(int width, int height);
