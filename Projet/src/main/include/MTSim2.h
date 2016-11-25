@@ -13,7 +13,7 @@
 
 class MTSim2 : public Simulation{
 public:
-    MTSim2(int n = 4, World::Sync sync = World::NoSync);
+    MTSim2(int n = 4, Scenario scenario = E1);
     void run();
 
 private:

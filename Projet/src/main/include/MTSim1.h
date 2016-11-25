@@ -18,9 +18,10 @@ struct Args{
 class MTSim1 : public Simulation{
 
 public:
-    MTSim1(int n = 4, World::Sync s = World::NoSync);
+    MTSim1(int n = 4, Scenario scenario = E1);
     void initZones();
     void run();
+    void reset();
 
 private:
     std::vector<Rectangle> mRect;

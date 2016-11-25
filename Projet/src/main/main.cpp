@@ -10,30 +10,28 @@
 using namespace std;
 
 Simulation* build(int p, int t, int e){
-    World::Sync sync;
+    Simulation::Scenario  scenario;
     switch(e){
         case 2:
-            sync = World::RegionSync;
+            scenario = Simulation::E2;
             break;
 
         case 3:
-            sync = World::FullSync;
+            scenario = Simulation::E3;
             break;
 
         default:
-            sync = World::NoSync;
+            scenario = Simulation::E1;
             break;
     }
 
     if(t==1)
-        return new MTSim1(p,sync);
+        return new MTSim1(p,scenario);
     else if(t==2)
-        return new MTSim2(p,sync);
-    else {
-        STSim* s = new STSim(p,sync);
-        cout << "Loading scenario T0..." << endl;
-        return s;
-    }
+        return new MTSim2(p,scenario);
+    else
+        return new STSim(p);
+
 }
 
 
@@ -62,7 +60,7 @@ int main(int argc, char** argv) {
     else {
         cout << "Starting simulation..." << endl;
         sim->run();
-        cout << "STSim succesfully ended ! " << endl;
+        cout << "Simulation succesfully ended ! " << endl;
     }
 
     return 0;

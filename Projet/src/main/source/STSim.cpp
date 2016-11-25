@@ -9,10 +9,10 @@
 
 using namespace std;
 
-STSim::STSim(int n, World::Sync sync) :
+STSim::STSim(int n) :
 Simulation()
 {
-    cout << "Initializing version E" << sync+1 <<"..." << endl;
+    cout << "Initializing T0 simulation" << endl;
     mWorld.spawn(Entity::Human,pow(2,n),World::NoSync);
 
 }

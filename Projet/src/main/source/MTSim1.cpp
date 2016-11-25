@@ -29,14 +29,19 @@ static void* updateZone(void* p){
 }
 
 
-MTSim1::MTSim1(int n, World::Sync s) :
+MTSim1::MTSim1(int n, Scenario scenario) :
 Simulation()
 {
 
+    cout << "Initializing T1 simulation" << endl;
     int humans = pow(2,n);
 
-    if(s==World::FullSync)
+    World::Sync s;
+
+    if(scenario==E2)
         s = World::RegionSync;
+
+    else s = World::NoSync;
 
     mWorld.spawn(Entity::Human,humans,s);
 
@@ -93,4 +98,10 @@ void MTSim1::run() {
     mThreads.clear();
 
 
+
+}
+
+void MTSim1::reset() {
+    Simulation::reset();
+    initZones();
 }

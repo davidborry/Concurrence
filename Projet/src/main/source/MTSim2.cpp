@@ -29,12 +29,16 @@ static void* updateEntity(void* p)
     return NULL;
 }
 
-MTSim2::MTSim2(int n, World::Sync sync) : Simulation()
+MTSim2::MTSim2(int n, Scenario scenario) : Simulation()
 {
     cout << "Loading scenario T2..." << endl;
 
-    if(sync==World::RegionSync)
+    World::Sync  sync;
+
+    if(scenario == E2)
         sync = World::FullSync;
+    else
+        sync = World::NoSync;
 
     mWorld.spawn(Entity::Human,pow(2,n),sync);
 

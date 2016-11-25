@@ -8,12 +8,20 @@
 #include "World.h"
 
 class Simulation{
+
+public:
+    enum Scenario{
+        E1,
+        E2,
+        E3
+    };
+
 public:
     Simulation();
 
 public:
     virtual void run() = 0;
-    void reset();
+    virtual void reset();
 
 protected:
     World mWorld;

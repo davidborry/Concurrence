@@ -13,7 +13,7 @@
 class STSim : public Simulation{
 
 public:
-    STSim(int n = 4, World::Sync sync = World::NoSync);
+    STSim(int n = 4);
 
     virtual void run();
 

@@ -91,6 +91,7 @@ void World::removeDestroyedEntities() {
 void World::reset() {
     for(int i = 0; i < mActiveHumans.size(); i++)
         mActiveHumans[i]->respawn();
+    Entity::cnt = 0;
 }
 
 Map* World::getMapAddress() {
