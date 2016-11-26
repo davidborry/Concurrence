@@ -184,25 +184,25 @@ Pour les deux configurations multithread, on doit faire en sorte que chaque thre
 Plusieurs choix de synchronisations peuvent être implémentés. Le plus simple serait d'associer un \textbf{mutex}, sémaphore avec un compteur de 1, à la carte entière, mais cette solution serait inefficace et reviendrait à répéter le scénario itératif de \textbf{t0} (qui n'a pas besoin de synchronisation inter-thread puisque le scénario de t0 ne contient qu'une seule thread).
 
 \begin{itemize}
-	\item{Synchronisation de t1}
+	\item \textbf {t1} \\
+	Il convient d'abord de préciser le fonctionnement de la simulation t1 : On dispose de quatre \textbf{régions} représentées par des rectangles rangés de \textbf{gauche à droite}. Chaque région doit pouvoir gérer les entités qu'elle contient de manière intelligente : Parcourir la liste de toutes les entités présentes sur la carte et selectionner celles à l'intérieur de la région est coûteux et peu optimal. On préferera  associer une \textbf{liste} d'entités à chaque région. Ainsi, dés qu'une entité quitte une région, cette dernière doit la \textbf{retirer} de sa liste et l'\textbf{ajouter} à celle de la région voisine. \\
 
-Malheureusement, pour le moment nous n'avons pas trouvé de solution plus optimale pour t1. \\
-En effet, la synchronisation pour t1 se fait au niveau de chaque zone et de la carte entière. Chaque zone contient une file, contenant les entités qui le contiennent. 
-La carte entière contient une variable contenant le nombre de personnes restant sur la carte. Il existe donc un mutex sur la carte entière, car une seule thread doit pouvoir accéder à cette variable (en écriture et en lecture).
-Dès qu'une entité a quitté la carte, la thread correspondante accèdera à cette variable pour la décrémenter.
+Une première synchronisation indispensable pour le bon fonctionnement du programme : Si par exemple une région ajoute et retire en même temps des entités de sa liste, certaines entités risquent d'être \textbf{perdues} et ne seront gérées, ce qui bloquerait le programme qui ne s'arrête qu'une fois que toutes les personnes ont atteint leur destination. On doit donc sécuriser l'accès aux listes avec un \textbf{mutex}, quelle que soit la version e1, e2 ou e3. \\
 
-Il existe aussi un mutex sur chaque zone. En effet, si une entité d'une zone quitte cette dernière,  la zone courante va chercher la nouvelle zone correspondante en fonction des nouvelles coordonnées de l'entité. Dès que la nouvelle zone est trouvée, la thread va chercher à ajouter l'entité sur la file de la nouvelle zone. C'est donc à ce niveau que le mutex associé au zone entre en jeu : une seule thread doit avoir accès en écriture à la file d'une zone, si une thread y a déjà accès on bloque le processus courant.
+Comme chaque région est adjacente à une autre, certaines cases de la cartes peuvent être partagées par deux threads. Il s'agit de la "\textbf{frontière}" où les entités passent d'une région à une autre, ce qui peut perturber la gestion des collisions si on ne sécurise pas non plus l'accès à ces cases.
+Lorsqu'une entité se déplace sur une frontière, les cases qu'elle occupe peuvent se trouver dans deux régions différentes. Sachant que la position d'une entité correspond à celle de la case en Nord-Ouest, elle peut être gérée par une région tout en occupant les cases d'une autre. On doit donc synchroniser l'accès à ces cases comme le montre l'illustration suivante pour que les collisions entre entités soient bien gérées partout sur la carte. 4 mutex sont ainsi utilisés pour chaque entité se déplaçant sur une frontière.
 
-Comme nous disions précédemment, cette solution n'est vraiment pas la plus optimale (il y a même certains cas où des interblocages interviennent). En effet, comme nous bloquons l'accès à la variable de la carte entière à une seule thread, une seule boucle à la fois peut mettre à jour son compteur local du nombre de personne encore présente. Il y a donc un coût temporel important avec cette solution.
-
-
-Nous nous efforcerons d'améliorer au mieux cette solution (afin d'éviter, en premier, les cas d'interblocages et/ou de famines) et nous la présenterons lors de la prochaine version de ce projet et donc de ce rapport.
+\includegraphics[scale=0.3]{synct1}
 
 
-	\item{Synchronisation de t2} 
+
+
+	\item \textbf {t2}
 
 Pour t2, une solution plus optimale serait d'associer un mutex à chaque case, et en fonction du scénario, seulement certaines cases devront être synchronisées. 
-La synchronisation se fait au niveau du déplacement d'une entité. Quelle que soit la direction, une entité se déplaçant va essayer d'occuper 4 cases (celles vers lesquelles on se dirige) et d'en libérer 4 (celles laissées après déplacement). La synchronisation doit donc se faire au niveau des 4 cases qu'on essaie d'occuper. Avant de vérifier si elles sont libres ou non, on attend que le mutex de chacune des cases soit libre pour éviter une collision avec une entité occupant déjà la case. Ainsi pour chaque entité déplacée, ce sont 4 mutex qui sont utilisés.
+La synchronisation se fait au niveau du déplacement d'une entité. Quelle que soit la direction, une entité se déplaçant va essayer d'occuper 4 cases (celles vers lesquelles on se dirige) et d'en libérer 4 (celles laissées après déplacement). La synchronisation doit donc se faire au niveau des 4 cases qu'on essaie d'occuper et des 4 qu'on libère éventuellement. Avant de vérifier si elles sont occupées ou non, on attend que le mutex de chacune des cases soit libre pour éviter deux entités aient accès à la même case. Ainsi pour chaque entité déplacée, ce sont 8 mutex qui sont utilisés.
+
+\includegraphics[scale=0.3]{synct2}
 
 \end {itemize}
 
@@ -224,7 +224,10 @@ On remarquera que la classe World dispose également d'une fonction \textbf{upda
 
 
 \subsection{Simulation et polymorphisme}
-L'application en elle-même est lancée à travers la classe \textbf{Simulation}. On génère le monde et les entités dans le constructeur, et on lance la boucle dans la fonction \textbf{run}. Cette fois-ci, l'usage du polymorphisme est avantageux car cette fonction doit avoir un comportement bien différent pour chaque scénario. On crée donc des classes filles \textbf{MTSim1} et \textbf{MTSim2} respectivement associées aux configurations \textbf{-t1} et \textbf{-t2}. La fonction run est alors redéfinie pour pouvoir gérer la création des threads et l'attente de leur terminaison. Comme les threads POSIX ne peuvent pas gérer des fonctions membres directement, on recrée dans ces classes des fonctions \textbf{statiques} pour gérer les déplacements dans le monde. 
+L'application en elle-même est lancée à travers les classes héritant de \textbf{Simulation}. On génère le monde et les entités dans le constructeur, et on lance la boucle dans la fonction \textbf{run}. Cette fois-ci, l'usage du polymorphisme est avantageux car cette fonction doit avoir un comportement bien différent pour chaque scénario. On crée donc des classes filles \textbf{STSim},  \textbf{MTSim1} et \textbf{MTSim2} respectivement associées aux configurations \textbf{-t0}, \textbf{-t1} et \textbf{-t2}. La fonction run est alors redéfinie pour pouvoir gérer la création des threads et l'attente de leur terminaison. La génération du monde peut également changer pour chaque classe.
+Comme les threads POSIX ne peuvent pas gérer des fonctions membres directement, on recrée dans ces classes des fonctions \textbf{statiques} pour gérer les déplacements dans le monde.  \\
+
+La classe \textbf{Entity} est également dérivée pour chaque type de synchronisation possible. Les fonctions de déplacement y sont redéfinies pour pouvoir intégrer une synchronisation au niveau de certaines cases. On peut donc lancer une simulation avec des entités simples, de type \textbf{RegionSyncEntity} pour t1 et \textbf{FullSyncEntity} pour t2.
 
 \section{Tester l'application}
 Le fonctionnement de l'application repose essentiellement sur trois données: La position du point azimuth, qui doit être accessible à tout le monde, l'algorithme de déplacement et la gestion des threads. Cette dernière est uniquement nécessaire pour les configurations \textbf{t1} et \textbf{t2}.
@@ -259,49 +262,31 @@ Pour l'instant, ils servent principalement à tester l'algorithme de déplacemen
 Les déplacements des entités sont également testés dans le fichier \textbf{entity\_test.cpp}. On doit vérifier qu'elle ne traverse pas d'obstacle et qu'elle adapte sa trajectoire si elle en rencontre un. On a pour cela plusieurs tests où l'on crée une entité sur une petite carte où on y a placé manuellement plusieurs obstacles et on analyse le comportement de l'entité. Combinés avec les vecteurs, ces tests prouvent l'efficacité de l'algorithme de déplacement. Pour que ces tests fonctionnent efficacement, les entités sont toujours placées au même endroit.
 
 \subsection{Performances}
-La simulation peut être éxécutée avec l'option \textbf{-m}, permettant d'effectuer des mesures moyennes sur le temps de réponse et de calcul du processeur. On lance ainsi la simulation 5 fois d'affilée, on effectue les mesures à chaque fois et on calcule la moyenne des trois moyennes intermédiaires à la fin. La réinitialisation de la simulation qui consiste à faire réapparaître les entités à leurs positions d'origines n'est pas incluse dans la mesure. Pour ces mesures, on met bien l'accent sur les différences entre le temps de réponse, c'est à dire le temps écoulé du point de vue d'un utilisateur, et le temps CPU consommé qui peut vite augmenter pour une application multithread. On utilise ainsi les fonctions POSIX \textbf{getrusage} et \textbf{gettimeofday} dans une classe \textbf{Measures} afin de calculer le \textbf{temps de réponse}, le \textbf{temps CPU utilisateur} et le \textbf{temps CPU système}. Les figures suivantes montrent pour les trois scénarios les différences en secondes entre les temps de réponses et CPU (utilisateur + système) pour 4, 16 et 256 personnes à déplacer.
+La simulation peut être éxécutée avec l'option \textbf{-m}, permettant d'effectuer des mesures moyennes sur le temps de réponse et de calcul du processeur. On lance ainsi la simulation 5 fois d'affilée, on effectue les mesures à chaque fois et on calcule la moyenne des trois moyennes intermédiaires à la fin. La réinitialisation de la simulation qui consiste à faire réapparaître les entités à leurs positions d'origines n'est pas incluse dans la mesure. Pour ces mesures, on met bien l'accent sur les différences entre le temps de réponse, c'est à dire le temps écoulé du point de vue d'un utilisateur, et le temps CPU consommé qui peut vite augmenter pour une application multithread. On utilise ainsi les fonctions POSIX \textbf{getrusage} et \textbf{gettimeofday} dans une classe \textbf{Measures} afin de calculer le \textbf{temps de réponse}, le \textbf{temps CPU utilisateur} et le \textbf{temps CPU système}. Les figures suivantes permettent d'analyser les temps réels et CPU pour les scénarios t0, t1 et t2 avec les trois versions. Chaque graphe a trois points correspondant aux mesures pour 4, 16 et 256 personnes. On a choisi une échelle logarithmique pour plus de visibilité.
 On remarquera que pour chacune de ces mesures, le temps CPU système a une valeur négligeable.
 
 
 \begin{figure}[!h]
   \centering
-\caption{Comparaison des temps réels et processeurs pour 4 personnes}
+\caption{Comparaison des temps réels et processeurs pour t0}
 
-\includegraphics[width=10cm, height=3.8cm]{p4}
+\includegraphics[width=10cm, height=4cm]{t0}
 
- \caption{Comparaison des temps réels et processeurs pour 16 personnes}
+ \caption{Comparaison des temps réels et processeurs pour t1 (e1 et e2)}
 
-\includegraphics[width=10cm,height=4cm]{p16}
+\includegraphics[width=10cm,height=4cm]{t1}
 
- \caption{Comparaison des temps réels et processeurs pour 256 personnes}
+ \caption{Comparaison des temps réels et processeurs pour t2 (e1 et e2)}
 
-\includegraphics[width=10cm,height=4cm]{p256}
+\includegraphics[width=10cm,height=4cm]{t2}
 \end{figure}
 
 
 \newpage
 
-On peut voir que l'évolution des mesures est la même, sauf pour le cas avec 4 personnes, ce qui est normal. \\
-En effet, les configurations \textbf{t1} et \textbf{t2} créent ici 4 threads chacune. Le temps CPU du scénario t1 est plus élevé que celui de t2 car il ne doit pas seulement gérer les déplacements d'une entité. Il doit d'abord parcourir la liste des 4 entités présentes et gérer celle située dans la région associée au thread, ce qui augmente la complexité de l'algorithme et donc le temps de calcul. 
-Le fait que le temps CPU soit plus long que le temps réel à chaque configuration est logique: la fonction \textbf{getrusage} permet de calculer la somme des temps utilisateurs de chacune des threads actives. Plus il y a de threads, plus le temps CPU sera long. Les mesures effectuées montrent bien que la répartition des tâches sur plusieurs threads peut être avantagueuse en gain de performances. Le temps de réponse du programme est réduit pour les deux scénarios multithreads avec 4 personnes. \\
-Pour 16 et 256 personnes, c'est la configuration \textbf{t1} qui est la plus optimale. Le temps de réponse est le plus petit et le temps CPU est largement supérieur, ce qui prouve que l'application bénéficie de l'usage des threads. La configuration \textbf{t2} en revanche montre ses limites à partir de 16 personnes. Le processus de création de threads est en effet coûteux et augmentera le temps de réponse si on les utilise en grande quantité. Ainsi pour 16 personnes le temps de réponse est quasiment le même que pour \textbf{t0} et pour 256 personnes, il est beaucoup plus long, ce qui rend ce scénario inefficace passé un certain nombre de personnes à déplacer.
-
-\begin{figure}[h]
-\caption{\label{f2} \textbf{Execution de T1 en étape E2 pour 4, 16 et 256 personnes}}
-  \centering
-\includegraphics[width=12cm]{figure7}
-\end{figure}
-
-Nous pouvons voir, après exécution de T1 en étape E2, que l'inverse de étape E1 se produit. Le temps CPU est beaucoup moins long que le temps réel. Nous pouvons en conclure que plus le nombre de personne est important (i-e : à partir de 16 personnes) l'utilisation de T1 en étape E2 est beaucoup plus efficace que T2.
-
-\begin{figure}[h]
-\caption{\label{f2} \textbf{Execution de T2 en étape E2 pour 4, 16 et 256 personnes}}
-  \centering
-\includegraphics[width=12cm]{e2}
-\end{figure}
-
-
-
+On peut voir que pour t0, les temps réels et utilisateurs sont assez proches avec une différence maximum de 1.5 secondes. \\
+Cette différence s'accentue évidemment pour t1 et t2, avec la gestion de plusieurs threads. Plus le nombre de personne augmente, plus le temps d'éxécution est long, mais le temps CPU croit beaucoup plus vite que le temps réel. \\
+Pour t1, on remarquera que les temps réels pour e1 et e2 sont identiques, mais que le temps utilisateur est plus élevé pour la première version. Même constat pour t2, avec une différence entre les deux versions encore plus grande, de l'ordre de plusieurs dizaines de secondes.
 
 
 \newpage
@@ -309,7 +294,8 @@ Nous pouvons voir, après exécution de T1 en étape E2, que l'inverse de étape
 
 \section{Conclusion}
 La première étape a permis de mettre en place une simulation pleinement fonctionnelle avec la thread principale et de poser les bases pour développer les scénarios multithreads. Avec la seconde, nous avons mis en place des cas simples de synchronisations des scénarios multithreads t1 et t2.
-Les mesures effectuées ont bien montré l'intérêt d'un programme multithread pour ce genre de problème, qui donne un véritable gain de performances sous certaines conditions. La prochaine étape consistera donc à synchroniser efficacement les tâches et à intégrer la représentation graphique pour les scénarios multithreads.
+Les mesures effectuées ont bien montré l'intérêt d'un programme multithread pour ce genre de problème, qui donne un véritable gain de performances pouvant être encore amélioré avec la synchronisation des threads. La prochaine étape consistera à ajouter, en parallèle à celles existantes, une synchronisation par moniteur.
 
 
 \end{document}
+\grid

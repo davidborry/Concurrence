@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.10.7)  14 NOV 2016 10:29
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.10.7)  26 NOV 2016 17:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -642,14 +642,7 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip100
 )
-(./rapport.aux
-
-LaTeX Warning: Label `f2' multiply defined.
-
-
-LaTeX Warning: Label `f2' multiply defined.
-
-)
+(./rapport.aux)
 \openout1 = `rapport.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 64.
@@ -797,94 +790,101 @@ Underfull \hbox (badness 10000) in paragraph at lines 137--139
 
  []
 
-[4] [5] [6]
+[4] [5]
+Underfull \hbox (badness 10000) in paragraph at lines 187--189
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 190--191
+
+ []
+
+<synct1.png, id=120, 963.6pt x 722.7pt>
+File: synct1.png Graphic file (type png)
+ <use synct1.png>
+Package pdftex.def Info: synct1.png used on input line 195.
+(pdftex.def)             Requested size: 289.08223pt x 216.81166pt.
+ [6]
+<synct2.png, id=126, 963.6pt x 722.7pt>
+File: synct2.png Graphic file (type png)
+ <use synct2.png>
+Package pdftex.def Info: synct2.png used on input line 205.
+(pdftex.def)             Requested size: 289.08223pt x 216.81166pt.
+ [7 <./synct1.png> <./synct2.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 216--221
 
  []
 
-[7] <graph.png, id=129, 515.9275pt x 157.58875pt>
+[8]
+Underfull \hbox (badness 10000) in paragraph at lines 227--229
+
+ []
+
+<graph.png, id=138, 515.9275pt x 157.58875pt>
 File: graph.png Graphic file (type png)
  <use graph.png>
-Package pdftex.def Info: graph.png used on input line 240.
+Package pdftex.def Info: graph.png used on input line 243.
 (pdftex.def)             Requested size: 341.43306pt x 104.29262pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<graph2.png, id=130, 517.935pt x 157.58875pt>
+<graph2.png, id=139, 517.935pt x 157.58875pt>
 File: graph2.png Graphic file (type png)
  <use graph2.png>
-Package pdftex.def Info: graph2.png used on input line 246.
+Package pdftex.def Info: graph2.png used on input line 249.
 (pdftex.def)             Requested size: 341.43306pt x 103.89105pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[8]
-Underfull \hbox (badness 10000) in paragraph at lines 256--257
+[9]
+Underfull \hbox (badness 10000) in paragraph at lines 259--260
 
  []
 
-[9 <./graph.png> <./graph2.png>] <p4.png, id=143, 1248.665pt x 714.67pt>
-File: p4.png Graphic file (type png)
+[10 <./graph.png> <./graph2.png>] <t0.png, id=152, 455.45157pt x 255.95625pt>
+File: t0.png Graphic file (type png)
 
-<use p4.png>
-Package pdftex.def Info: p4.png used on input line 270.
-(pdftex.def)             Requested size: 284.51949pt x 108.11188pt.
- <p16.png, id=144, 1239.63126pt x 721.69624pt>
-File: p16.png Graphic file (type png)
- <use p16.png>
-Package pdftex.def Info: p16.png used on input line 274.
-(pdftex.def)             Requested size: 284.52281pt x 113.81091pt.
+<use t0.png>
+Package pdftex.def Info: t0.png used on input line 273.
+(pdftex.def)             Requested size: 284.53143pt x 113.80838pt.
+ <t1.png, id=153, 455.45157pt x 255.95625pt>
+File: t1.png Graphic file (type png)
+ <use t1.png>
+Package pdftex.def Info: t1.png used on input line 277.
+(pdftex.def)             Requested size: 284.53143pt x 113.80838pt.
 
-<p256.png, id=145, 1229.59375pt x 701.62125pt>
-File: p256.png Graphic file (type png)
- <use p256.png>
-Package pdftex.def Info: p256.png used on input line 278.
-(pdftex.def)             Requested size: 284.52672pt x 113.80333pt.
+<t2.png, id=154, 455.45157pt x 255.95625pt>
+File: t2.png Graphic file (type png)
+ <use t2.png>
+Package pdftex.def Info: t2.png used on input line 281.
+(pdftex.def)             Requested size: 284.53143pt x 113.80838pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[10] [11 <./p4.png> <./p16.png> <./p256.png>]
-<figure7.png, id=156, 611.28375pt x 421.575pt>
-File: figure7.png Graphic file (type png)
- <use figure7.png>
-Package pdftex.def Info: figure7.png used on input line 292.
-(pdftex.def)             Requested size: 341.43306pt x 235.46927pt.
+[11] [12 <./t0.png (PNG copy)> <./t1.png (PNG copy)> <./t2.png (PNG copy)>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 300.
 
-<e2.png, id=158, 588.1975pt x 339.2675pt>
-File: e2.png Graphic file (type png)
- <use e2.png>
-Package pdftex.def Info: e2.png used on input line 300.
-(pdftex.def)             Requested size: 341.43306pt x 196.93576pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[12 <./figure7.png>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 315.
- [13 <./e2.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 315.
+[13]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 300.
  (./rapport.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 315.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 315.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 300.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 300.
 Package rerunfilecheck Info: File `rapport.out' has not changed.
 (rerunfilecheck)             Checksum: 3B6CFD6C31F70F10946872F1FFBD1307;1155.
-
-
-LaTeX Warning: There were multiply-defined labels.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 315.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 300.
  ) 
 Here is how much of TeX's memory you used:
- 7883 strings out of 493029
- 117878 string characters out of 6136234
- 218160 words of memory out of 5000000
+ 7881 strings out of 493029
+ 117846 string characters out of 6136234
+ 217107 words of memory out of 5000000
  11288 multiletter control sequences out of 15000+600000
  10958 words of font info for 38 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 44i,11n,43p,1162b,456s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 44i,11n,43p,1248b,456s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texliv
@@ -893,10 +893,10 @@ e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf
 fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/
 public/amsfonts/cm/cmti10.pfb>
-Output written on rapport.pdf (13 pages, 284851 bytes).
+Output written on rapport.pdf (13 pages, 238005 bytes).
 PDF statistics:
- 209 PDF objects out of 1000 (max. 8388607)
- 176 compressed objects within 2 object streams
- 37 named destinations out of 1000 (max. 500000)
+ 205 PDF objects out of 1000 (max. 8388607)
+ 171 compressed objects within 2 object streams
+ 35 named destinations out of 1000 (max. 500000)
  172 words of extra memory for PDF output out of 10000 (max. 10000000)
 
