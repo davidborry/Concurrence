@@ -7,7 +7,9 @@
 #include <iostream>
 using namespace std;
 
-Simulation::Simulation() {
+Simulation::Simulation(Scenario scenario):
+mWorld(scenario)
+{
     mWorld.setTarget(Vector2i(0,62));
 
     mWorld.spawn(Entity::Wall,0,0, World::NoSync);

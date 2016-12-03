@@ -17,7 +17,7 @@ public:
     };
 
 public:
-    Simulation();
+    Simulation(Scenario scenario = E1);
 
 public:
     virtual void run() = 0;

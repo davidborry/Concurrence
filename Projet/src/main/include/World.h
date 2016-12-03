@@ -9,6 +9,8 @@
 #include <array>
 #include <semaphore.h>
 
+
+
 class World{
 
 public:
@@ -19,7 +21,7 @@ public:
     };
 
 public:
-    World(int p = 1);
+    World(int scenario);
 
     void update();
     bool update(int zone);

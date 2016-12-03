@@ -6,14 +6,15 @@
 #include <algorithm>
 #include <iostream>
 #include <include/RegionSyncEntity.h>
+#include <include/Simulation.h>
 #include "../include/FullSyncEntity.h"
 #include "../include/World.h"
 
 
 
 
-World::World(int p):
-mMap(512,128),
+World::World(int scenario):
+mMap(512,128,scenario),
 mTarget(0,0)
 {
 

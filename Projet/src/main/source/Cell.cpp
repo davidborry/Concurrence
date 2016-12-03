@@ -2,6 +2,7 @@
 // Created by David on 9/27/16.
 //
 
+#include <iostream>
 #include "../include/Cell.h"
 
 using namespace std;
@@ -23,6 +24,7 @@ void Cell::acquire() {
 }
 
 void Cell::release() {
+
     sem_post(&mutex);
 }
 

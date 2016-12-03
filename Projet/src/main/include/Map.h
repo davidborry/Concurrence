@@ -30,7 +30,7 @@ struct Rectangle{
  */
 class Map{
 public:
-    Map(int width, int height);
+    Map(int width, int height, int p);
 
     bool isSolid(int x, int y) const;
     void setSolid(int x, int y, bool solid);
@@ -47,7 +47,7 @@ public:
 private:
     int mWidth;
     int mHeight;
-    std::vector<std::vector<Cell> > mCells;
+    std::vector<std::vector<Cell*> > mCells;
 };
 
 std::ostream &operator<<(std::ostream &flux, Map const& map);

@@ -24,8 +24,8 @@ public:
 
     void print(std::ostream &flux) const;
 
-    void acquire();
-    void release();
+    virtual void acquire();
+    virtual void release();
 
 private:
     sem_t mutex;

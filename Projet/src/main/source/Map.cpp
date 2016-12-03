@@ -3,6 +3,9 @@
 //
 
 #include <cmath>
+#include <include/MonitorCell.h>
+#include <include/Simulation.h>
+#include <iostream>
 #include "../include/Map.h"
 
 using namespace std;
@@ -19,14 +22,22 @@ double Vector2i::length() const {
     return sqrt(x*x + y*y);
 }
 
-Map::Map(int width, int height) :
+Map::Map(int width, int height, int p) :
 mWidth(width),
 mHeight(height)
 {
     mCells.resize(mHeight);
 
-    for(int i = 0; i < mHeight; i++)
+    for(int i = 0; i < mHeight; i++) {
         mCells[i].resize(mWidth);
+        for(int j = 0; j < mWidth; j++) {
+            if(p== Simulation::E3)
+                mCells[i][j] = new MonitorCell();
+
+            else
+                mCells[i][j] = new Cell();
+        }
+    }
 }
 
 Rectangle::Rectangle(Vector2i tl, Vector2i br) :
@@ -37,25 +48,25 @@ br(br)
 }
 
 bool Map::isSolid(int x, int y) const {
-    return mCells[y][x].isSolid();
+    return mCells[y][x]->isSolid();
 }
 
 void Map::setSolid(int x, int y, bool solid) {
-    mCells[y][x].setSolid(solid);
+    mCells[y][x]->setSolid(solid);
 }
 
 void Map::setSolid(int x, int y, int width, int height, bool solid) {
     for(int i = 0; i < height; i++)
         for(int j = 0; j < width; j++)
-            mCells[y+i][x+j].setSolid(solid);
+            mCells[y+i][x+j]->setSolid(solid);
 }
 
 void Map::acquire(int x, int y) {
-    mCells[y][x].acquire();
+    mCells[y][x]->acquire();
 }
 
 void Map::release(int x, int y){
-    mCells[y][x].release();
+    mCells[y][x]->release();
 }
 
 void Map::print(ostream &flux) const {
