@@ -26,6 +26,8 @@ static void* updateEntity(void* p)
 
     }
 
+    entity->release();
+
     return NULL;
 }
 
@@ -61,9 +63,9 @@ void MTSim2::run() {
 
         }
 
-    for(int i = 0; i < mThreads.size(); i++) {
+    for(int i = 0; i < mWorld.getActiveHumans().size(); i++) {
 
-        pthread_join(mThreads[i], NULL);
+        mWorld.getActiveHumans()[i]->acquire();
     }
 
     mThreads.clear();

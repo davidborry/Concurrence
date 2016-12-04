@@ -22,12 +22,15 @@ public:
     void acquire();
     void release();
 
+    void acquireList();
+    void releaseList();
+
     void clearList();
 
 private:
     int mTotalEntities;
     bool end;
-    sem_t mutex;
+    sem_t mutex, sem;
     int l,r,w,h;
     Zone *prev, *next;
     std::vector<Entity*> mActiveHumans;

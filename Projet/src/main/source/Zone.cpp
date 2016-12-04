@@ -18,6 +18,7 @@ next(nullptr),
 end(false),
 mTotalEntities(totalEntities)
 {
+    sem_init(&sem,0,0);
     sem_init(&mutex,0,1);
 
 }
@@ -46,19 +47,21 @@ void Zone::update() {
         clearList();
 
     }
+
+    release();
 }
 
 
 void Zone::clearList() {
-    acquire();
+    acquireList();
     auto listBegin = std::remove_if(mActiveHumans.begin(), mActiveHumans.end(),
                                     [this] (Entity* e)
                                     {
                                         if(e->isDestroyed() || e->getPosition().x < l) {
                                             if(prev != nullptr) {
-                                                prev->acquire();
+                                                prev->acquireList();
                                                 prev->add(e);
-                                                prev->release();
+                                                prev->releaseList();
                                             }
                                             return true;
                                         }
@@ -67,7 +70,7 @@ void Zone::clearList() {
                                     });
 
     mActiveHumans.erase(listBegin,mActiveHumans.end());
-    release();
+    releaseList();
 }
 void Zone::setNext(Zone *n) {
     next = n;
@@ -78,9 +81,17 @@ void Zone::setPrev(Zone *p) {
 }
 
 void Zone::acquire() {
-    sem_wait(&mutex);
+    sem_wait(&sem);
 }
 
 void Zone::release() {
+    sem_post(&sem);
+}
+
+void Zone::acquireList() {
+    sem_wait(&mutex);
+}
+
+void Zone::releaseList() {
     sem_post(&mutex);
 }

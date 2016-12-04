@@ -68,6 +68,9 @@ public:
     void setL(int l2);
     void setR(int r2);
 
+    void acquire();
+    void release();
+
 private:
     virtual bool goLeft();
     virtual bool goRight();
@@ -76,6 +79,7 @@ private:
 
 protected:
 
+    sem_t sem;
     Map* mMap;
     Type mType;
     Vector2i mSpawn;

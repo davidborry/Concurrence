@@ -23,6 +23,8 @@ mTarget(nullptr),
 mIsDestroyed(false)
 {
     mMap->setSolid(mSpawn.x,mSpawn.y,mWidth,mHeight,mSolid);
+    sem_init(&sem,0,0);
+
 }
 
 void Entity::update() {
@@ -212,3 +214,10 @@ void Entity::respawn() {
     mIsDestroyed = false;
 }
 
+void Entity::acquire() {
+    sem_wait(&sem);
+}
+
+void Entity::release() {
+    sem_post(&sem);
+}

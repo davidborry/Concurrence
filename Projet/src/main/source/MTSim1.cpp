@@ -91,8 +91,8 @@ void MTSim1::run() {
         mThreads.push_back(id);
     }
 
-    for(int i = 0; i < mThreads.size(); i++)
-        pthread_join(mThreads[i],NULL);
+    for(int i = 0; i < mZones.size(); i++)
+        mZones[i].acquire();
 
 
     mThreads.clear();
