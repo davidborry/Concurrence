@@ -181,7 +181,7 @@ Pour les deux configurations multithread, on doit faire en sorte que chaque thre
 
 \subsubsection{Synchronisation}
 
-Plusieurs choix de synchronisations peuvent être implémentés. Le plus simple serait d'associer un \textbf{mutex}, sémaphore avec un compteur de 1, à la carte entière, mais cette solution serait inefficace et reviendrait à répéter le scénario itératif de \textbf{t0} (qui n'a pas besoin de synchronisation inter-thread puisque le scénario de t0 ne contient qu'une seule thread).
+Plusieurs choix de synchronisations peuvent être implémentés. Le plus simple serait d'associer un moniteur ou un \textbf{mutex}, sémaphore avec un compteur de 1, à la carte entière, mais cette solution serait inefficace et reviendrait à répéter le scénario itératif de \textbf{t0} (qui n'a pas besoin de synchronisation inter-thread puisque le scénario de t0 ne contient qu'une seule thread).
 
 \begin{itemize}
 	\item \textbf {t1} \\
@@ -190,7 +190,7 @@ Plusieurs choix de synchronisations peuvent être implémentés. Le plus simple 
 Une première synchronisation indispensable pour le bon fonctionnement du programme : Si par exemple une région ajoute et retire en même temps des entités de sa liste, certaines entités risquent d'être \textbf{perdues} et ne seront gérées, ce qui bloquerait le programme qui ne s'arrête qu'une fois que toutes les personnes ont atteint leur destination. On doit donc sécuriser l'accès aux listes avec un \textbf{mutex}, quelle que soit la version e1, e2 ou e3. \\
 
 Comme chaque région est adjacente à une autre, certaines cases de la cartes peuvent être partagées par deux threads. Il s'agit de la "\textbf{frontière}" où les entités passent d'une région à une autre, ce qui peut perturber la gestion des collisions si on ne sécurise pas non plus l'accès à ces cases.
-Lorsqu'une entité se déplace sur une frontière, les cases qu'elle occupe peuvent se trouver dans deux régions différentes. Sachant que la position d'une entité correspond à celle de la case en Nord-Ouest, elle peut être gérée par une région tout en occupant les cases d'une autre. On doit donc synchroniser l'accès à ces cases comme le montre l'illustration suivante pour que les collisions entre entités soient bien gérées partout sur la carte. 4 mutex sont ainsi utilisés pour chaque entité se déplaçant sur une frontière.
+Lorsqu'une entité se déplace sur une frontière, les cases qu'elle occupe peuvent se trouver dans deux régions différentes. Sachant que la position d'une entité correspond à celle de la case en Nord-Ouest, elle peut être gérée par une région tout en occupant les cases d'une autre. On doit donc synchroniser l'accès à ces cases comme le montre l'illustration suivante pour que les collisions entre entités soient bien gérées partout sur la carte. 4 mutex sont ainsi utilisés pour chaque entité se déplaçant sur une frontière. On peut également gérer l'accés aux cases avec un moniteur, la variable conditionnelle étant un boléen (\textbf{pris} ou \textbf{libre}) car on doit s'assurer qu'une seule thread à la fois puisse y accéder.
 
 \includegraphics[scale=0.3]{synct1}
 
@@ -199,10 +199,10 @@ Lorsqu'une entité se déplace sur une frontière, les cases qu'elle occupe peuv
 
 	\item \textbf {t2}
 
-Pour t2, une solution plus optimale serait d'associer un mutex à chaque case, et en fonction du scénario, seulement certaines cases devront être synchronisées. 
-La synchronisation se fait au niveau du déplacement d'une entité. Quelle que soit la direction, une entité se déplaçant va essayer d'occuper 4 cases (celles vers lesquelles on se dirige) et d'en libérer 4 (celles laissées après déplacement). La synchronisation doit donc se faire au niveau des 4 cases qu'on essaie d'occuper et des 4 qu'on libère éventuellement. Avant de vérifier si elles sont occupées ou non, on attend que le mutex de chacune des cases soit libre pour éviter deux entités aient accès à la même case. Ainsi pour chaque entité déplacée, ce sont 8 mutex qui sont utilisés.
+Pour t2, une solution plus optimale serait d'associer un mutex ou un moniteur à chaque case, et en fonction du scénario, seulement certaines cases devront être synchronisées. 
+La synchronisation se fait au niveau du déplacement d'une entité. Quelle que soit la direction, une entité se déplaçant va essayer d'occuper 4 cases (celles vers lesquelles on se dirige) et d'en libérer 4 (celles laissées après déplacement). La synchronisation doit donc se faire au niveau des 4 cases qu'on essaie d'occuper et des 4 qu'on libère éventuellement. Avant de vérifier si elles sont occupées ou non, on attend que chacune des cases soit disponible pour éviter que deux entités aient accès à la même case. Ainsi pour chaque entité déplacée, ce sont 8 mutex (ou moniteurs) qui sont utilisés.
 
-\includegraphics[scale=0.3]{synct2}
+\includegraphics[scale=0.2865]{synct2}
 
 \end {itemize}
 
@@ -227,7 +227,9 @@ On remarquera que la classe World dispose également d'une fonction \textbf{upda
 L'application en elle-même est lancée à travers les classes héritant de \textbf{Simulation}. On génère le monde et les entités dans le constructeur, et on lance la boucle dans la fonction \textbf{run}. Cette fois-ci, l'usage du polymorphisme est avantageux car cette fonction doit avoir un comportement bien différent pour chaque scénario. On crée donc des classes filles \textbf{STSim},  \textbf{MTSim1} et \textbf{MTSim2} respectivement associées aux configurations \textbf{-t0}, \textbf{-t1} et \textbf{-t2}. La fonction run est alors redéfinie pour pouvoir gérer la création des threads et l'attente de leur terminaison. La génération du monde peut également changer pour chaque classe.
 Comme les threads POSIX ne peuvent pas gérer des fonctions membres directement, on recrée dans ces classes des fonctions \textbf{statiques} pour gérer les déplacements dans le monde.  \\
 
-La classe \textbf{Entity} est également dérivée pour chaque type de synchronisation possible. Les fonctions de déplacement y sont redéfinies pour pouvoir intégrer une synchronisation au niveau de certaines cases. On peut donc lancer une simulation avec des entités simples, de type \textbf{RegionSyncEntity} pour t1 et \textbf{FullSyncEntity} pour t2.
+La classe \textbf{Entity} est également dérivée pour chaque type de synchronisation possible. Les fonctions de déplacement y sont redéfinies pour pouvoir intégrer une synchronisation au niveau de certaines cases. On peut donc lancer une simulation avec des entités simples, de type \textbf{RegionSyncEntity} pour t1 et \textbf{FullSyncEntity} pour t2. \\
+
+Enfin, les fonctions d'accés et de sortie de section critiques doivent être redifinies si on utilise une synchronisation par mutex ou moniteur. La classe \textbf{Cell} représentant les cases de la carte est donc héritée avec la classe \textbf{MonitorCell} dans le cas où on appliquerait le scénario \textbf{e3}.
 
 \section{Tester l'application}
 Le fonctionnement de l'application repose essentiellement sur trois données: La position du point azimuth, qui doit être accessible à tout le monde, l'algorithme de déplacement et la gestion des threads. Cette dernière est uniquement nécessaire pour les configurations \textbf{t1} et \textbf{t2}.
@@ -274,11 +276,11 @@ On remarquera que pour chacune de ces mesures, le temps CPU système a une valeu
 
  \caption{Comparaison des temps réels et processeurs pour t1 (e1 et e2)}
 
-\includegraphics[width=10cm,height=4cm]{t1}
+\includegraphics[width=10cm,height=4cm]{t1e3}
 
  \caption{Comparaison des temps réels et processeurs pour t2 (e1 et e2)}
 
-\includegraphics[width=10cm,height=4cm]{t2}
+\includegraphics[width=10cm,height=4cm]{t2e3}
 \end{figure}
 
 
@@ -286,15 +288,13 @@ On remarquera que pour chacune de ces mesures, le temps CPU système a une valeu
 
 On peut voir que pour t0, les temps réels et utilisateurs sont assez proches avec une différence maximum de 1.5 secondes. \\
 Cette différence s'accentue évidemment pour t1 et t2, avec la gestion de plusieurs threads. Plus le nombre de personne augmente, plus le temps d'éxécution est long, mais le temps CPU croit beaucoup plus vite que le temps réel. \\
-Pour t1, on remarquera que les temps réels pour e1 et e2 sont identiques, mais que le temps utilisateur est plus élevé pour la première version. Même constat pour t2, avec une différence entre les deux versions encore plus grande, de l'ordre de plusieurs dizaines de secondes.
-
-
-\newpage
+Pour t1, on remarquera que les temps réels pour e1 et e2 sont identiques, mais que le temps utilisateur est plus élevé pour la première version. Même constat pour t2, avec une différence entre les deux versions encore plus grande, de l'ordre de plusieurs dizaines de secondes. On remarquera que pour t1 comme pour t2, le temps utilisateur e3 est plus élevé que celui de e2, ce qui s'explique par le fait que l'utilisation d'une variable conditionnelle augmente le nombre d'opérations élémentaires, et donc le temps CPU pour l'accés en section critique.
 
 
 \section{Conclusion}
-La première étape a permis de mettre en place une simulation pleinement fonctionnelle avec la thread principale et de poser les bases pour développer les scénarios multithreads. Avec la seconde, nous avons mis en place des cas simples de synchronisations des scénarios multithreads t1 et t2.
-Les mesures effectuées ont bien montré l'intérêt d'un programme multithread pour ce genre de problème, qui donne un véritable gain de performances pouvant être encore amélioré avec la synchronisation des threads. La prochaine étape consistera à ajouter, en parallèle à celles existantes, une synchronisation par moniteur.
+La première étape a permis de mettre en place une simulation pleinement fonctionnelle avec la thread principale et de poser les bases pour développer les scénarios multithreads. Avec la seconde, nous avons mis en place des cas simples de synchronisations des scénarios multithreads t1 et t2, que nous avons enrichis avec la troisième et dernière étape avec la synchronisation par moniteurs.
+Les mesures effectuées ont bien montré l'intérêt d'un programme multithread pour ce genre de problème, qui donne un véritable gain de performances pouvant être encore amélioré avec la synchronisation des threads.
+Ce projet a enfin permis pour nous d'apprendre les principes de conception d'une application multithread, les processus concurrents, le partage des ressources et les sections critiques.
 
 
 \end{document}
