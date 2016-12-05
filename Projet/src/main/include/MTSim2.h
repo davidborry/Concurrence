@@ -3,7 +3,7 @@
 //
 
 /**
- * T2 scenario. Each human entity has an associated thread
+ * T2 scenario. every human entity has an associated thread
  */
 
 #ifndef PROJET_MTSIM1_H

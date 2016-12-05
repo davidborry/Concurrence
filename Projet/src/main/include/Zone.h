@@ -8,6 +8,10 @@
 #include <vector>
 #include "Entity.h"
 
+/**
+ * Synchronized zone class used int t1 sim
+ */
+
 class Zone{
 
 public:
@@ -28,9 +32,14 @@ public:
     void clearList();
 
 private:
+    //number of the entities present in all the zones
     int mTotalEntities;
     bool end;
+
+    //2 mutexes : one for the entity list and one that replaces pthread_join
     sem_t mutex, sem;
+
+    //dimensions and boundaries
     int l,r,w,h;
     Zone *prev, *next;
     std::vector<Entity*> mActiveHumans;

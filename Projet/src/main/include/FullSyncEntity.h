@@ -9,7 +9,7 @@
 
 /**
  * Used in scenario T2 and E2.
- * This synchronized entity will block a cell it
+ * This synchronized entity will block every cell it
  * tries to occupy while moving.
  */
 

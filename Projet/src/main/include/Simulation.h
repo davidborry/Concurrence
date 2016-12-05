@@ -7,6 +7,10 @@
 
 #include "World.h"
 
+/**
+ * Simulation class.
+ * Can be run and reset for measures
+ */
 class Simulation{
 
 public:

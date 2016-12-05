@@ -5,8 +5,8 @@
 #include <thread>
 #include <algorithm>
 #include <iostream>
-#include <include/RegionSyncEntity.h>
-#include <include/Simulation.h>
+#include "../include/RegionSyncEntity.h"
+#include "../include/Simulation.h"
 #include "../include/FullSyncEntity.h"
 #include "../include/World.h"
 

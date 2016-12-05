@@ -44,6 +44,8 @@ void Zone::update() {
             }
         }
 
+        //Remove entities outside boundaries. Destroy them or add them to
+        //neighbour zone
         clearList();
 
     }

@@ -7,6 +7,13 @@
 
 #include "Entity.h"
 
+/**
+ * This synchronized entity acquires the cells it
+ * tries to occupy when changing zone.
+ * l and r attributes are used in the different
+ * go functions
+ */
+
 class RegionSyncEntity : public Entity{
 public:
     RegionSyncEntity(Map* map, Type type, int x, int y);

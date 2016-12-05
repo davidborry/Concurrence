@@ -15,6 +15,11 @@ struct Args{
     Rectangle r;
 };
 
+/**
+ * t1 simulation. The map is divided in four
+ * zones, each one of them is managed by a
+ * different thread
+ */
 class MTSim1 : public Simulation{
 
 public:

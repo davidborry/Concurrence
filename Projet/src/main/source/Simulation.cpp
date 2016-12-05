@@ -7,6 +7,7 @@
 #include <iostream>
 using namespace std;
 
+//Generate terrain (with walls and global target)
 Simulation::Simulation(Scenario scenario):
 mWorld(scenario)
 {

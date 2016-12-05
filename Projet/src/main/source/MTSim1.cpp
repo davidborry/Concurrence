@@ -4,11 +4,7 @@
 
 #include <unistd.h>
 #include <iostream>
-#include <SFML/Graphics/Color.hpp>
-#include <SFML/System.hpp>
-#include <SFML/Graphics/RectangleShape.hpp>
-#include <SFML/Window/Event.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
+#include <cmath>
 #include "../include/MTSim1.h"
 
 using namespace std;
@@ -56,6 +52,10 @@ Simulation(scenario)
     initZones();
 }
 
+/**
+ * add every entity to a given zone, depending
+ * on its coordinates
+ */
 void MTSim1::initZones() {
     int w = mWorld.getMap().getWidth()/4;
     int h = mWorld.getMap().getHeight()/4;
@@ -85,12 +85,14 @@ void MTSim1::initZones() {
 
 void MTSim1::run() {
 
+    //create threads
    for(int i = 0; i < mZones.size(); i++) {
         pthread_t id;
         pthread_create(&id, NULL, updateZone, &(mZones[i]));
         mThreads.push_back(id);
     }
 
+    //Wait for the threads to finish
     for(int i = 0; i < mZones.size(); i++)
         mZones[i].acquire();
 

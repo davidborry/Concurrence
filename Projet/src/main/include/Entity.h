@@ -49,10 +49,12 @@ public:
 
     Entity(Map* map, Type type, int x, int y);
 
+    //move while not destroyed
     void update();
     bool move(Vector2i direction);
     Paths shortestDistanceToTarget();
     void setTarget(Vector2i target);
+    //used when targed is reached
     void destroy();
     bool isDestroyed() const;
     void respawn();
@@ -63,6 +65,7 @@ public:
 
     Map* getMap() const;
 
+    //Set region limits. Used in t1 sim
     int getL() const;
     int getR() const;
     void setL(int l2);
@@ -79,6 +82,7 @@ private:
 
 protected:
 
+    //private mutex, used to replace pthread_join
     sem_t sem;
     Map* mMap;
     Type mType;
@@ -90,6 +94,7 @@ protected:
     bool mIsDestroyed;
     Vector2i* mTarget;
 
+    //region limits
     int l,r;
 };
 

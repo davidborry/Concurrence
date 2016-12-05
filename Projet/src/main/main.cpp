@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
     int e = my_options ->project_step;
     bool m = my_options->execution_measure;
 
-    cout << e << endl;
+    cout <<"Loading scenario e" << e << endl;
     Simulation* sim = build(p,t,e);
 
 

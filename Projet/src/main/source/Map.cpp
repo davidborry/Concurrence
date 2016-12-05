@@ -3,8 +3,8 @@
 //
 
 #include <cmath>
-#include <include/MonitorCell.h>
-#include <include/Simulation.h>
+#include "../include/MonitorCell.h"
+#include "../include/Simulation.h"
 #include <iostream>
 #include "../include/Map.h"
 

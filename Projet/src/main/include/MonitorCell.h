@@ -7,6 +7,13 @@
 
 #include "Cell.h"
 
+/**
+ * Works like Cell, but can be synchronized with a monitor
+ * instead of a mutex.
+ * Condition variable is bound to a counter that theoricaly
+ * can be only 1 (taken) or 0 (free)
+ */
+
 class MonitorCell : public Cell{
 public:
     MonitorCell();

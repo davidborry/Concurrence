@@ -10,7 +10,11 @@
 #include <semaphore.h>
 
 
-
+/**
+ * World class.
+ * Used to spawn entities and update all
+ * of them in scenario t0
+ */
 class World{
 
 public:

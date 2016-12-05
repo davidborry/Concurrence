@@ -7,6 +7,7 @@
 
 using namespace std;
 
+//Number of destroyed entities
 int Entity::cnt = 0;
 
 vector<EntityData> Entity::Table = initializeEntityDatas();
